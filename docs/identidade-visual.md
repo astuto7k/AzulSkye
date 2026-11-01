@@ -2,7 +2,7 @@
 
 ## Escopo e preservação
 
-Alterações locais na branch `codex/identidade-oficial`. Sem push, deploy, alteração de domínio ou serviço externo. React + Vite e os fluxos existentes foram preservados. Os 160 produtos, preços, estoque e dados de demonstração existentes não foram alterados.
+Identidade implementada na branch `codex/identidade-oficial`. A etapa seguinte de linha HE e publicação foi explicitamente autorizada pelo proprietário; ver `linha-he.md`. React + Vite e os fluxos existentes foram preservados. Os 160 produtos, preços, estoque e dados de demonstração existentes não foram alterados.
 
 ## Arte oficial
 
@@ -42,7 +42,7 @@ Manifesto PWA, cor de interface, fallback offline e ícones atualizados. Metadad
 
 ## Pendências de operação
 
-As integrações já pendentes continuam pendentes: autenticação real, banco, Woovi, frete e push. Dados técnicos ausentes, descrição truncada e ausência de galeria no catálogo original da prévia não foram inventados. A publicação deve ser autorizada separadamente.
+As integrações já pendentes continuam pendentes: autenticação real, banco, Woovi, frete e push. Dados técnicos ausentes, descrição truncada e ausência de galeria no catálogo original da prévia não foram inventados. A publicação foi autorizada na etapa da linha HE.
 
 ## Resultado final
 

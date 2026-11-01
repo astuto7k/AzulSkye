@@ -2609,3 +2609,268 @@ input[type="radio"] {
 .dashboard-sidebar nav > a.active {
   color: var(--brand-primary-hover);
 }
+/* HE merchandising and review directory */
+.he-hero {
+  background: var(--background-secondary);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 70px 30px 105px;
+  isolation: isolate;
+}
+.he-hero .he-hero-engine {
+  width: 100%;
+  height: 100%;
+  max-height: 450px;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+  position: relative;
+  z-index: 1;
+}
+.he-hero .hero-photo-caption {
+  z-index: 2;
+}
+.he-hero .hero-photo-caption > span,
+.he-hero .hero-photo-caption > strong,
+.he-hero .hero-image-count,
+.he-hero .hero-image-count > span {
+  color: var(--brand-navy);
+}
+.he-hero .hero-coordinate {
+  z-index: 2;
+}
+.he-official-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: white;
+  margin-top: 22px;
+}
+.merchandising-note {
+  padding: 12px 15px;
+  margin-bottom: 25px;
+  background: var(--brand-primary-soft);
+  border-radius: 8px;
+  display: flex;
+  align-items: start;
+  gap: 9px;
+  font-size: 13px;
+  color: var(--brand-navy-light);
+}
+.merchandising-note svg {
+  margin-top: 3px;
+}
+.product-gallery {
+  min-width: 0;
+  align-self: start;
+}
+.gallery-thumbnails {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 15px;
+}
+.gallery-thumbnails button {
+  width: 80px;
+  height: 80px;
+  padding: 7px;
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  background: white;
+}
+.gallery-thumbnails button[aria-pressed="true"] {
+  border: 2px solid var(--brand-primary);
+}
+.gallery-thumbnails img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.he-price-panel {
+  grid-column: 1/-1;
+}
+.he-price-list > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  border-bottom: 1px solid var(--border-default);
+  padding: 15px 0;
+  font-size: 14px;
+}
+.he-price-list small {
+  display: block;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 5px;
+}
+.he-price-list strong {
+  white-space: nowrap;
+}
+.he-price-panel > .text-link {
+  margin-top: 20px;
+}
+.screen-directory {
+  padding-top: 45px;
+  padding-bottom: 70px;
+}
+.screen-directory > h1 {
+  font-size: 42px;
+  max-width: 800px;
+}
+.screen-directory > p {
+  max-width: 850px;
+  margin-top: 20px;
+}
+.directory-logins {
+  background: var(--brand-primary-soft);
+  padding: 28px;
+  border-radius: 12px;
+  margin-top: 35px;
+}
+.directory-logins h2 {
+  font-size: 25px;
+}
+.directory-logins > p {
+  font-size: 14px;
+  margin-top: 12px;
+}
+.directory-logins > div {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin: 22px 0;
+}
+.directory-logins > div > span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+.directory-group {
+  margin-top: 45px;
+}
+.directory-group > h2 {
+  font-size: 30px;
+}
+.directory-group > p {
+  font-size: 15px;
+  margin: 13px 0 23px;
+}
+.directory-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+.directory-grid > a {
+  border: 1px solid var(--border-default);
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 15px;
+  background: white;
+}
+.directory-grid > a:hover {
+  border-color: var(--brand-primary);
+  background: var(--brand-primary-soft);
+}
+.directory-grid strong {
+  font-size: 15px;
+  display: block;
+  line-height: 1.7;
+}
+.directory-grid code {
+  display: block;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 9px;
+  overflow-wrap: anywhere;
+}
+.directory-grid > a > svg {
+  color: var(--brand-primary);
+  margin-top: 4px;
+}
+.directory-note {
+  display: flex;
+  gap: 15px;
+  padding: 25px;
+  border-radius: 10px;
+  background: var(--background-secondary);
+  margin-top: 35px;
+}
+.directory-note p {
+  font-size: 14px;
+}
+.restricted .text-link {
+  margin: 15px;
+}
+@media (max-width: 900px) {
+  .directory-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .he-hero {
+    padding-inline: 20px;
+  }
+  .he-hero .hero-photo-caption > span {
+    max-width: 250px;
+    display: block;
+    line-height: 1.7;
+  }
+  .he-hero .hero-photo-caption > strong {
+    font-size: 22px;
+  }
+}
+@media (max-width: 650px) {
+  .he-hero {
+    min-height: 355px;
+    padding: 60px 25px 95px;
+  }
+  .he-hero .he-hero-engine {
+    height: 230px;
+  }
+  .he-hero .hero-photo-caption {
+    bottom: 23px;
+  }
+  .he-hero .hero-photo-caption > span {
+    font-size: 10px;
+  }
+  .he-hero .hero-photo-caption > strong {
+    font-size: 23px;
+  }
+  .screen-directory {
+    padding-top: 30px;
+  }
+  .screen-directory > h1 {
+    font-size: 33px;
+  }
+  .directory-grid {
+    grid-template-columns: 1fr;
+  }
+  .directory-logins {
+    padding: 22px;
+  }
+  .directory-logins > div {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .directory-logins > div > span {
+    font-size: 13px;
+  }
+  .directory-group > h2 {
+    font-size: 27px;
+  }
+  .he-price-list > div {
+    align-items: start;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .merchandising-note {
+    font-size: 12px;
+    line-height: 1.8;
+  }
+}

@@ -44,7 +44,12 @@ import {
   RefreshCw,
   BadgeCheck,
 } from "lucide-react";
-import officialProducts from "./data/products.json";
+import originalProducts from "./data/products.json";
+import heProducts from "./data/he-products.json";
+import hePricing from "./data/he-pricing.json";
+import ScreenDirectory from "./components/ScreenDirectory.jsx";
+import { resolveRoute } from "./routes.js";
+const officialProducts = [...heProducts, ...originalProducts];
 import Brand from "./components/Brand.jsx";
 import {
   DEMO_ACCOUNTS,
@@ -81,7 +86,17 @@ const date = (value) =>
     day: "2-digit",
     month: "short",
   });
-const featuredIds = ["1955", "89", "1884", "817", "1963", "728", "1888", "899"];
+const featuredIds = [
+  ...heProducts.map((p) => p.id),
+  "1955",
+  "89",
+  "1884",
+  "817",
+  "1963",
+  "728",
+  "1888",
+  "899",
+];
 const categories = [
   { name: "Paramotores", caption: "Prontos para decolar", id: "1955" },
   { name: "Peças", caption: "Peças de reposição", id: "730" },
@@ -171,9 +186,12 @@ export default function App() {
       return null;
     }
   });
-  const [route, setRoute] = useState(location.hash.slice(1) || "/");
+  const [route, setRoute] = useState(
+    location.hash.slice(1) || location.pathname + location.search,
+  );
   const [toast, setToast] = useState("");
   const [modal, setModal] = useState(null);
+  const [gallerySelection, setGallerySelection] = useState(null);
   const [mobileMenu, setMobileMenu] = useState(false);
   const [search, setSearch] = useState("");
   const [installPrompt, setInstallPrompt] = useState(null);
@@ -209,7 +227,7 @@ export default function App() {
   }, [user]);
   useEffect(() => {
     const handler = () => {
-      setRoute(location.hash.slice(1) || "/");
+      setRoute(location.hash.slice(1) || location.pathname + location.search);
       setMobileMenu(false);
       setVisibleCount(12);
       window.scrollTo({ top: 0 });
@@ -244,7 +262,7 @@ export default function App() {
   ];
   const cartCount = data.cart.reduce((sum, line) => sum + line.quantity, 0);
   const unread = data.notifications.filter((n) => !n.read).length;
-  const page = route.split("?")[0];
+  const { page, role: requestedRole } = resolveRoute(route);
   const params = new URLSearchParams(route.split("?")[1] || "");
   const dashboard = page.startsWith("/painel");
   const selected = products.find((p) => p.id === page.split("/")[2]);
@@ -252,6 +270,7 @@ export default function App() {
   const activeQuery = params.get("q") || "";
   const activeFilters = {
     ...filters,
+    brand: params.get("marca") || "all",
     category: activeCategory,
     query: activeQuery,
     source:
@@ -367,7 +386,8 @@ export default function App() {
         <div className="product-seller">
           {p.official ? (
             <>
-              <BadgeCheck size={13} /> LOJA OFICIAL
+              <BadgeCheck size={13} />{" "}
+              {p.brand === "HE" ? "HE · LOJA OFICIAL" : "LOJA OFICIAL"}
             </>
           ) : (
             <>
@@ -393,7 +413,9 @@ export default function App() {
           {p.stock
             ? p.price == null
               ? "Consulte a disponibilidade"
-              : "Disponível no catálogo"
+              : p.availability === "order"
+                ? "Sob encomenda"
+                : "Disponível no catálogo"
             : "Indisponível no momento"}
         </span>
         {!p.official && (
@@ -426,7 +448,7 @@ export default function App() {
         <section className="hero wrap">
           <div className="hero-content">
             <div className="hero-kicker">
-              <span /> PARA QUEM NASCEU PARA VOAR
+              <span /> REPRESENTANTE OFICIAL HE
             </div>
             <h1>Sua paixão pelo voo merece o equipamento certo.</h1>
             <p>
@@ -453,18 +475,25 @@ export default function App() {
             </div>
           </div>
           <div
-            className="hero-photo"
+            className="hero-photo he-hero"
             role="img"
-            aria-label="Paisagem e equipamento de voo"
+            aria-label="Motor HE MV1 para paramotor"
           >
-            <div className="hero-photo-overlay" />
+            <img
+              className="he-hero-engine"
+              src={heProducts[0].image}
+              alt="Motor HE MV1 — fotografia real do produto"
+              width="900"
+              height="900"
+              fetchPriority="high"
+            />
             <div className="hero-coordinate">
               <Compass size={18} />
-              <span>ENCONTRE SEU PRÓXIMO HORIZONTE</span>
+              <span>LINHA HE PARAMOTOR</span>
             </div>
             <div className="hero-photo-caption">
-              <span>MAIS QUE EQUIPAMENTOS.</span>
-              <strong>Liberdade para ir além.</strong>
+              <span>AZULSKYE · REPRESENTANTE OFICIAL HE</span>
+              <strong>HE MV1 · 185 cm³</strong>
             </div>
             <div className="hero-image-count">
               01 <span>/ 01</span>
@@ -534,10 +563,10 @@ export default function App() {
         </section>
         <section className="section wrap featured-section">
           {sectionHeading(
-            "SELEÇÃO AZULSKYE",
-            "Equipados para ir além.",
-            "Ver loja oficial",
-            "#/catalogo?origem=official",
+            "REPRESENTANTE OFICIAL HE",
+            "A linha HE vem primeiro.",
+            "Explorar motores HE",
+            "#/catalogo?marca=HE",
           )}
           <div className="product-grid">{featured.slice(0, 4).map(card)}</div>
         </section>
@@ -585,7 +614,7 @@ export default function App() {
             "Explorar peças",
             "#/catalogo?categoria=Pe%C3%A7as",
           )}
-          <div className="product-grid">{featured.slice(4, 8).map(card)}</div>
+          <div className="product-grid">{featured.slice(8, 12).map(card)}</div>
         </section>
         <section
           className="institutional wrap"
@@ -752,6 +781,12 @@ export default function App() {
             </label>
           </div>
         </div>
+        {page !== "/marketplace" && (
+          <p className="merchandising-note">
+            <BadgeCheck size={17} /> Representante oficial HE. Os produtos HE
+            aparecem primeiro; a ordenação escolhida vale dentro de cada grupo.
+          </p>
+        )}
         <div className="catalog-layout">
           <aside className="filter-sidebar">{renderFilters()}</aside>
           <div>
@@ -864,7 +899,7 @@ export default function App() {
                 setFilters((f) => ({ ...f, available: e.target.checked }))
               }
             />
-            Somente em estoque
+            Disponíveis para compra
           </label>
         </fieldset>
         <div className="filter-help">
@@ -897,25 +932,58 @@ export default function App() {
           <span>{groupOf(p)}</span>
         </div>
         <div className="product-detail">
-          <div className="detail-photo">
-            <img src={p.image} alt={p.name} />
-            <span className="condition">{p.condition}</span>
-            <button
-              className="favorite"
-              aria-label="Favoritar produto"
-              onClick={() => toggleFavorite(p.id)}
-            >
-              <Heart
-                fill={data.favorites.includes(p.id) ? "currentColor" : "none"}
+          <div className="product-gallery">
+            <div className="detail-photo">
+              <img
+                src={
+                  gallerySelection?.productId === p.id
+                    ? gallerySelection.src
+                    : p.image
+                }
+                alt={p.name}
               />
-            </button>
+              <span className="condition">{p.condition}</span>
+              <button
+                className="favorite"
+                aria-label="Favoritar produto"
+                onClick={() => toggleFavorite(p.id)}
+              >
+                <Heart
+                  fill={data.favorites.includes(p.id) ? "currentColor" : "none"}
+                />
+              </button>
+            </div>
+            {p.gallery?.length > 1 && (
+              <div
+                className="gallery-thumbnails"
+                aria-label="Galeria do produto"
+              >
+                {p.gallery.map((src, i) => (
+                  <button
+                    key={src}
+                    aria-label={`Ver foto ${i + 1} de ${p.name}`}
+                    aria-pressed={
+                      (gallerySelection?.productId === p.id
+                        ? gallerySelection.src
+                        : p.image) === src
+                    }
+                    onClick={() =>
+                      setGallerySelection({ productId: p.id, src })
+                    }
+                  >
+                    <img src={src} alt={`Foto ${i + 1}`} loading="lazy" />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
           <div className="detail-info">
             <div className="detail-badges">
               <Tag>
                 {p.official ? (
                   <>
-                    <BadgeCheck size={13} /> LOJA OFICIAL
+                    <BadgeCheck size={13} />{" "}
+                    {p.brand === "HE" ? "HE · LOJA OFICIAL" : "LOJA OFICIAL"}
                   </>
                 ) : (
                   <>
@@ -938,7 +1006,11 @@ export default function App() {
             <div className="detail-price">{money(p.price)}</div>
             <p className="stock">
               <span className={`status-dot ${!p.stock ? "gray" : ""}`} />
-              {p.stock ? "Disponível no catálogo" : "Produto indisponível"}
+              {p.stock
+                ? p.availability === "order"
+                  ? "Sob encomenda · confirme o prazo com a AzulSkye"
+                  : "Disponível no catálogo"
+                : "Produto indisponível"}
             </p>
             <Button
               className="full"
@@ -996,6 +1068,8 @@ export default function App() {
             <h3>Informações do cadastro</h3>
             <dl className="specs">
               {[
+                ...(p.brand ? [["Marca", p.brand]] : []),
+                ...Object.entries(p.specifications || {}),
                 ["Estado", p.condition],
                 ["Categoria", groupOf(p)],
                 ["SKU", p.sku || "Não informado"],
@@ -1415,7 +1489,11 @@ export default function App() {
     );
   }
   function renderDashboard() {
-    if (!user || user.role === "client")
+    if (
+      !user ||
+      user.role === "client" ||
+      (requestedRole && user.role !== requestedRole)
+    )
       return (
         <div className="wrap restricted">
           <Empty
@@ -1423,8 +1501,23 @@ export default function App() {
             title="Seu painel de gestão"
             text="Entre com o perfil demonstrativo de vendedor ou administrador para acessar esta área."
           >
-            <a className="btn btn-primary" href="#/entrar">
-              Escolher acesso <ArrowRight size={16} />
+            {requestedRole ? (
+              <Button
+                onClick={() =>
+                  setUser(DEMO_ACCOUNTS.find((a) => a.role === requestedRole))
+                }
+              >
+                Abrir demonstração de{" "}
+                {requestedRole === "admin" ? "administrador" : "vendedor"}{" "}
+                <ArrowRight size={16} />
+              </Button>
+            ) : (
+              <a className="btn btn-primary" href="#/entrar">
+                Escolher acesso <ArrowRight size={16} />
+              </a>
+            )}
+            <a className="text-link" href="#/telas">
+              Ver todas as telas <ArrowUpRight size={16} />
             </a>
           </Empty>
         </div>
@@ -1479,7 +1572,7 @@ export default function App() {
             {tabs.map((t) => (
               <a
                 key={t.id}
-                href={`#/painel/${t.id}`}
+                href={`#/${admin ? "admin" : "vendedor"}/${t.id}`}
                 className={tab === t.id ? "active" : ""}
               >
                 <t.icon size={19} />
@@ -1499,6 +1592,9 @@ export default function App() {
                 Instalar aplicativo <ArrowUpRight size={14} />
               </button>
             </div>
+            <a href="#/telas">
+              <LayoutDashboard size={17} /> Todas as telas
+            </a>
             <a href="#/">
               <ArrowUpRight size={17} /> Visitar a loja
             </a>
@@ -1990,6 +2086,45 @@ export default function App() {
           )}
           {tab === "configuracoes" && (
             <div className="settings-grid">
+              {admin && (
+                <section className="panel settings-panel he-price-panel">
+                  <span className="eyebrow">FORMAÇÃO DE PREÇO · HE</span>
+                  <h2>Preços em reais</h2>
+                  <p>
+                    PTAX venda de 30/10/2026: US$ 1 = R${" "}
+                    {hePricing.usdToBrl.toLocaleString("pt-BR", {
+                      minimumFractionDigits: 4,
+                    })}
+                    . Acréscimo de {hePricing.markupPercent}%, com
+                    arredondamento para centavos. Valores fixos desta
+                    publicação.
+                  </p>
+                  <div className="he-price-list">
+                    {heProducts.map((p) => (
+                      <div key={p.id}>
+                        <span>
+                          {p.name}
+                          <small>
+                            US${" "}
+                            {p.pricing.baseUsd.toLocaleString("pt-BR", {
+                              minimumFractionDigits: 2,
+                            })}
+                          </small>
+                        </span>
+                        <strong>{money(p.price)}</strong>
+                      </div>
+                    ))}
+                  </div>
+                  <a
+                    className="text-link"
+                    href={hePricing.source}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Consultar fonte da cotação <ExternalLink size={15} />
+                  </a>
+                </section>
+              )}
               {admin && (
                 <section className="panel settings-panel">
                   <span className="eyebrow">MODELO DE NEGÓCIO</span>
@@ -2585,6 +2720,8 @@ export default function App() {
       <main id="main-content" tabIndex={-1}>
         {page === "/" ? (
           renderHome()
+        ) : page === "/telas" ? (
+          <ScreenDirectory />
         ) : ["/catalogo", "/marketplace"].includes(page) ? (
           renderCatalog()
         ) : page.startsWith("/produto/") ? (
@@ -2645,6 +2782,9 @@ export default function App() {
                 Para quem vive a liberdade de voar.
               </p>
               <span>Equipados para ir além.</span>
+              <div className="he-official-footer">
+                <BadgeCheck size={18} /> Representante oficial HE
+              </div>
             </div>
             <div>
               <h3>Explore a AzulSkye</h3>
@@ -2658,6 +2798,7 @@ export default function App() {
               <a href="#/favoritos">Favoritos</a>
               <a href="#/vender">Seja um vendedor</a>
               <a href="#/entrar">Acessos de demonstração</a>
+              <a href="#/telas">Central de todas as telas</a>
             </div>
             <div className="footer-app">
               <h3>Nos vemos no próximo voo.</h3>

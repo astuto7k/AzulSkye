@@ -31,7 +31,7 @@ Essas credenciais são públicas e fictícias. Não há autenticação real. Nun
 
 ## O que está incluído
 
-- Loja oficial com os 160 produtos extraídos do backup autorizado, preços, SKUs, categorias e imagens locais otimizadas.
+- Loja oficial com os 160 produtos extraídos do backup autorizado e quatro motores HE, preços, SKUs, categorias e imagens locais otimizadas.
 - Marketplace separado, com exemplos de anúncios identificados como demonstrativos.
 - Busca sem distinção de acentos, filtros, ordenação, paginação incremental e favoritos.
 - Página de produto, sacola com quantidades e separação por vendedor, checkout de teste sem cobrança.
@@ -86,8 +86,12 @@ Testes automatizados do catálogo, imagens locais, busca/filtros, separação de
 
 ## Identidade oficial
 
-A implementação local da identidade oficial usa a arte original fornecida, tokens de azul/navy, Exo 2 e Manrope, além de tipografia maior em todos os perfis. Consulte [o relatório de identidade](docs/identidade-visual.md) para escopo, validações e pendências. Esta atualização não foi publicada.
+A implementação local da identidade oficial usa a arte original fornecida, tokens de azul/navy, Exo 2 e Manrope, além de tipografia maior em todos os perfis. Consulte [o relatório de identidade](docs/identidade-visual.md) para escopo, validações e pendências. A publicação da identidade e da linha HE foi autorizada pelo proprietário.
 
 ```sh
 npm run check # lint + build de produção
 ```
+
+## Linha HE e central de telas
+
+Acesse `/telas`, `/admin` e `/vendedor` para supervisionar a prévia. [Mapa completo](docs/telas.md) e [memória de preços HE](docs/linha-he.md). A HE tem prioridade no catálogo em todas as ordenações, com critério secundário dentro de cada grupo. Os 160 produtos originais foram preservados (164 oficiais no total).

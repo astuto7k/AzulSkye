@@ -1,0 +1,162 @@
+[
+  {
+    "id": "he-paramotor-mv1",
+    "name": "HE Paramotor MV1",
+    "price": 17293.63,
+    "sku": "HE-MV1",
+    "brand": "HE",
+    "stock": true,
+    "availability": "order",
+    "image": "/products/he/he-paramotor-mv1-1.png",
+    "gallery": [
+      "/products/he/he-paramotor-mv1-1.png",
+      "/products/he/he-paramotor-mv1-2.png",
+      "/products/he/he-paramotor-mv1-3.png"
+    ],
+    "categories": [
+      "Motores"
+    ],
+    "condition": "Novo",
+    "seller": "AzulSkye",
+    "sellerId": "official",
+    "official": true,
+    "description": "Motor HE MV1 de 185 cm³ para paramotor. O catálogo de referência informa potência de 25 hp a 8.000 rpm. Consulte a configuração e a compatibilidade com sua estrutura antes de escolher.",
+    "weight": "",
+    "length": "",
+    "width": "",
+    "height": "",
+    "specifications": {
+      "Cilindrada": "185 cm³",
+      "Potência informada": "25 hp a 8.000 rpm"
+    },
+    "sourceUrl": "https://ready2paramotor.com/products/he-paramotor-mv1",
+    "pricing": {
+      "baseUsd": 2900.0,
+      "currency": "USD",
+      "usdToBrl": 5.4212,
+      "markupPercent": 10,
+      "date": "2026-10-30",
+      "rateType": "PTAX venda",
+      "source": "https://ptax.bcb.gov.br/ptax_internet/consultarUltimaCotacaoDolar.do"
+    }
+  },
+  {
+    "id": "he-paramotor-mv2",
+    "name": "HE Paramotor MV2",
+    "price": 18486.29,
+    "sku": "HE-MV2",
+    "brand": "HE",
+    "stock": true,
+    "availability": "order",
+    "image": "/products/he/he-paramotor-mv2-1.png",
+    "gallery": [
+      "/products/he/he-paramotor-mv2-1.png",
+      "/products/he/he-paramotor-mv2-2.png",
+      "/products/he/he-paramotor-mv2-3.png"
+    ],
+    "categories": [
+      "Motores"
+    ],
+    "condition": "Novo",
+    "seller": "AzulSkye",
+    "sellerId": "official",
+    "official": true,
+    "description": "Motor HE MV2 de 206 cm³ para paramotor. O catálogo de referência informa potência de 29 hp a 8.000 rpm. Confirme com a AzulSkye a configuração adequada para seu equipamento.",
+    "weight": "",
+    "length": "",
+    "width": "",
+    "height": "",
+    "specifications": {
+      "Cilindrada": "206 cm³",
+      "Potência informada": "29 hp a 8.000 rpm"
+    },
+    "sourceUrl": "https://ready2paramotor.com/products/he-paramotor-mv2",
+    "pricing": {
+      "baseUsd": 3100.0,
+      "currency": "USD",
+      "usdToBrl": 5.4212,
+      "markupPercent": 10,
+      "date": "2026-10-30",
+      "rateType": "PTAX venda",
+      "source": "https://ptax.bcb.gov.br/ptax_internet/consultarUltimaCotacaoDolar.do"
+    }
+  },
+  {
+    "id": "he-paramotor-rs206-performance",
+    "name": "HE Paramotor - RS206 Performance",
+    "price": 23256.95,
+    "sku": "HE-RS206-PERFORMANCE",
+    "brand": "HE",
+    "stock": true,
+    "availability": "order",
+    "image": "/products/he/he-paramotor-rs206-performance-1.png",
+    "gallery": [
+      "/products/he/he-paramotor-rs206-performance-1.png"
+    ],
+    "categories": [
+      "Motores"
+    ],
+    "condition": "Novo",
+    "seller": "AzulSkye",
+    "sellerId": "official",
+    "official": true,
+    "description": "Motor HE RS206 Performance de 206 cm³. O catálogo de referência informa potência de 30 hp. Consulte a configuração de fornecimento e a compatibilidade com seu equipamento.",
+    "weight": "",
+    "length": "",
+    "width": "",
+    "height": "",
+    "specifications": {
+      "Cilindrada": "206 cm³",
+      "Potência informada": "30 hp"
+    },
+    "sourceUrl": "https://ready2paramotor.com/products/he-paramotor-rs206-performance",
+    "pricing": {
+      "baseUsd": 3900.0,
+      "currency": "USD",
+      "usdToBrl": 5.4212,
+      "markupPercent": 10,
+      "date": "2026-10-30",
+      "rateType": "PTAX venda",
+      "source": "https://ptax.bcb.gov.br/ptax_internet/consultarUltimaCotacaoDolar.do"
+    }
+  },
+  {
+    "id": "he-paramotor-rs185-performance",
+    "name": "HE Paramotor - RS185 Performance",
+    "price": 20275.29,
+    "sku": "HE-RS185-PERFORMANCE",
+    "brand": "HE",
+    "stock": true,
+    "availability": "order",
+    "image": "/products/he/he-paramotor-rs185-performance-1.png",
+    "gallery": [
+      "/products/he/he-paramotor-rs185-performance-1.png"
+    ],
+    "categories": [
+      "Motores"
+    ],
+    "condition": "Novo",
+    "seller": "AzulSkye",
+    "sellerId": "official",
+    "official": true,
+    "description": "Motor HE RS185 Performance de 185 cm³. O catálogo de referência informa potência de 26 hp. Consulte a configuração de fornecimento e a compatibilidade com seu equipamento.",
+    "weight": "",
+    "length": "",
+    "width": "",
+    "height": "",
+    "specifications": {
+      "Cilindrada": "185 cm³",
+      "Potência informada": "26 hp"
+    },
+    "sourceUrl": "https://ready2paramotor.com/products/he-paramotor-rs185-performance",
+    "pricing": {
+      "baseUsd": 3400.0,
+      "currency": "USD",
+      "usdToBrl": 5.4212,
+      "markupPercent": 10,
+      "date": "2026-10-30",
+      "rateType": "PTAX venda",
+      "source": "https://ptax.bcb.gov.br/ptax_internet/consultarUltimaCotacaoDolar.do"
+    }
+  }
+]
