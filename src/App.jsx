@@ -2249,7 +2249,7 @@ export default function App() {
         {modal.type === "install" && (
           <div className="install-instructions">
             <img
-              src="/icon-192.png"
+              src="/brand/azulskye-simbolo-v3-192.png"
               alt="Ícone AzulSkye"
               width="76"
               height="76"

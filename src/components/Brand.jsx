@@ -7,9 +7,13 @@ export default function Brand({ light = false, compact = false }) {
       aria-label="AzulSkye — início"
     >
       <img
-        src="/brand/azulskye-logo-oficial.png"
-        width="2172"
-        height="724"
+        src={
+          compact
+            ? "/brand/azulskye-simbolo-v3-192.png"
+            : "/brand/azulskye-logo-oficial.png"
+        }
+        width={compact ? 192 : 2172}
+        height={compact ? 192 : 724}
         alt="AzulSkye — Equipados para ir além."
         decoding="async"
       />
