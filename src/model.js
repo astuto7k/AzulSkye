@@ -33,7 +33,7 @@ export function orderGroups(cart, products) {
   const groups = {};
   for (const line of cart) {
     const p = products.find(p => p.id === line.id);
-    if (!p || !p.stock || p.price == null) continue;
+    if (!p || !p.stock || p.price == null || (!p.official && p.status !== 'approved')) continue;
     (groups[p.sellerId] ??= { seller: p.seller, sellerId: p.sellerId, items: [], total: 0 }).items.push({ ...p, quantity: line.quantity });
     groups[p.sellerId].total += p.price * line.quantity;
   }
@@ -57,9 +57,9 @@ export function demoSeed(products) {
       { id: 's-demo-2', name: 'Camila Alves', store: 'Camila Equipamentos', documentType: 'CPF', email: 'camila@example.com', city: 'São Paulo, SP', status: 'pending', initials: 'CE', bio: 'Cadastro demonstrativo de pessoa física.' },
     ],
     listings: [
-      { ...byId('899'), id: 'demo-1', name: 'Hélice E-props · seminova', price: 1890, condition: 'Usado', seller: 'Altitude Equipamentos', sellerId: 'altitude', official: false, status: 'approved', stock: true, city: 'Belo Horizonte, MG', weight: '1.2', length: '130', width: '20', height: '15', description: 'Anúncio de demonstração. Equipamento usado, com marcas de uso. Fotografias ilustrativas do catálogo.' },
-      { ...(products.find(p => /capacete/i.test(p.name)) ?? byId('89')), id: 'demo-2', name: 'Capacete para voo · novo', price: 780, condition: 'Novo', seller: 'Altitude Equipamentos', sellerId: 'altitude', official: false, status: 'approved', stock: true, city: 'Belo Horizonte, MG', weight: '1', length: '35', width: '30', height: '30', description: 'Anúncio demonstrativo, sem oferta comercial real.' },
-      { ...byId('1764'), id: 'demo-3', name: 'Estrutura de paramotor · usada', price: 4200, condition: 'Usado', seller: 'Altitude Equipamentos', sellerId: 'altitude', official: false, status: 'pending', stock: true, weight: '8', length: '80', width: '80', height: '40', description: 'Anúncio demonstrativo aguardando aprovação.' },
+      { ...byId('899'), id: 'demo-1', categories: ['Hélices'], name: 'Hélice E-props · seminova', price: 1890, condition: 'Usado', seller: 'Altitude Equipamentos', sellerId: 'altitude', official: false, status: 'approved', stock: true, city: 'Belo Horizonte, MG', weight: '1.2', length: '130', width: '20', height: '15', description: 'Anúncio de demonstração. Equipamento usado, com marcas de uso. Fotografias ilustrativas do catálogo.' },
+      { ...(products.find(p => /capacete/i.test(p.name)) ?? byId('89')), id: 'demo-2', categories: ['Segurança'], name: 'Capacete para voo · novo', price: 780, condition: 'Novo', seller: 'Altitude Equipamentos', sellerId: 'altitude', official: false, status: 'approved', stock: true, city: 'Belo Horizonte, MG', weight: '1', length: '35', width: '30', height: '30', description: 'Anúncio demonstrativo, sem oferta comercial real.' },
+      { ...byId('1764'), id: 'demo-3', categories: ['Estruturas'], name: 'Estrutura de paramotor · usada', price: 4200, condition: 'Usado', seller: 'Altitude Equipamentos', sellerId: 'altitude', official: false, status: 'pending', stock: true, weight: '8', length: '80', width: '80', height: '40', description: 'Anúncio demonstrativo aguardando aprovação.' },
     ],
     orders: [
       { id: 'AZ-DEMO-1042', date: '2026-11-01T12:10:00-03:00', customer: 'Cliente demonstrativo', seller: 'AzulSkye', sellerId: 'official', total: byId('89').price, status: 'Pago', items: [{ ...byId('89'), quantity: 1 }], demo: true },
