@@ -1,131 +1,3174 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { ArrowUpRight, ArrowRight, ArrowLeft, Search, ShoppingBag, Heart, UserRound, Menu, X, ChevronDown, ChevronRight, Check, CheckCheck, ShieldCheck, Truck, Package, Compass, Wind, Settings2, SlidersHorizontal, LayoutDashboard, UsersRound, Store, Bell, Plus, LogOut, TrendingUp, Download, Smartphone, MapPin, Eye, CheckCircle2, XCircle, Clock3, CreditCard, Trash2, Minus, Upload, CircleHelp, ExternalLink, Copy, RefreshCw, BadgeCheck } from 'lucide-react';
-import officialProducts from './data/products.json';
-import { DEMO_ACCOUNTS, DEMO_PASSWORD, GROUPS, demoSeed, filterProducts, groupOf, money, orderGroups, validateProduct } from './model.js';
-const KEY = 'azulskye-visual-v1';
-const ROLE_NAMES = { client: 'Cliente', seller: 'Vendedor', admin: 'Administrador' };
-const initial = () => { try { const value = JSON.parse(localStorage.getItem(KEY)); if (value?.version === 1) return value.data; } catch {} return demoSeed(officialProducts); };
-const initials = name => name.split(' ').map(s => s[0]).slice(0, 2).join('');
-const date = value => new Date(value).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' });
-const featuredIds = ['1955', '89', '1884', '817', '1963', '728', '1888', '899'];
-const categories = [{ name: 'Paramotores', caption: 'Prontos para decolar', id: '1955' }, { name: 'Peças', caption: 'Cada detalhe importa', id: '1884' }, { name: 'Asas', caption: 'Encontre seu horizonte', id: '817' }, { name: 'Hélices', caption: 'Potência em movimento', id: '89' }];
-function Brand({ light = false, compact = false }) { return <a className={`brand ${light ? 'brand-light' : ''}`} href="#/"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M3 24 20 7 37 24 20 17Z" fill="currentColor"/><path d="M20 19v15" stroke="currentColor" strokeWidth="2"/></svg>{!compact && <span>azul<span className="brand-weight">skye</span><sup>®</sup></span>}</a>; }
-function Button({ children, variant = 'primary', className = '', ...props }) { return <button className={`btn btn-${variant} ${className}`} {...props}>{children}</button>; }
-function Tag({ children, tone = 'green' }) { return <span className={`tag tag-${tone}`}>{children}</span>; }
-function Empty({ icon: Icon = Package, title, text, children }) { return <div className="empty"><div className="empty-icon"><Icon size={30}/></div><h2>{title}</h2><p>{text}</p>{children}</div>; }
+import React, { useEffect, useRef, useState } from "react";
+import {
+  ArrowUpRight,
+  ArrowRight,
+  ArrowLeft,
+  Search,
+  ShoppingBag,
+  Heart,
+  UserRound,
+  Menu,
+  X,
+  ChevronDown,
+  ChevronRight,
+  Check,
+  CheckCheck,
+  ShieldCheck,
+  Truck,
+  Package,
+  Compass,
+  Wind,
+  Settings2,
+  SlidersHorizontal,
+  LayoutDashboard,
+  UsersRound,
+  Store,
+  Bell,
+  Plus,
+  LogOut,
+  TrendingUp,
+  Download,
+  Smartphone,
+  MapPin,
+  Eye,
+  CheckCircle2,
+  XCircle,
+  Clock3,
+  CreditCard,
+  Trash2,
+  Minus,
+  Upload,
+  CircleHelp,
+  ExternalLink,
+  Copy,
+  RefreshCw,
+  BadgeCheck,
+} from "lucide-react";
+import officialProducts from "./data/products.json";
+import Brand from "./components/Brand.jsx";
+import {
+  DEMO_ACCOUNTS,
+  DEMO_PASSWORD,
+  GROUPS,
+  demoSeed,
+  filterProducts,
+  groupOf,
+  money,
+  orderGroups,
+  validateProduct,
+} from "./model.js";
+const KEY = "azulskye-visual-v1";
+const ROLE_NAMES = {
+  client: "Cliente",
+  seller: "Vendedor",
+  admin: "Administrador",
+};
+const initial = () => {
+  try {
+    const value = JSON.parse(localStorage.getItem(KEY));
+    if (value?.version === 1) return value.data;
+  } catch {}
+  return demoSeed(officialProducts);
+};
+const initials = (name) =>
+  name
+    .split(" ")
+    .map((s) => s[0])
+    .slice(0, 2)
+    .join("");
+const date = (value) =>
+  new Date(value).toLocaleDateString("pt-BR", {
+    day: "2-digit",
+    month: "short",
+  });
+const featuredIds = ["1955", "89", "1884", "817", "1963", "728", "1888", "899"];
+const categories = [
+  { name: "Paramotores", caption: "Prontos para decolar", id: "1955" },
+  { name: "Peças", caption: "Peças de reposição", id: "730" },
+  { name: "Asas", caption: "Encontre seu horizonte", id: "817" },
+  { name: "Hélices", caption: "Potência em movimento", id: "89" },
+];
+function Button({ children, variant = "primary", className = "", ...props }) {
+  return (
+    <button className={`btn btn-${variant} ${className}`} {...props}>
+      {children}
+    </button>
+  );
+}
+function Tag({ children, tone = "blue" }) {
+  return <span className={`tag tag-${tone}`}>{children}</span>;
+}
+function Empty({ icon: Icon = Package, title, text, children }) {
+  return (
+    <div className="empty">
+      <div className="empty-icon">
+        <Icon size={30} />
+      </div>
+      <h2>{title}</h2>
+      <p>{text}</p>
+      {children}
+    </div>
+  );
+}
 function Dialog({ title, children, close, wide = false }) {
   const ref = useRef(null);
-  useEffect(() => { const el = ref.current; el.showModal(); const cancel = e => { e.preventDefault(); close(); }; el.addEventListener('cancel', cancel); return () => { el.removeEventListener('cancel', cancel); el.close(); }; }, []);
-  return <dialog ref={ref} className={`dialog ${wide ? 'wide' : ''}`} onClick={e => { if (e.target === e.currentTarget) close(); }}><div className="dialog-head"><h2>{title}</h2><button className="icon-btn" aria-label="Fechar janela" onClick={close}><X/></button></div>{children}</dialog>;
+  useEffect(() => {
+    const el = ref.current;
+    el.showModal();
+    const cancel = (e) => {
+      e.preventDefault();
+      close();
+    };
+    el.addEventListener("cancel", cancel);
+    return () => {
+      el.removeEventListener("cancel", cancel);
+      el.close();
+    };
+  }, []);
+  return (
+    <dialog
+      ref={ref}
+      className={`dialog ${wide ? "wide" : ""}`}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) close();
+      }}
+    >
+      <div className="dialog-head">
+        <h2>{title}</h2>
+        <button className="icon-btn" aria-label="Fechar janela" onClick={close}>
+          <X />
+        </button>
+      </div>
+      {children}
+    </dialog>
+  );
 }
-function Field({ label, children, hint, ...props }) { return <label className="field"><span>{label}</span>{children || <input {...props}/>} {hint && <small>{hint}</small>}</label>; }
-function DemoNote({ children }) { return <div className="demo-note"><Compass size={16}/><span>{children || 'Ambiente de demonstração · alterações salvas somente neste navegador.'}</span></div>; }
+function Field({ label, children, hint, ...props }) {
+  return (
+    <label className="field">
+      <span>{label}</span>
+      {children || <input {...props} />} {hint && <small>{hint}</small>}
+    </label>
+  );
+}
+function DemoNote({ children }) {
+  return (
+    <div className="demo-note">
+      <Compass size={16} />
+      <span>
+        {children ||
+          "Ambiente de demonstração · alterações salvas somente neste navegador."}
+      </span>
+    </div>
+  );
+}
 export default function App() {
   const [data, setData] = useState(initial);
-  const [user, setUser] = useState(() => { try { return JSON.parse(sessionStorage.getItem('azulskye-session')); } catch { return null; } });
-  const [route, setRoute] = useState(location.hash.slice(1) || '/');
-  const [toast, setToast] = useState('');
+  const [user, setUser] = useState(() => {
+    try {
+      return JSON.parse(sessionStorage.getItem("azulskye-session"));
+    } catch {
+      return null;
+    }
+  });
+  const [route, setRoute] = useState(location.hash.slice(1) || "/");
+  const [toast, setToast] = useState("");
   const [modal, setModal] = useState(null);
   const [mobileMenu, setMobileMenu] = useState(false);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [installPrompt, setInstallPrompt] = useState(null);
   const [visibleCount, setVisibleCount] = useState(12);
-  const [filters, setFilters] = useState({ category: 'Todos', source: 'all', condition: 'all', available: false, sort: 'featured' });
+  const [filters, setFilters] = useState({
+    category: "Todos",
+    source: "all",
+    condition: "all",
+    available: false,
+    sort: "featured",
+  });
   const toastTimer = useRef(null);
-  const notify = text => { setToast(text); clearTimeout(toastTimer.current); toastTimer.current = setTimeout(() => setToast(''), 4200); };
-  const update = fn => setData(previous => typeof fn === 'function' ? fn(previous) : { ...previous, ...fn });
-  useEffect(() => { try { localStorage.setItem(KEY, JSON.stringify({ version: 1, data })); } catch { notify('Sem espaço no navegador. Remova fotos grandes ou exporte seus dados de demonstração.'); } }, [data]);
-  useEffect(() => { sessionStorage.setItem('azulskye-session', JSON.stringify(user)); }, [user]);
-  useEffect(() => { const handler = () => { setRoute(location.hash.slice(1) || '/'); setMobileMenu(false); setVisibleCount(12); window.scrollTo({ top: 0 }); }; window.addEventListener('hashchange', handler); return () => window.removeEventListener('hashchange', handler); }, []);
-  useEffect(() => { const handler = e => { e.preventDefault(); setInstallPrompt(e); }; window.addEventListener('beforeinstallprompt', handler); return () => window.removeEventListener('beforeinstallprompt', handler); }, []);
-  const go = path => { location.hash = path; };
-  const logout = () => { setUser(null); go('/'); notify('Você saiu do acesso de demonstração.'); };
-  const products = [...officialProducts, ...data.listings.map(p => !p.official && data.sellers.find(s => s.id === p.sellerId)?.status !== 'approved' ? { ...p, status: 'seller-inactive' } : p)];
-  const cartCount = data.cart.reduce((sum, line) => sum + line.quantity, 0);
-  const unread = data.notifications.filter(n => !n.read).length;
-  const page = route.split('?')[0];
-  const params = new URLSearchParams(route.split('?')[1] || '');
-  const dashboard = page.startsWith('/painel');
-  const selected = products.find(p => p.id === page.split('/')[2]);
-  const activeCategory = params.get('categoria') || filters.category;
-  const activeQuery = params.get('q') || '';
-  const activeFilters = { ...filters, category: activeCategory, query: activeQuery, source: page === '/marketplace' ? 'marketplace' : params.get('origem') || filters.source };
-  const filtered = filterProducts(products, activeFilters);
-  const featured = featuredIds.map(id => officialProducts.find(p => p.id === id)).filter(Boolean);
-  const addCart = p => {
-    if (!p.stock || p.price == null) return;
-    update(d => ({ ...d, cart: d.cart.some(l => l.id === p.id) ? d.cart.map(l => l.id === p.id ? { ...l, quantity: l.quantity + 1 } : l) : [...d.cart, { id: p.id, quantity: 1 }] }));
-    notify('Produto adicionado à sua sacola.');
+  const notify = (text) => {
+    setToast(text);
+    clearTimeout(toastTimer.current);
+    toastTimer.current = setTimeout(() => setToast(""), 4200);
   };
-  const toggleFavorite = id => update(d => ({ ...d, favorites: d.favorites.includes(id) ? d.favorites.filter(v => v !== id) : [...d.favorites, id] }));
-  const addNotification = (d, title, text) => [{ id: crypto.randomUUID(), title, text, read: false }, ...d.notifications];
-  const changeSeller = (id, status) => { update(d => ({ ...d, sellers: d.sellers.map(s => s.id === id ? { ...s, status } : s), notifications: addNotification(d, status === 'approved' ? 'Vendedor aprovado' : 'Cadastro atualizado', 'A decisão foi registrada nesta demonstração.') })); notify(status === 'approved' ? 'Vendedor aprovado na demonstração.' : 'Cadastro de vendedor recusado.'); };
-  const changeListing = (id, status) => { update(d => ({ ...d, listings: d.listings.map(p => p.id === id ? { ...p, status } : p) })); notify(status === 'approved' ? 'Anúncio aprovado e publicado no marketplace.' : 'Anúncio recusado.'); };
-  const changeOrder = (id, status, tracking) => { update(d => ({ ...d, orders: d.orders.map(o => o.id === id ? { ...o, status, ...(tracking ? { tracking } : {}) } : o) })); notify('Pedido demonstrativo atualizado.'); };
-  const openInstall = async () => { if (installPrompt) { await installPrompt.prompt(); const choice = await installPrompt.userChoice; if (choice.outcome === 'accepted') notify('Instalação solicitada ao navegador.'); setInstallPrompt(null); } else setModal({ type: 'install' }); };
-  const reset = () => { setData(demoSeed(officialProducts)); setModal(null); notify('Demonstração restaurada.'); };
-  const card = p => <article className="product-card" key={p.id}><div className="product-image"><a href={`#/produto/${p.id}`} aria-label={`Ver ${p.name}`}><img src={p.image} alt={p.name} loading="lazy" width="500" height="500"/></a><span className={`condition ${p.condition === 'Usado' ? 'used' : ''}`}>{p.condition}</span><button className={`favorite ${data.favorites.includes(p.id) ? 'selected' : ''}`} aria-label={`${data.favorites.includes(p.id) ? 'Remover' : 'Adicionar'} ${p.name} ${data.favorites.includes(p.id) ? 'dos' : 'aos'} favoritos`} aria-pressed={data.favorites.includes(p.id)} onClick={() => toggleFavorite(p.id)}><Heart size={17} fill={data.favorites.includes(p.id) ? 'currentColor' : 'none'}/></button></div><div className="product-info"><div className="product-seller">{p.official ? <><BadgeCheck size={13}/> LOJA OFICIAL</> : <><Store size={13}/> {p.seller}</>}</div><a className="product-name" href={`#/produto/${p.id}`}>{p.name}</a><div className="price-row"><strong>{money(p.price)}</strong><button className="add-bag" aria-label={`Adicionar ${p.name} à sacola`} disabled={!p.stock || p.price == null} onClick={() => addCart(p)}><Plus size={19}/></button></div><span className={`stock ${!p.stock ? 'unavailable' : ''}`}>{p.stock ? p.price == null ? 'Consulte a disponibilidade' : 'Disponível no catálogo' : 'Indisponível no momento'}</span>{!p.official && <small className="sample-label">Anúncio de demonstração</small>}</div></article>;
-  const submitSearch = e => { e.preventDefault(); go(`/catalogo?q=${encodeURIComponent(search)}`); };
-  const sectionHeading = (eyebrow, title, action, href) => <div className="section-heading"><div><span className="eyebrow">{eyebrow}</span><h2>{title}</h2></div>{action && <a className="text-link" href={href}>{action}<ArrowUpRight size={18}/></a>}</div>;
-  function renderHome() { return <>
-    <section className="hero wrap"><div className="hero-content"><div className="hero-kicker"><span/> PARA QUEM NASCEU PARA VOAR</div><h1>O céu é só<br/>o <em>começo.</em></h1><p>Paramotores, peças e equipamentos.<br/>Tudo para o seu próximo horizonte.</p><div className="hero-actions"><a className="btn btn-lime" href="#/catalogo">Explore a loja <ArrowUpRight size={19}/></a><a className="hero-secondary" href="#/marketplace">Conheça o marketplace <ArrowRight size={16}/></a></div><div className="hero-bottom"><span className="tiny-brand"><Wind size={20}/></span><span>A sua próxima decolagem<br/><strong>começa com a escolha certa.</strong></span></div></div><div className="hero-photo" role="img" aria-label="Paisagem e equipamento de voo"><div className="hero-photo-overlay"/><div className="hero-coordinate"><Compass size={18}/><span>ENCONTRE SEU PRÓXIMO HORIZONTE</span></div><div className="hero-photo-caption"><span>MAIS QUE EQUIPAMENTOS.</span><strong>Liberdade para ir além.</strong></div><div className="hero-image-count">01 <span>/ 01</span></div></div></section>
-    <div className="trust-strip wrap"><div><ShieldCheck/><span><strong>Loja oficial + marketplace</strong><small>Escolha de quem comprar</small></span></div><div><Package/><span><strong>Novos e usados</strong><small>Equipamentos para cada etapa</small></span></div><div><UsersRound/><span><strong>Uma comunidade que voa</strong><small>Conectando pilotos e vendedores</small></span></div><button onClick={openInstall}><Smartphone/><span><strong>AzulSkye no seu celular</strong><small>Adicione à tela inicial <ArrowUpRight size={12}/></small></span></button></div>
-    <section className="section wrap">{sectionHeading('ESCOLHA SUA PRÓXIMA DECOLAGEM', 'O que move o seu voo?', 'Todas as categorias', '#/catalogo')}<div className="category-grid">{categories.map((c, i) => <a className={`category-card category-${i}`} href={`#/catalogo?categoria=${encodeURIComponent(c.name)}`} key={c.name}><div><span className="category-index">0{i + 1}</span><ArrowUpRight size={19}/></div><img src={officialProducts.find(p => p.id === c.id)?.image} alt="" loading="lazy"/><h3>{c.name}</h3><p>{c.caption}</p></a>)}</div></section>
-    <section className="section wrap featured-section">{sectionHeading('SELEÇÃO AZULSKYE', 'Equipados para ir além.', 'Ver loja oficial', '#/catalogo?origem=official')}<div className="product-grid">{featured.slice(0, 4).map(card)}</div></section>
-    <section className="market-banner wrap"><div className="market-banner-copy"><span className="eyebrow">MARKETPLACE AZULSKYE</span><h2>Seu próximo equipamento<br/>pode estar com outro piloto.</h2><p>Descubra novos e usados de vendedores da comunidade.<br/>Ou dê um novo destino ao que já voou com você.</p><div className="button-row"><a className="btn btn-primary" href="#/marketplace">Explorar marketplace <ArrowUpRight size={18}/></a><a className="text-link" href="#/vender">Quero vender <ArrowRight size={17}/></a></div></div><div className="market-orbit"><div className="orbit-ring"/><span className="orbit-label top"><UsersRound size={18}/> PILOTOS CONECTADOS</span><img src={officialProducts.find(p => p.id === '899')?.image} alt="Hélice para paramotor" loading="lazy"/><span className="orbit-label bottom"><CheckCircle2 size={17}/> NOVAS POSSIBILIDADES</span></div></section>
-    <section className="section wrap">{sectionHeading('DO MOTOR AO ÚLTIMO DETALHE', 'Cuide de cada parte do voo.', 'Explorar peças', '#/catalogo?categoria=Pe%C3%A7as')}<div className="product-grid">{featured.slice(4, 8).map(card)}</div></section>
-    <section className="install-banner wrap"><div className="install-icon"><Smartphone size={31}/></div><div><span className="eyebrow">SEMPRE POR PERTO</span><h2>Leve a AzulSkye com você.</h2><p>Acesse a loja e seu painel direto da tela inicial do celular.</p></div><Button variant="outline" onClick={openInstall}>Adicionar à tela inicial <Download size={17}/></Button></section>
-  </>; }
-  function renderCatalog() { return <div className="wrap catalog-page"><div className="breadcrumb"><a href="#/">Início</a><ChevronRight size={13}/>{page === '/marketplace' ? 'Marketplace' : 'Loja'}</div><div className={`catalog-heading ${page === '/marketplace' ? 'market-heading' : ''}`}><div><span className="eyebrow">{page === '/marketplace' ? 'DE PILOTO PARA PILOTO' : 'CATÁLOGO AZULSKYE'}</span><h1>{page === '/marketplace' ? 'Mais histórias. Novos voos.' : 'Encontre seu próximo voo.'}</h1><p>{page === '/marketplace' ? 'Novos e usados de vendedores da comunidade. Anúncios demonstrativos nesta versão.' : 'Os equipamentos certos para cada etapa da sua jornada.'}</p></div>{page === '/marketplace' && <a className="btn btn-primary" href="#/vender">Venda por aqui <ArrowUpRight size={17}/></a>}</div><div className="category-tabs">{GROUPS.map(c => <button key={c} className={activeCategory === c ? 'active' : ''} onClick={() => { setFilters(f => ({ ...f, category: c })); go(page + (activeQuery ? `?q=${encodeURIComponent(activeQuery)}` : '')); setVisibleCount(12); }}>{c}</button>)}</div><div className="catalog-tools"><span><strong>{filtered.length}</strong> {activeQuery ? `resultados para “${activeQuery}”` : 'produtos encontrados'}</span><div><Button variant="outline" className="filter-toggle" onClick={() => setModal({ type: 'filters' })}><SlidersHorizontal size={16}/> Filtros</Button><label className="sort-label"><span className="sr-only">Ordenar produtos</span><select value={filters.sort} onChange={e => setFilters(f => ({ ...f, sort: e.target.value }))}><option value="featured">Relevância</option><option value="price-up">Menor preço</option><option value="price-down">Maior preço</option><option value="name">Nome A–Z</option></select><ChevronDown size={14}/></label></div></div><div className="catalog-layout"><aside className="filter-sidebar">{renderFilters()}</aside><div>{filtered.length ? <><div className="product-grid catalog-grid">{filtered.slice(0, visibleCount).map(card)}</div>{visibleCount < filtered.length && <div className="load-more"><Button variant="outline" onClick={() => setVisibleCount(v => v + 12)}>Carregar mais produtos <Plus size={17}/></Button><p>Exibindo {Math.min(visibleCount, filtered.length)} de {filtered.length}</p></div>}</> : <Empty icon={Search} title="Nenhum produto por aqui" text="Tente outra busca ou altere os filtros."><Button onClick={() => { setFilters({ category: 'Todos', source: 'all', condition: 'all', available: false, sort: 'featured' }); go(page); }}>Limpar filtros</Button></Empty>}</div></div></div>; }
-  function renderFilters() { return <div className="filters"><h3><SlidersHorizontal size={17}/> Refinar sua busca</h3>{page !== '/marketplace' && <fieldset><legend>Onde comprar</legend>{[['all', 'Todas as lojas'], ['official', 'Loja oficial AzulSkye'], ['marketplace', 'Marketplace']].map(([value, label]) => <label className="radio-label" key={value}><input type="radio" name="source" checked={activeFilters.source === value} onChange={() => { setFilters(f => ({ ...f, source: value })); go(page + (activeQuery ? `?q=${encodeURIComponent(activeQuery)}` : '')); }}/>{label}</label>)}</fieldset>}<fieldset><legend>Estado do equipamento</legend>{[['all', 'Novos e usados'], ['Novo', 'Novo'], ['Usado', 'Usado']].map(([value, label]) => <label className="radio-label" key={value}><input type="radio" name="condition" checked={filters.condition === value} onChange={() => setFilters(f => ({ ...f, condition: value }))}/>{label}</label>)}</fieldset><fieldset><legend>Disponibilidade</legend><label className="radio-label"><input type="checkbox" checked={filters.available} onChange={e => setFilters(f => ({ ...f, available: e.target.checked }))}/>Somente em estoque</label></fieldset><div className="filter-help"><Wind size={25}/><h4>Cada detalhe faz diferença.</h4><p>Confira modelo e compatibilidade antes de escolher sua peça.</p></div></div>; }
-  function renderProduct(p) { if (!p || (!p.official && p.status !== 'approved')) return <Empty title="Produto não encontrado" text="Este anúncio pode estar em análise ou indisponível."><a className="btn btn-primary" href="#/catalogo">Voltar à loja</a></Empty>; return <div className="wrap product-page"><div className="breadcrumb"><a href="#/">Início</a><ChevronRight size={13}/><a href="#/catalogo">Loja</a><ChevronRight size={13}/><span>{groupOf(p)}</span></div><div className="product-detail"><div className="detail-photo"><img src={p.image} alt={p.name}/><span className="condition">{p.condition}</span><button className="favorite" aria-label="Favoritar produto" onClick={() => toggleFavorite(p.id)}><Heart fill={data.favorites.includes(p.id) ? 'currentColor' : 'none'}/></button></div><div className="detail-info"><div className="detail-badges"><Tag>{p.official ? <><BadgeCheck size={13}/> LOJA OFICIAL</> : <><Store size={13}/> MARKETPLACE</>}</Tag><span>{p.sku || `REF. ${p.id}`}</span></div><h1>{p.name}</h1><p className="sold-by">Vendido por <strong>{p.seller}</strong>{p.official && <BadgeCheck size={16}/>}</p>{!p.official && <DemoNote>Anúncio fictício para demonstrar o marketplace.</DemoNote>}<div className="detail-price">{money(p.price)}</div><p className="stock"><span className={`status-dot ${!p.stock ? 'gray' : ''}`}/>{p.stock ? 'Disponível no catálogo' : 'Produto indisponível'}</p><Button className="full" disabled={!p.stock || p.price == null} onClick={() => addCart(p)}><ShoppingBag size={19}/>{p.price == null ? 'Preço sob consulta' : p.stock ? 'Adicionar à sacola' : 'Indisponível'}</Button><Button variant="outline" className="full" onClick={() => toggleFavorite(p.id)}><Heart size={17}/>{data.favorites.includes(p.id) ? 'Remover dos favoritos' : 'Salvar nos favoritos'}</Button><div className="detail-shipping"><Truck size={22}/><div><strong>Entrega organizada por quem vende</strong><p>Frete e prazo serão integrados na próxima etapa.</p></div></div><div className="detail-features"><span><ShieldCheck size={16}/> Vendedor identificado</span><span><Package size={16}/> Estado: {p.condition}</span></div></div></div><div className="detail-bottom"><section><span className="eyebrow">CONHEÇA O EQUIPAMENTO</span><h2>Sobre este produto</h2><p>{p.description || 'Detalhes do produto serão adicionados em breve.'}</p><p className="muted">Descrição do catálogo de origem. Confirme as especificações técnicas e a compatibilidade antes de comprar.</p></section><section><h3>Informações do cadastro</h3><dl className="specs">{[['Estado', p.condition], ['Categoria', groupOf(p)], ['SKU', p.sku || 'Não informado'], ['Peso', p.weight ? `${p.weight} kg` : 'Não informado'], ['Dimensões (C × L × A)', p.length && p.width && p.height ? `${p.length} × ${p.width} × ${p.height} cm` : 'Não informadas']].map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl></section></div><section className="section">{sectionHeading('CONTINUE EXPLORANDO', 'Outras possibilidades para voar.')}<div className="product-grid">{products.filter(q => q.id !== p.id && groupOf(q) === groupOf(p) && (q.official || q.status === 'approved')).slice(0, 4).map(card)}</div></section></div>; }
-  function renderCart() { const groups = orderGroups(data.cart, products); const total = groups.reduce((s, g) => s + g.total, 0); return <div className="wrap cart-page"><div className="breadcrumb"><a href="#/">Início</a><ChevronRight size={13}/>Sacola</div><span className="eyebrow">SEU PRÓXIMO VOO</span><h1>Na sua sacola<span className="count-inline">{cartCount}</span></h1>{!groups.length ? <Empty icon={ShoppingBag} title="Uma sacola cheia de possibilidades" text="Explore os equipamentos e escolha o que vai acompanhar seu próximo voo."><a className="btn btn-primary" href="#/catalogo">Explorar a loja <ArrowRight size={16}/></a></Empty> : <div className="cart-layout"><div>{groups.map(g => <section className="cart-group" key={g.sellerId}><h3><Store size={17}/>{g.seller}{g.sellerId === 'official' && <BadgeCheck size={16}/>}</h3>{g.items.map(p => <div className="cart-line" key={p.id}><img src={p.image} alt={p.name}/><div><a href={`#/produto/${p.id}`}>{p.name}</a><small>{p.condition}</small><div className="quantity"><button aria-label={`Diminuir quantidade de ${p.name}`} onClick={() => update(d => ({ ...d, cart: d.cart.map(l => l.id === p.id ? { ...l, quantity: l.quantity - 1 } : l).filter(l => l.quantity > 0) }))}><Minus size={13}/></button><span>{p.quantity}</span><button aria-label={`Aumentar quantidade de ${p.name}`} onClick={() => addCart(p)}><Plus size={13}/></button></div></div><div className="cart-line-end"><strong>{money(p.price * p.quantity)}</strong><button className="icon-btn" aria-label={`Remover ${p.name}`} onClick={() => update(d => ({ ...d, cart: d.cart.filter(l => l.id !== p.id) }))}><Trash2 size={17}/></button></div></div>)}<p className="cart-group-footer"><Truck size={15}/> Entrega separada por vendedor <strong>{money(g.total)}</strong></p></section>)}</div><aside className="order-summary"><h2>Resumo da sacola</h2><div><span>Produtos ({cartCount})</span><strong>{money(total)}</strong></div><div><span>Entrega</span><span>A integrar</span></div><div className="summary-total"><span>Subtotal</span><strong>{money(total)}</strong></div><p>Cada vendedor terá seu próprio pedido. O frete ainda não está incluído.</p><Button className="full" onClick={() => { if (!user) { go('/entrar?retorno=sacola'); return; } setModal({ type: 'checkout' }); }}>Simular pedido <ArrowRight size={17}/></Button><DemoNote>Sem cobrança. A Woovi ainda não está conectada.</DemoNote><a className="text-link" href="#/catalogo"><ArrowLeft size={15}/> Continuar explorando</a></aside></div>}</div>; }
-  function renderLogin() { return <div className="login-page wrap"><div className="login-story"><span className="eyebrow">SUA COMUNIDADE. SEU HORIZONTE.</span><h1>Bom ter você<br/>por aqui.</h1><p>Um só lugar para encontrar equipamentos,<br/>acompanhar pedidos e fazer novos negócios.</p><div className="login-art"><Wind size={70}/><span>O próximo voo<br/>começa com você.</span></div><DemoNote>Acesso visual. Não use senhas ou dados pessoais reais.</DemoNote></div><div className="login-card"><span className="eyebrow">ACESSO DE DEMONSTRAÇÃO</span><h2>Entre na AzulSkye</h2><p>Escolha um perfil para explorar a experiência.</p><div className="demo-profiles">{DEMO_ACCOUNTS.map(a => <button key={a.role} onClick={() => { setUser(a); go(a.role === 'client' ? params.get('retorno') === 'sacola' ? '/sacola' : '/conta' : '/painel'); notify(`Bem-vindo ao perfil de ${a.label.toLowerCase()}.`); }}><span className={`profile-icon ${a.role}`}>{a.role === 'client' ? <UserRound/> : a.role === 'seller' ? <Store/> : <LayoutDashboard/>}</span><span><strong>{a.label}</strong><small>{a.email}</small></span><ArrowUpRight size={18}/></button>)}</div><div className="divider"><span>ou use o formulário demonstrativo</span></div><LoginForm onLogin={a => { setUser(a); go(a.role === 'client' ? params.get('retorno') === 'sacola' ? '/sacola' : '/conta' : '/painel'); }}/><details className="credentials"><summary>Ver emails e senha de teste <ChevronDown size={14}/></summary><p>Senha para os três perfis: <code>{DEMO_PASSWORD}</code></p>{DEMO_ACCOUNTS.map(a => <p key={a.role}><strong>{a.label}:</strong> {a.email}</p>)}</details><p className="login-seller-link">Quer vender seus equipamentos? <a href="#/vender">Conheça o marketplace</a></p></div></div>; }
-  function renderSell() { return <div className="wrap sell-page"><div className="sell-intro"><Tag>MARKETPLACE AZULSKYE</Tag><h1>Seu equipamento.<br/>O próximo voo<br/><em>de alguém.</em></h1><p>Abra sua loja e faça parte de uma comunidade que compartilha a paixão por voar.</p><div className="sell-steps">{[['01', 'Cadastre sua loja', 'Pessoa física ou empresa, você é bem-vindo.'], ['02', 'Passe pela aprovação', 'Cada vendedor e anúncio é analisado pela equipe.'], ['03', 'Prepare para decolar', 'Você cuida do envio dos seus equipamentos.']].map(([n, t, p]) => <div key={n}><span>{n}</span><div><h3>{t}</h3><p>{p}</p></div></div>)}</div></div><div className="registration-card"><span className="eyebrow">FAÇA PARTE</span><h2>Quero ser vendedor</h2><p>Envie seu cadastro para conhecer o fluxo de aprovação.</p><DemoNote>Formulário demonstrativo. Use somente dados fictícios.</DemoNote><SellerRegistration onSubmit={form => { const id = crypto.randomUUID(); update(d => ({ ...d, sellers: [...d.sellers, { ...form, id, status: 'pending', initials: initials(form.store) }], notifications: addNotification(d, 'Novo pedido para vender', `${form.store} aguarda análise.`) })); setModal({ type: 'registrationSuccess' }); }}/></div></div>; }
-  function renderAccount() { if (!user) return renderLogin(); const orders = data.orders.filter(o => o.customerId === user.email); const favorites = products.filter(p => data.favorites.includes(p.id)); return <div className="wrap account-page"><div className="account-welcome"><div className="avatar">{initials(user.name)}</div><div><span className="eyebrow">SUA CONTA AZULSKYE</span><h1>Olá, {user.name.split(' ')[0]}.</h1><p>Tudo pronto para o seu próximo horizonte?</p></div><Button variant="outline" onClick={logout}><LogOut size={16}/> Sair</Button></div><div className="account-links"><button onClick={() => document.getElementById('my-orders').scrollIntoView({ behavior: 'smooth' })}><Package/><span>Meus pedidos<small>Acompanhe suas compras</small></span><ArrowUpRight/></button><button onClick={() => go('/favoritos')}><Heart/><span>Favoritos<small>{favorites.length} equipamentos salvos</small></span><ArrowUpRight/></button><button onClick={openInstall}><Smartphone/><span>Aplicativo<small>Instale na tela inicial</small></span><ArrowUpRight/></button></div><section id="my-orders" className="section">{sectionHeading('ACOMPANHE POR AQUI', 'Seus pedidos')}<OrdersList orders={orders} onOpen={o => setModal({ type: 'order', order: o })}/></section>{favorites.length > 0 && <section className="section">{sectionHeading('PARA O PRÓXIMO VOO', 'Seus favoritos', 'Ver todos', '#/favoritos')}<div className="product-grid">{favorites.slice(0, 4).map(card)}</div></section>}</div>; }
-  function renderDashboard() {
-    if (!user || user.role === 'client') return <div className="wrap restricted"><Empty icon={ShieldCheck} title="Seu painel de gestão" text="Entre com o perfil demonstrativo de vendedor ou administrador para acessar esta área."><a className="btn btn-primary" href="#/entrar">Escolher acesso <ArrowRight size={16}/></a></Empty></div>;
-    const admin = user.role === 'admin'; const tab = page.split('/')[2] || 'visao-geral';
-    const tabs = [{ id: 'visao-geral', label: 'Visão geral', icon: LayoutDashboard }, { id: 'pedidos', label: 'Pedidos', icon: ShoppingBag }, { id: 'produtos', label: admin ? 'Catálogo e anúncios' : 'Meus produtos', icon: Package }, ...(admin ? [{ id: 'vendedores', label: 'Vendedores', icon: UsersRound }] : []), { id: 'financeiro', label: 'Financeiro', icon: TrendingUp }, { id: 'configuracoes', label: 'Configurações', icon: Settings2 }];
-    const title = tabs.find(t => t.id === tab)?.label || 'Visão geral';
-    const orders = admin ? data.orders : data.orders.filter(o => o.sellerId === user.sellerId);
-    const revenue = orders.filter(o => ['Pago', 'Em preparação', 'Enviado', 'Entregue'].includes(o.status)).reduce((s, o) => s + o.total, 0);
-    const vendorRequests = data.sellers.filter(s => s.status === 'pending');
-    const listings = admin ? data.listings : data.listings.filter(p => p.sellerId === user.sellerId);
-    const pendingProducts = listings.filter(p => p.status === 'pending');
-    return <div className="dashboard-shell"><aside className="dashboard-sidebar"><div className="workspace-label"><span className="workspace-icon">{admin ? <Compass size={22}/> : <Store size={22}/>}</span><div><strong>{admin ? 'AzulSkye' : user.store}<ChevronDown size={13}/></strong><small>{admin ? 'Administração' : 'Painel do vendedor'}</small></div></div><span className="nav-caption">SEU ESPAÇO DE GESTÃO</span><nav>{tabs.map(t => <a key={t.id} href={`#/painel/${t.id}`} className={tab === t.id ? 'active' : ''}><t.icon size={19}/>{t.label}{t.id === 'vendedores' && vendorRequests.length > 0 && <b>{vendorRequests.length}</b>}</a>)}</nav><div className="sidebar-bottom"><div className="sidebar-install"><Smartphone size={24}/><strong>Sua gestão, com você.</strong><p>Acesse direto da tela inicial.</p><button onClick={openInstall}>Instalar aplicativo <ArrowUpRight size={14}/></button></div><a href="#/"><ArrowUpRight size={17}/> Visitar a loja</a><button onClick={logout}><LogOut size={17}/> Sair da conta</button></div></aside><main className="dashboard-main"><div className="dashboard-topline"><span>PAINEL {admin ? 'ADMINISTRATIVO' : 'DO VENDEDOR'}</span><div><Tag tone="neutral">Demonstração</Tag><button className="icon-btn notification-button" aria-label="Ver notificações" onClick={() => setModal({ type: 'notifications' })}><Bell size={20}/>{unread > 0 && <i/>}</button><div className="avatar small">{initials(user.name)}</div></div></div><div className="dashboard-heading"><div><p>{new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'America/Sao_Paulo' })}</p><h1>{tab === 'visao-geral' ? `Bom voo, ${admin ? 'equipe AzulSkye' : user.name.split(' ')[0]}.` : title}</h1><span>{tab === 'visao-geral' ? 'Seu negócio visto de cima. Acompanhe cada movimento.' : 'Organize sua operação com tudo no mesmo lugar.'}</span></div>{['visao-geral', 'produtos'].includes(tab) && <Button onClick={() => setModal({ type: 'productForm', official: admin })}><Plus size={17}/> Novo produto</Button>}</div><DemoNote>Os indicadores e pedidos abaixo são exemplos. Nenhum pagamento foi processado.</DemoNote>
-    {tab === 'visao-geral' && <><div className="metrics-grid"><Metric label="Vendas demonstrativas" value={money(revenue)} icon={TrendingUp} detail="Pedidos pagos e em atendimento"/><Metric label="Pedidos" value={String(orders.length).padStart(2, '0')} icon={ShoppingBag} detail="Neste ambiente de demonstração"/><Metric label={admin ? 'Vendedores ativos' : 'Anúncios publicados'} value={String(admin ? data.sellers.filter(s => s.status === 'approved').length : listings.filter(p => p.status === 'approved').length).padStart(2, '0')} icon={admin ? UsersRound : Store} detail={admin ? `${vendorRequests.length} aguardando aprovação` : `${pendingProducts.length} em análise`}/><Metric label={admin ? 'Produtos da loja oficial' : 'Comissão da plataforma'} value={admin ? String(officialProducts.length + data.listings.filter(p => p.official).length) : `${data.commission}%`} icon={admin ? Package : CreditCard} detail={admin ? 'Importados do seu catálogo' : 'Percentual demonstrativo'}/></div><div className="dashboard-middle"><section className="panel chart-panel"><div className="panel-head"><div><h2>Vendas por vendedor</h2><p>Distribuição dos pedidos de exemplo</p></div><Tag tone="neutral">Dados demonstrativos</Tag></div><div className="chart-total">{money(revenue)}<span>em pedidos em atendimento</span></div><div className="bar-chart">{[...new Set(orders.map(o => o.seller))].map((seller, i) => { const value = orders.filter(o => o.seller === seller && o.status !== 'Cancelado' && o.status !== 'Aguardando pagamento').reduce((s, o) => s + o.total, 0); return <div className="chart-bar-item" key={seller}><div className="chart-bar-track"><div style={{ height: `${Math.max(3, value / Math.max(revenue, 1) * 100)}%` }} className={i % 2 ? 'light' : ''}><span>{money(value)}</span></div></div><span>{seller}</span></div>; })}</div></section><section className="panel actions-panel"><div className="panel-head"><div><h2>Seu próximo passo</h2><p>O que precisa da sua atenção</p></div><Compass size={22}/></div>{admin && <button className="action-item" onClick={() => go('/painel/vendedores')}><span className="action-icon amber"><UsersRound size={20}/></span><span><strong>{vendorRequests.length} pedidos para vender</strong><small>Analise os novos cadastros</small></span><ChevronRight size={17}/></button>}<button className="action-item" onClick={() => go('/painel/produtos')}><span className="action-icon"><Package size={20}/></span><span><strong>{pendingProducts.length} anúncios em análise</strong><small>{admin ? 'Revise antes de publicar' : 'Acompanhe suas publicações'}</small></span><ChevronRight size={17}/></button><button className="action-item" onClick={() => go('/painel/configuracoes')}><span className="action-icon"><CreditCard size={20}/></span><span><strong>Conectar a Woovi</strong><small>Disponível na etapa de integração</small></span><ChevronRight size={17}/></button><div className="action-tip"><Wind size={23}/><p>Cada detalhe bem cuidado leva o seu negócio mais longe.</p></div></section></div><section className="panel"><div className="panel-head"><div><h2>Pedidos recentes</h2><p>Acompanhe as últimas movimentações</p></div><a className="text-link" href="#/painel/pedidos">Ver todos <ArrowUpRight size={16}/></a></div><OrdersList orders={orders.slice(0, 5)} onOpen={o => setModal({ type: 'order', order: o })}/></section></>}
-    {tab === 'pedidos' && <section className="panel"><div className="panel-head"><h2>Todos os pedidos <span className="count-inline">{orders.length}</span></h2><Tag tone="neutral">Exemplos</Tag></div><OrdersList orders={orders} onOpen={o => setModal({ type: 'order', order: o })}/></section>}
-    {tab === 'vendedores' && admin && <div className="seller-management"><div className="section-heading"><h2>Cadastros de vendedores</h2><Tag tone="amber">{vendorRequests.length} em análise</Tag></div>{data.sellers.map(s => <article className="panel seller-request" key={s.id}><div className="avatar">{s.initials}</div><div className="seller-request-info"><h3>{s.store}</h3><p>{s.name} · {s.documentType}</p><span><MapPin size={13}/>{s.city}</span><small>{s.email}</small></div><Tag tone={s.status === 'pending' ? 'amber' : s.status === 'approved' ? 'green' : 'red'}>{s.status === 'pending' ? 'Em análise' : s.status === 'approved' ? 'Aprovado' : 'Recusado'}</Tag><div className="seller-request-actions"><Button variant="outline" onClick={() => setModal({ type: 'sellerDetail', seller: s })}><Eye size={16}/> Ver cadastro</Button>{s.status === 'pending' && <><Button variant="outline" onClick={() => changeSeller(s.id, 'rejected')}><X size={16}/> Recusar</Button><Button onClick={() => changeSeller(s.id, 'approved')}><Check size={16}/> Aprovar</Button></>}{s.status === 'approved' && <Button variant="outline" onClick={() => changeSeller(s.id, 'rejected')}>Suspender</Button>}{s.status === 'rejected' && <Button onClick={() => changeSeller(s.id, 'approved')}>Aprovar cadastro</Button>}</div></article>)}</div>}
-    {tab === 'produtos' && <section className="panel"><div className="panel-head"><div><h2>{admin ? 'Anúncios do marketplace' : 'Seus anúncios'}</h2><p>{admin ? 'A publicação depende da aprovação do vendedor e do anúncio.' : 'Novos produtos passam pela análise da equipe AzulSkye.'}</p></div></div>{listings.length ? listings.map(p => <div className="manage-product" key={p.id}><img src={p.image} alt={p.name}/><div><h3>{p.name}</h3><p>{p.seller} · {p.condition}</p><strong>{money(p.price)}</strong></div><Tag tone={p.status === 'pending' ? 'amber' : p.status === 'approved' ? 'green' : 'red'}>{p.status === 'pending' ? 'Em análise' : p.status === 'approved' ? 'Publicado' : 'Recusado'}</Tag><div className="button-row"><button className="icon-btn" aria-label={`Editar ${p.name}`} onClick={() => setModal({ type: 'productForm', product: p, official: p.official })}><Settings2 size={17}/></button>{admin && p.status !== 'approved' && <Button disabled={!p.official && data.sellers.find(s => s.id === p.sellerId)?.status !== 'approved'} onClick={() => changeListing(p.id, 'approved')}><Check size={15}/> Aprovar</Button>}{admin && p.status === 'pending' && <button className="icon-btn" aria-label={`Recusar ${p.name}`} onClick={() => changeListing(p.id, 'rejected')}><X size={18}/></button>}</div></div>) : <Empty title="Seu primeiro anúncio está por vir" text="Cadastre um produto com fotos e informações completas."><Button onClick={() => setModal({ type: 'productForm', official: admin })}><Plus size={16}/> Cadastrar produto</Button></Empty>}{admin && <div className="official-catalog-summary"><BadgeCheck size={22}/><div><strong>{officialProducts.length} produtos originais da AzulSkye</strong><p>Catálogo importado com preços e fotos. Explore os produtos na loja oficial.</p></div><a className="btn btn-outline" href="#/catalogo?origem=official">Ver catálogo <ArrowUpRight size={16}/></a></div>}</section>}
-    {tab === 'financeiro' && <><div className="metrics-grid three"><Metric label="Vendas de exemplo" value={money(revenue)} icon={TrendingUp} detail="Sem transações financeiras reais"/><Metric label={admin ? 'Comissão estimada de terceiros' : 'Comissão estimada'} value={money(orders.filter(o => o.sellerId !== 'official').reduce((s, o) => s + (o.status === 'Cancelado' ? 0 : o.total * data.commission / 100), 0))} icon={CreditCard} detail={`${data.commission}% · simulação, sem repasse`}/><Metric label="Saldo real" value="Não conectado" icon={ShieldCheck} detail="Aguardando integração Woovi"/></div><section className="panel integration-card"><div className="integration-logo">W</div><div><Tag tone="amber">NÃO CONECTADO</Tag><h2>Pagamentos com Woovi</h2><p>O saldo, a confirmação de pagamentos e os repasses aparecerão após a criação e habilitação da conta e implementação da integração.</p></div></section></>}
-    {tab === 'configuracoes' && <div className="settings-grid">{admin && <section className="panel settings-panel"><span className="eyebrow">MODELO DE NEGÓCIO</span><h2>Comissão do marketplace</h2><p>Percentual aplicado às vendas de terceiros. As vendas da loja oficial ficam separadas.</p><form onSubmit={e => { e.preventDefault(); const value = Number(new FormData(e.currentTarget).get('commission')); if (Number.isFinite(value) && value >= 0 && value <= 100) { update({ commission: value }); notify('Comissão salva na demonstração.'); } }}><Field label="Comissão por venda (%)" name="commission" type="number" min="0" max="100" step="0.1" defaultValue={data.commission} required/><Button type="submit">Salvar comissão <Check size={16}/></Button></form></section>}<section className="panel settings-panel"><span className="eyebrow">SEMPRE POR PERTO</span><h2>Aplicativo no celular</h2><p>Instale a AzulSkye na tela inicial e acesse a loja e o painel pelo navegador.</p><Button onClick={openInstall}><Smartphone size={17}/> Instalar aplicativo</Button><div className="settings-notice"><Bell size={20}/><div><strong>Notificações</strong><p>A central visual já está disponível. Push real de vendas será implementado junto ao servidor e aos pagamentos.</p></div></div></section><section className="panel settings-panel"><span className="eyebrow">INTEGRAÇÕES</span><h2>Próximas conexões</h2>{[['Woovi', 'Conta ainda não criada'], ['Frete e rastreamento', 'A integrar'], ['Google e email', 'Login visual nesta etapa'], ['Domínio azulsky.com', 'Configurar na Vercel']].map(([name, state]) => <div className="integration-row" key={name}><strong>{name}</strong><Tag tone="neutral">{state}</Tag></div>)}</section><section className="panel settings-panel"><span className="eyebrow">DEMONSTRAÇÃO LOCAL</span><h2>Recomece a exploração</h2><p>Restaure produtos demonstrativos, pedidos, favoritos, aprovações e comissão neste navegador.</p><Button variant="outline" onClick={() => setModal({ type: 'reset' })}><RefreshCw size={16}/> Restaurar demonstração</Button></section></div>}
-    <div className="dashboard-footnote"><Brand compact/><span>AzulSkye · gestão com os pés no chão e os olhos no céu.</span></div></main></div>;
+  const update = (fn) =>
+    setData((previous) =>
+      typeof fn === "function" ? fn(previous) : { ...previous, ...fn },
+    );
+  useEffect(() => {
+    try {
+      localStorage.setItem(KEY, JSON.stringify({ version: 1, data }));
+    } catch {
+      notify(
+        "Sem espaço no navegador. Remova fotos grandes ou exporte seus dados de demonstração.",
+      );
+    }
+  }, [data]);
+  useEffect(() => {
+    sessionStorage.setItem("azulskye-session", JSON.stringify(user));
+  }, [user]);
+  useEffect(() => {
+    const handler = () => {
+      setRoute(location.hash.slice(1) || "/");
+      setMobileMenu(false);
+      setVisibleCount(12);
+      window.scrollTo({ top: 0 });
+    };
+    window.addEventListener("hashchange", handler);
+    return () => window.removeEventListener("hashchange", handler);
+  }, []);
+  useEffect(() => {
+    const handler = (e) => {
+      e.preventDefault();
+      setInstallPrompt(e);
+    };
+    window.addEventListener("beforeinstallprompt", handler);
+    return () => window.removeEventListener("beforeinstallprompt", handler);
+  }, []);
+  const go = (path) => {
+    location.hash = path;
+  };
+  const logout = () => {
+    setUser(null);
+    go("/");
+    notify("Você saiu do acesso de demonstração.");
+  };
+  const products = [
+    ...officialProducts,
+    ...data.listings.map((p) =>
+      !p.official &&
+      data.sellers.find((s) => s.id === p.sellerId)?.status !== "approved"
+        ? { ...p, status: "seller-inactive" }
+        : p,
+    ),
+  ];
+  const cartCount = data.cart.reduce((sum, line) => sum + line.quantity, 0);
+  const unread = data.notifications.filter((n) => !n.read).length;
+  const page = route.split("?")[0];
+  const params = new URLSearchParams(route.split("?")[1] || "");
+  const dashboard = page.startsWith("/painel");
+  const selected = products.find((p) => p.id === page.split("/")[2]);
+  const activeCategory = params.get("categoria") || filters.category;
+  const activeQuery = params.get("q") || "";
+  const activeFilters = {
+    ...filters,
+    category: activeCategory,
+    query: activeQuery,
+    source:
+      page === "/marketplace"
+        ? "marketplace"
+        : params.get("origem") || filters.source,
+  };
+  const filtered = filterProducts(products, activeFilters);
+  const featured = featuredIds
+    .map((id) => officialProducts.find((p) => p.id === id))
+    .filter(Boolean);
+  const addCart = (p) => {
+    if (!p.stock || p.price == null) return;
+    update((d) => ({
+      ...d,
+      cart: d.cart.some((l) => l.id === p.id)
+        ? d.cart.map((l) =>
+            l.id === p.id ? { ...l, quantity: l.quantity + 1 } : l,
+          )
+        : [...d.cart, { id: p.id, quantity: 1 }],
+    }));
+    notify("Produto adicionado à sua sacola.");
+  };
+  const toggleFavorite = (id) =>
+    update((d) => ({
+      ...d,
+      favorites: d.favorites.includes(id)
+        ? d.favorites.filter((v) => v !== id)
+        : [...d.favorites, id],
+    }));
+  const addNotification = (d, title, text) => [
+    { id: crypto.randomUUID(), title, text, read: false },
+    ...d.notifications,
+  ];
+  const changeSeller = (id, status) => {
+    update((d) => ({
+      ...d,
+      sellers: d.sellers.map((s) => (s.id === id ? { ...s, status } : s)),
+      notifications: addNotification(
+        d,
+        status === "approved" ? "Vendedor aprovado" : "Cadastro atualizado",
+        "A decisão foi registrada nesta demonstração.",
+      ),
+    }));
+    notify(
+      status === "approved"
+        ? "Vendedor aprovado na demonstração."
+        : "Cadastro de vendedor recusado.",
+    );
+  };
+  const changeListing = (id, status) => {
+    update((d) => ({
+      ...d,
+      listings: d.listings.map((p) => (p.id === id ? { ...p, status } : p)),
+    }));
+    notify(
+      status === "approved"
+        ? "Anúncio aprovado e publicado no marketplace."
+        : "Anúncio recusado.",
+    );
+  };
+  const changeOrder = (id, status, tracking) => {
+    update((d) => ({
+      ...d,
+      orders: d.orders.map((o) =>
+        o.id === id ? { ...o, status, ...(tracking ? { tracking } : {}) } : o,
+      ),
+    }));
+    notify("Pedido demonstrativo atualizado.");
+  };
+  const openInstall = async () => {
+    if (installPrompt) {
+      await installPrompt.prompt();
+      const choice = await installPrompt.userChoice;
+      if (choice.outcome === "accepted")
+        notify("Instalação solicitada ao navegador.");
+      setInstallPrompt(null);
+    } else setModal({ type: "install" });
+  };
+  const reset = () => {
+    setData(demoSeed(officialProducts));
+    setModal(null);
+    notify("Demonstração restaurada.");
+  };
+  const card = (p) => (
+    <article className="product-card" key={p.id}>
+      <div className="product-image">
+        <a href={`#/produto/${p.id}`} aria-label={`Ver ${p.name}`}>
+          <img
+            src={p.image}
+            alt={p.name}
+            loading="lazy"
+            width="500"
+            height="500"
+          />
+        </a>
+        <span className={`condition ${p.condition === "Usado" ? "used" : ""}`}>
+          {p.condition}
+        </span>
+        <button
+          className={`favorite ${data.favorites.includes(p.id) ? "selected" : ""}`}
+          aria-label={`${data.favorites.includes(p.id) ? "Remover" : "Adicionar"} ${p.name} ${data.favorites.includes(p.id) ? "dos" : "aos"} favoritos`}
+          aria-pressed={data.favorites.includes(p.id)}
+          onClick={() => toggleFavorite(p.id)}
+        >
+          <Heart
+            size={17}
+            fill={data.favorites.includes(p.id) ? "currentColor" : "none"}
+          />
+        </button>
+      </div>
+      <div className="product-info">
+        <div className="product-seller">
+          {p.official ? (
+            <>
+              <BadgeCheck size={13} /> LOJA OFICIAL
+            </>
+          ) : (
+            <>
+              <Store size={13} /> {p.seller}
+            </>
+          )}
+        </div>
+        <a className="product-name" href={`#/produto/${p.id}`}>
+          {p.name}
+        </a>
+        <div className="price-row">
+          <strong>{money(p.price)}</strong>
+          <button
+            className="add-bag"
+            aria-label={`Adicionar ${p.name} à sacola`}
+            disabled={!p.stock || p.price == null}
+            onClick={() => addCart(p)}
+          >
+            <Plus size={19} />
+          </button>
+        </div>
+        <span className={`stock ${!p.stock ? "unavailable" : ""}`}>
+          {p.stock
+            ? p.price == null
+              ? "Consulte a disponibilidade"
+              : "Disponível no catálogo"
+            : "Indisponível no momento"}
+        </span>
+        {!p.official && (
+          <small className="sample-label">Anúncio de demonstração</small>
+        )}
+      </div>
+    </article>
+  );
+  const submitSearch = (e) => {
+    e.preventDefault();
+    go(`/catalogo?q=${encodeURIComponent(search)}`);
+  };
+  const sectionHeading = (eyebrow, title, action, href) => (
+    <div className="section-heading">
+      <div>
+        <span className="eyebrow">{eyebrow}</span>
+        <h2>{title}</h2>
+      </div>
+      {action && (
+        <a className="text-link" href={href}>
+          {action}
+          <ArrowUpRight size={18} />
+        </a>
+      )}
+    </div>
+  );
+  function renderHome() {
+    return (
+      <>
+        <section className="hero wrap">
+          <div className="hero-content">
+            <div className="hero-kicker">
+              <span /> PARA QUEM NASCEU PARA VOAR
+            </div>
+            <h1>Sua paixão pelo voo merece o equipamento certo.</h1>
+            <p>
+              Paramotores, peças e acessórios para quem busca confiança,
+              qualidade e performance em cada decolagem.
+            </p>
+            <div className="hero-actions">
+              <a className="btn btn-lime" href="#/catalogo">
+                Explorar equipamentos <ArrowUpRight size={19} />
+              </a>
+              <a className="hero-secondary" href="#/catalogo">
+                Ver categorias <ArrowRight size={16} />
+              </a>
+            </div>
+            <div className="hero-bottom">
+              <span className="tiny-brand">
+                <Wind size={20} />
+              </span>
+              <span>
+                A sua próxima decolagem
+                <br />
+                <strong>começa com a escolha certa.</strong>
+              </span>
+            </div>
+          </div>
+          <div
+            className="hero-photo"
+            role="img"
+            aria-label="Paisagem e equipamento de voo"
+          >
+            <div className="hero-photo-overlay" />
+            <div className="hero-coordinate">
+              <Compass size={18} />
+              <span>ENCONTRE SEU PRÓXIMO HORIZONTE</span>
+            </div>
+            <div className="hero-photo-caption">
+              <span>MAIS QUE EQUIPAMENTOS.</span>
+              <strong>Liberdade para ir além.</strong>
+            </div>
+            <div className="hero-image-count">
+              01 <span>/ 01</span>
+            </div>
+          </div>
+        </section>
+        <div className="trust-strip wrap">
+          <div>
+            <ShieldCheck />
+            <span>
+              <strong>Loja oficial + marketplace</strong>
+              <small>Escolha de quem comprar</small>
+            </span>
+          </div>
+          <div>
+            <Package />
+            <span>
+              <strong>Novos e usados</strong>
+              <small>Equipamentos para cada etapa</small>
+            </span>
+          </div>
+          <div>
+            <UsersRound />
+            <span>
+              <strong>Uma comunidade que voa</strong>
+              <small>Conectando pilotos e vendedores</small>
+            </span>
+          </div>
+          <button onClick={openInstall}>
+            <Smartphone />
+            <span>
+              <strong>AzulSkye no seu celular</strong>
+              <small>
+                Adicione à tela inicial <ArrowUpRight size={12} />
+              </small>
+            </span>
+          </button>
+        </div>
+        <section className="section wrap">
+          {sectionHeading(
+            "ESCOLHA SUA PRÓXIMA DECOLAGEM",
+            "O que move o seu voo?",
+            "Todas as categorias",
+            "#/catalogo",
+          )}
+          <div className="category-grid">
+            {categories.map((c, i) => (
+              <a
+                className={`category-card category-${i}`}
+                href={`#/catalogo?categoria=${encodeURIComponent(c.name)}`}
+                key={c.name}
+              >
+                <div>
+                  <span className="category-index">0{i + 1}</span>
+                  <ArrowUpRight size={19} />
+                </div>
+                <img
+                  src={officialProducts.find((p) => p.id === c.id)?.image}
+                  alt=""
+                  loading="lazy"
+                />
+                <h3>{c.name}</h3>
+                <p>{c.caption}</p>
+              </a>
+            ))}
+          </div>
+        </section>
+        <section className="section wrap featured-section">
+          {sectionHeading(
+            "SELEÇÃO AZULSKYE",
+            "Equipados para ir além.",
+            "Ver loja oficial",
+            "#/catalogo?origem=official",
+          )}
+          <div className="product-grid">{featured.slice(0, 4).map(card)}</div>
+        </section>
+        <section className="market-banner wrap">
+          <div className="market-banner-copy">
+            <span className="eyebrow">MARKETPLACE AZULSKYE</span>
+            <h2>
+              Seu próximo equipamento
+              <br />
+              pode estar com outro piloto.
+            </h2>
+            <p>
+              Descubra novos e usados de vendedores da comunidade.
+              <br />
+              Ou dê um novo destino ao que já voou com você.
+            </p>
+            <div className="button-row">
+              <a className="btn btn-primary" href="#/marketplace">
+                Explorar marketplace <ArrowUpRight size={18} />
+              </a>
+              <a className="text-link" href="#/vender">
+                Quero vender <ArrowRight size={17} />
+              </a>
+            </div>
+          </div>
+          <div className="market-orbit">
+            <div className="orbit-ring" />
+            <span className="orbit-label top">
+              <UsersRound size={18} /> PILOTOS CONECTADOS
+            </span>
+            <img
+              src={officialProducts.find((p) => p.id === "899")?.image}
+              alt="Hélice para paramotor"
+              loading="lazy"
+            />
+            <span className="orbit-label bottom">
+              <CheckCircle2 size={17} /> NOVAS POSSIBILIDADES
+            </span>
+          </div>
+        </section>
+        <section className="section wrap">
+          {sectionHeading(
+            "DO MOTOR AO ÚLTIMO DETALHE",
+            "Cuide de cada parte do voo.",
+            "Explorar peças",
+            "#/catalogo?categoria=Pe%C3%A7as",
+          )}
+          <div className="product-grid">{featured.slice(4, 8).map(card)}</div>
+        </section>
+        <section
+          className="institutional wrap"
+          aria-labelledby="institutional-title"
+        >
+          <div className="institutional-copy">
+            <span className="eyebrow">EQUIPADOS PARA IR ALÉM.</span>
+            <h2 id="institutional-title">
+              Mais do que equipamentos. Paixão pelo voo.
+            </h2>
+            <p>
+              Na AzulSkye, sabemos que cada voo começa muito antes da decolagem.
+              Por isso, reunimos paramotores, peças e acessórios para ajudar
+              pilotos a encontrar os equipamentos certos para suas necessidades.
+              Valorizamos a informação clara, o conhecimento técnico e um
+              atendimento próximo de quem compartilha a paixão pelo voo.
+            </p>
+            <a className="btn btn-outline" href="#/catalogo">
+              Conheça os equipamentos <ArrowUpRight size={18} />
+            </a>
+          </div>
+          <div className="institutional-photo">
+            <img
+              src="/hero.webp"
+              alt="Piloto em voo sobre o mar"
+              loading="lazy"
+              width="1600"
+              height="900"
+            />
+          </div>
+        </section>
+        <section
+          className="brand-pillars wrap"
+          aria-label="Os pilares da AzulSkye"
+        >
+          {[
+            {
+              icon: CircleHelp,
+              title: "Conhecimento técnico",
+              text: "Informações claras para ajudar você a escolher com mais confiança.",
+            },
+            {
+              icon: Package,
+              title: "Equipamentos para seu voo",
+              text: "Paramotores, peças e acessórios reunidos em um só lugar.",
+            },
+            {
+              icon: UsersRound,
+              title: "Atendimento próximo",
+              text: "Uma comunicação objetiva, humana e focada nas necessidades do piloto.",
+            },
+            {
+              icon: Wind,
+              title: "Paixão por voar",
+              text: "Uma marca construída em torno do universo do paramotor.",
+            },
+          ].map((p) => (
+            <article key={p.title}>
+              <p.icon size={26} />
+              <h3>{p.title}</h3>
+              <p>{p.text}</p>
+            </article>
+          ))}
+        </section>
+        <section className="install-banner wrap">
+          <div className="install-icon">
+            <Smartphone size={31} />
+          </div>
+          <div>
+            <span className="eyebrow">SEMPRE POR PERTO</span>
+            <h2>Leve a AzulSkye com você.</h2>
+            <p>Acesse a loja e seu painel direto da tela inicial do celular.</p>
+          </div>
+          <Button variant="outline" onClick={openInstall}>
+            Adicionar à tela inicial <Download size={17} />
+          </Button>
+        </section>
+      </>
+    );
   }
-  function renderModal() { if (!modal) return null; const close = () => setModal(null); return <Dialog title={{ install: 'AzulSkye na tela inicial', filters: 'Filtrar produtos', notifications: 'Sua central de notificações', productForm: modal.product ? 'Editar produto' : 'Cadastrar produto', checkout: 'Simular compra', registrationSuccess: 'Cadastro enviado', order: 'Detalhes do pedido', sellerDetail: 'Cadastro do vendedor', reset: 'Restaurar demonstração' }[modal.type]} close={close} wide={modal.type === 'productForm'}>
-    {modal.type === 'install' && <div className="install-instructions"><img src="/icon-192.png" alt="Ícone AzulSkye" width="76" height="76"/><h3>Seu próximo voo, a um toque.</h3><p>Acesse este site pelo navegador do celular para instalar.</p><ol><li><strong>iPhone / iPad</strong><span>No Safari, toque em Compartilhar e depois em “Adicionar à Tela de Início”.</span></li><li><strong>Android</strong><span>No Chrome, abra o menu ⋮ e escolha “Instalar aplicativo” ou “Adicionar à tela inicial”.</span></li><li><strong>Computador</strong><span>Em navegadores compatíveis, procure o ícone de instalação na barra de endereços.</span></li></ol><DemoNote>A instalação funciona em HTTPS ou localhost. Notificações de vendas reais serão conectadas na próxima etapa.</DemoNote></div>}
-    {modal.type === 'filters' && <>{renderFilters()}<Button className="full" onClick={close}>Ver resultados <ArrowRight size={16}/></Button></>}
-    {modal.type === 'notifications' && <div className="notification-list"><DemoNote>Central demonstrativa, sem notificações push reais.</DemoNote><button className="text-link" onClick={() => update(d => ({ ...d, notifications: d.notifications.map(n => ({ ...n, read: true })) }))}><CheckCheck size={16}/> Marcar todas como lidas</button>{data.notifications.map(n => <article key={n.id} className={n.read ? 'read' : ''}><span className="notification-icon"><Bell size={18}/></span><div><h3>{n.title}</h3><p>{n.text}</p></div>{!n.read && <span className="status-dot"/>}</article>)}</div>}
-    {modal.type === 'productForm' && <ProductForm product={modal.product} onSubmit={form => { const approvedSeller = user.role === 'admin' || data.sellers.find(s => s.id === user.sellerId)?.status === 'approved'; if (!approvedSeller) return notify('Seu cadastro de vendedor precisa estar aprovado.'); const p = { ...form, id: modal.product?.id || `local-${crypto.randomUUID()}`, seller: modal.product?.seller || (modal.official ? 'AzulSkye' : user.store), sellerId: modal.product?.sellerId || (modal.official ? 'official' : user.sellerId), official: !!modal.official, status: modal.official ? 'approved' : 'pending', stock: Number(form.quantity) > 0, price: Number(form.price), categories: [form.category], sku: form.sku || '', image: form.image }; update(d => ({ ...d, listings: modal.product ? d.listings.map(l => l.id === modal.product.id ? p : l) : [...d.listings, p], notifications: addNotification(d, modal.official ? 'Produto cadastrado' : 'Anúncio enviado para análise', p.name) })); close(); notify(modal.official ? 'Produto da loja oficial cadastrado.' : 'Produto enviado para aprovação.'); }}/>}
-    {modal.type === 'checkout' && <Checkout cart={data.cart} products={products} onSubmit={form => { const groups = orderGroups(data.cart, products); const stamp = Date.now(); const orders = groups.map((g, index) => ({ id: `AZ-TESTE-${stamp.toString().slice(-6)}-${index + 1}`, date: new Date().toISOString(), customer: user.name, customerId: user.email, seller: g.seller, sellerId: g.sellerId, total: g.total, items: g.items, status: 'Aguardando pagamento', demo: true, delivery: form })); update(d => ({ ...d, cart: [], orders: [...orders, ...d.orders], notifications: addNotification(d, 'Novo pedido de teste', `${orders.length} pedido(s) criado(s) sem cobrança.`) })); close(); go(user.role === 'client' ? '/conta' : '/painel/pedidos'); notify('Pedido de teste criado. Nenhum pagamento foi solicitado.'); }}/>}
-    {modal.type === 'registrationSuccess' && <div className="success-state"><CheckCircle2 size={52}/><h3>Sua loja está na fila de embarque.</h3><p>O cadastro de teste foi enviado para análise. Entre como administrador para aprovar ou recusar a solicitação.</p><DemoNote>Nenhum email foi enviado. O cadastro está salvo apenas neste navegador.</DemoNote><Button className="full" onClick={() => { close(); go('/entrar'); }}>Explorar os acessos <ArrowRight size={16}/></Button></div>}
-    {modal.type === 'sellerDetail' && <><Tag tone="neutral">Cadastro de demonstração</Tag><dl className="specs">{[['Loja', modal.seller.store], ['Responsável', modal.seller.name], ['Tipo de cadastro', modal.seller.documentType], ['Email', modal.seller.email], ['Localização', modal.seller.city], ['Apresentação', modal.seller.bio || 'Não informada']].map(([k, v]) => <div key={k}><dt>{k}</dt><dd>{v}</dd></div>)}</dl><p className="muted">Documentação e verificação financeira serão integradas na versão com servidor.</p></>}
-    {modal.type === 'order' && (() => { const o = data.orders.find(o => o.id === modal.order.id) || modal.order; const manage = user?.role === 'admin' || (user?.role === 'seller' && user.sellerId === o.sellerId); return <><DemoNote>Pedido de teste. Sem comprovação de pagamento real.</DemoNote><div className="order-modal-title"><strong>{o.id}</strong><Tag tone={o.status === 'Cancelado' ? 'red' : o.status === 'Aguardando pagamento' ? 'amber' : 'green'}>{o.status}</Tag></div><p className="muted">{o.customer} · {date(o.date)} · {o.seller}</p>{o.items.map(p => <div className="order-item" key={p.id}><img src={p.image} alt=""/><div><strong>{p.name}</strong><small>Quantidade: {p.quantity}</small></div><span>{money(p.price * p.quantity)}</span></div>)}<div className="summary-total"><span>Subtotal dos produtos</span><strong>{money(o.total)}</strong></div>{o.tracking && <p className="tracking"><Truck size={16}/> {o.tracking}</p>}{manage && <form className="order-edit" onSubmit={e => { e.preventDefault(); const f = new FormData(e.currentTarget); changeOrder(o.id, f.get('status'), f.get('tracking')); }}><Field label="Status demonstrativo"><select name="status" defaultValue={o.status}>{['Aguardando pagamento', 'Pago', 'Em preparação', 'Enviado', 'Entregue', 'Cancelado'].map(s => <option key={s}>{s}</option>)}</select></Field><Field label="Código de rastreio (exemplo)" name="tracking" defaultValue={o.tracking || ''}/><Button type="submit">Atualizar pedido de teste <Check size={16}/></Button></form>}</>; })()}
-    {modal.type === 'reset' && <><p>Isso apaga as alterações demonstrativas deste navegador e restaura os exemplos iniciais. O catálogo original será preservado.</p><div className="button-row"><Button variant="outline" onClick={close}>Voltar</Button><Button onClick={reset}>Restaurar exemplos</Button></div></>}
-    </Dialog>; }
-  return <><a className="skip-link" href="#main-content" onClick={e => { e.preventDefault(); document.getElementById('main-content').focus(); }}>Pular para o conteúdo</a><div className="announcement"><span>UM NOVO HORIZONTE PARA QUEM VOA.</span><span className="announcement-right">Loja oficial & marketplace <span>↗</span></span></div><header className={`site-header ${dashboard ? 'compact-header' : ''}`}><div className="header-main wrap"><button className="icon-btn mobile-menu-toggle" aria-label="Abrir menu" onClick={() => setMobileMenu(!mobileMenu)}><Menu size={23}/></button><Brand/><form className="header-search" onSubmit={submitSearch}><Search size={19}/><input aria-label="Buscar equipamentos" placeholder="O que vai no seu próximo voo?" value={search} onChange={e => setSearch(e.target.value)}/><kbd>↵</kbd></form><div className="header-actions"><a className="sell-link" href="#/vender">Venda na AzulSkye <ArrowUpRight size={15}/></a><a className="header-account" href={user ? user.role === 'client' ? '#/conta' : '#/painel' : '#/entrar'} aria-label={user ? 'Acessar minha conta' : 'Entrar'}><UserRound size={21}/><span><small>{user ? `Olá, ${user.name.split(' ')[0]}` : 'Bem-vindo a bordo'}</small><strong>{user ? ROLE_NAMES[user.role] : 'Entre ou cadastre-se'}</strong></span></a><a href="#/favoritos" className="icon-btn favorites-header" aria-label="Favoritos"><Heart size={21}/></a><a href="#/sacola" className="icon-btn bag-button" aria-label={`Sacola com ${cartCount} produtos`}><ShoppingBag size={21}/>{cartCount > 0 && <b>{cartCount}</b>}</a></div></div>{!dashboard && <nav className="desktop-nav wrap"><a href="#/catalogo" className="all-categories"><Menu size={17}/> Todas as categorias <ChevronDown size={13}/></a>{['Paramotores', 'Peças', 'Asas', 'Hélices', 'Estruturas'].map(c => <a key={c} href={`#/catalogo?categoria=${encodeURIComponent(c)}`}>{c}</a>)}<a className={page === '/marketplace' ? 'nav-market active' : 'nav-market'} href="#/marketplace"><span/> Marketplace <ArrowUpRight size={14}/></a></nav>}</header>{mobileMenu && <div className="mobile-menu"><div><Brand/><button className="icon-btn" aria-label="Fechar menu" onClick={() => setMobileMenu(false)}><X/></button></div><form className="header-search" onSubmit={submitSearch}><Search size={18}/><input placeholder="Buscar equipamentos" aria-label="Buscar no menu" value={search} onChange={e => setSearch(e.target.value)}/><button className="icon-btn" aria-label="Buscar"><ArrowRight size={18}/></button></form><a href="#/catalogo">Loja oficial <ArrowUpRight size={18}/></a><a href="#/marketplace">Marketplace <ArrowUpRight size={18}/></a><a href="#/vender">Quero vender <ArrowUpRight size={18}/></a><a href="#/entrar">Acessos de demonstração <UserRound size={18}/></a><button onClick={() => { setMobileMenu(false); openInstall(); }}>Instalar aplicativo <Download size={18}/></button></div>}
-    <main id="main-content" tabIndex={-1}>{page === '/' ? renderHome() : ['/catalogo', '/marketplace'].includes(page) ? renderCatalog() : page.startsWith('/produto/') ? renderProduct(selected) : page === '/sacola' ? renderCart() : page === '/entrar' ? renderLogin() : page === '/vender' ? renderSell() : page === '/conta' ? renderAccount() : page === '/favoritos' ? <section className="wrap section favorites-page">{sectionHeading('SUAS ESCOLHAS', 'Favoritos para o próximo voo.')}<div className="product-grid">{products.filter(p => data.favorites.includes(p.id) && (p.official || p.status === 'approved')).map(card)}</div>{!data.favorites.length && <Empty icon={Heart} title="Guarde o que faz seus olhos brilharem" text="Toque no coração de um produto para encontrá-lo aqui."><a className="btn btn-primary" href="#/catalogo">Explorar produtos</a></Empty>}</section> : dashboard ? renderDashboard() : <Empty title="Esse horizonte ainda não existe" text="Volte à loja para continuar explorando."><a className="btn btn-primary" href="#/">Ir para o início</a></Empty>}</main>
-    {!dashboard && <footer className="site-footer"><div className="wrap footer-main"><div className="footer-brand"><Brand light/><p>Para quem tem os pés no chão<br/>e a alma no céu.</p><span>Equipados para ir além.</span></div><div><h3>Explore a AzulSkye</h3><a href="#/catalogo?origem=official">Loja oficial</a><a href="#/marketplace">Marketplace</a><a href="#/catalogo">Todas as categorias</a></div><div><h3>Seu espaço</h3><a href="#/conta">Minha conta</a><a href="#/favoritos">Favoritos</a><a href="#/vender">Seja um vendedor</a><a href="#/entrar">Acessos de demonstração</a></div><div className="footer-app"><h3>Nos vemos no próximo voo.</h3><p>Leve a AzulSkye para a tela inicial.</p><button onClick={openInstall}><Smartphone size={19}/> Adicionar aplicativo <ArrowUpRight size={17}/></button></div></div><div className="wrap footer-bottom"><span>© {new Date().getFullYear()} AzulSkye. Todos os direitos reservados.</span><span>Prévia visual · sem pagamentos reais</span><a href="https://azulsky.com/" target="_blank" rel="noreferrer">azulsky.com <ArrowUpRight size={12}/></a></div></footer>}
-    <nav className="mobile-bottom" aria-label="Navegação principal no celular"><a href="#/" className={page === '/' ? 'active' : ''}><Compass size={21}/><span>Início</span></a><a href="#/catalogo" className={page === '/catalogo' ? 'active' : ''}><Search size={21}/><span>Explorar</span></a><a href="#/marketplace" className={page === '/marketplace' ? 'active' : ''}><Store size={21}/><span>Marketplace</span></a><a href="#/sacola" className={page === '/sacola' ? 'active' : ''}><span className="mobile-bag"><ShoppingBag size={21}/>{cartCount > 0 && <i>{cartCount}</i>}</span><span>Sacola</span></a><a href={user ? user.role === 'client' ? '#/conta' : '#/painel' : '#/entrar'} className={dashboard || page === '/conta' || page === '/entrar' ? 'active' : ''}><UserRound size={21}/><span>{user?.role === 'admin' ? 'Gestão' : user?.role === 'seller' ? 'Painel' : 'Conta'}</span></a></nav>
-    {renderModal()}{toast && <div className="toast" role="status"><CheckCircle2 size={19}/><span>{toast}</span><button aria-label="Fechar aviso" onClick={() => setToast('')}><X size={16}/></button></div>}<div className="demo-pill"><span/> PRÉVIA VISUAL</div></>;
+  function renderCatalog() {
+    return (
+      <div className="wrap catalog-page">
+        <div className="breadcrumb">
+          <a href="#/">Início</a>
+          <ChevronRight size={13} />
+          {page === "/marketplace" ? "Marketplace" : "Loja"}
+        </div>
+        <div
+          className={`catalog-heading ${page === "/marketplace" ? "market-heading" : ""}`}
+        >
+          <div>
+            <span className="eyebrow">
+              {page === "/marketplace"
+                ? "DE PILOTO PARA PILOTO"
+                : "CATÁLOGO AZULSKYE"}
+            </span>
+            <h1>
+              {page === "/marketplace"
+                ? "Mais histórias. Novos voos."
+                : "Encontre seu próximo voo."}
+            </h1>
+            <p>
+              {page === "/marketplace"
+                ? "Novos e usados de vendedores da comunidade. Anúncios demonstrativos nesta versão."
+                : "Os equipamentos certos para cada etapa da sua jornada."}
+            </p>
+          </div>
+          {page === "/marketplace" && (
+            <a className="btn btn-primary" href="#/vender">
+              Venda por aqui <ArrowUpRight size={17} />
+            </a>
+          )}
+        </div>
+        <div className="category-tabs">
+          {GROUPS.map((c) => (
+            <button
+              key={c}
+              className={activeCategory === c ? "active" : ""}
+              onClick={() => {
+                setFilters((f) => ({ ...f, category: c }));
+                go(
+                  page +
+                    (activeQuery
+                      ? `?q=${encodeURIComponent(activeQuery)}`
+                      : ""),
+                );
+                setVisibleCount(12);
+              }}
+            >
+              {c}
+            </button>
+          ))}
+        </div>
+        <div className="catalog-tools">
+          <span>
+            <strong>{filtered.length}</strong>{" "}
+            {activeQuery
+              ? `resultados para “${activeQuery}”`
+              : "produtos encontrados"}
+          </span>
+          <div>
+            <Button
+              variant="outline"
+              className="filter-toggle"
+              onClick={() => setModal({ type: "filters" })}
+            >
+              <SlidersHorizontal size={16} /> Filtros
+            </Button>
+            <label className="sort-label">
+              <span className="sr-only">Ordenar produtos</span>
+              <select
+                value={filters.sort}
+                onChange={(e) =>
+                  setFilters((f) => ({ ...f, sort: e.target.value }))
+                }
+              >
+                <option value="featured">Relevância</option>
+                <option value="price-up">Menor preço</option>
+                <option value="price-down">Maior preço</option>
+                <option value="name">Nome A–Z</option>
+              </select>
+              <ChevronDown size={14} />
+            </label>
+          </div>
+        </div>
+        <div className="catalog-layout">
+          <aside className="filter-sidebar">{renderFilters()}</aside>
+          <div>
+            {filtered.length ? (
+              <>
+                <div className="product-grid catalog-grid">
+                  {filtered.slice(0, visibleCount).map(card)}
+                </div>
+                {visibleCount < filtered.length && (
+                  <div className="load-more">
+                    <Button
+                      variant="outline"
+                      onClick={() => setVisibleCount((v) => v + 12)}
+                    >
+                      Carregar mais produtos <Plus size={17} />
+                    </Button>
+                    <p>
+                      Exibindo {Math.min(visibleCount, filtered.length)} de{" "}
+                      {filtered.length}
+                    </p>
+                  </div>
+                )}
+              </>
+            ) : (
+              <Empty
+                icon={Search}
+                title="Nenhum produto por aqui"
+                text="Tente outra busca ou altere os filtros."
+              >
+                <Button
+                  onClick={() => {
+                    setFilters({
+                      category: "Todos",
+                      source: "all",
+                      condition: "all",
+                      available: false,
+                      sort: "featured",
+                    });
+                    go(page);
+                  }}
+                >
+                  Limpar filtros
+                </Button>
+              </Empty>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
+  function renderFilters() {
+    return (
+      <div className="filters">
+        <h3>
+          <SlidersHorizontal size={17} /> Refinar sua busca
+        </h3>
+        {page !== "/marketplace" && (
+          <fieldset>
+            <legend>Onde comprar</legend>
+            {[
+              ["all", "Todas as lojas"],
+              ["official", "Loja oficial AzulSkye"],
+              ["marketplace", "Marketplace"],
+            ].map(([value, label]) => (
+              <label className="radio-label" key={value}>
+                <input
+                  type="radio"
+                  name="source"
+                  checked={activeFilters.source === value}
+                  onChange={() => {
+                    setFilters((f) => ({ ...f, source: value }));
+                    go(
+                      page +
+                        (activeQuery
+                          ? `?q=${encodeURIComponent(activeQuery)}`
+                          : ""),
+                    );
+                  }}
+                />
+                {label}
+              </label>
+            ))}
+          </fieldset>
+        )}
+        <fieldset>
+          <legend>Estado do equipamento</legend>
+          {[
+            ["all", "Novos e usados"],
+            ["Novo", "Novo"],
+            ["Usado", "Usado"],
+          ].map(([value, label]) => (
+            <label className="radio-label" key={value}>
+              <input
+                type="radio"
+                name="condition"
+                checked={filters.condition === value}
+                onChange={() => setFilters((f) => ({ ...f, condition: value }))}
+              />
+              {label}
+            </label>
+          ))}
+        </fieldset>
+        <fieldset>
+          <legend>Disponibilidade</legend>
+          <label className="radio-label">
+            <input
+              type="checkbox"
+              checked={filters.available}
+              onChange={(e) =>
+                setFilters((f) => ({ ...f, available: e.target.checked }))
+              }
+            />
+            Somente em estoque
+          </label>
+        </fieldset>
+        <div className="filter-help">
+          <Wind size={25} />
+          <h4>Cada detalhe faz diferença.</h4>
+          <p>Confira modelo e compatibilidade antes de escolher sua peça.</p>
+        </div>
+      </div>
+    );
+  }
+  function renderProduct(p) {
+    if (!p || (!p.official && p.status !== "approved"))
+      return (
+        <Empty
+          title="Produto não encontrado"
+          text="Este anúncio pode estar em análise ou indisponível."
+        >
+          <a className="btn btn-primary" href="#/catalogo">
+            Voltar à loja
+          </a>
+        </Empty>
+      );
+    return (
+      <div className="wrap product-page">
+        <div className="breadcrumb">
+          <a href="#/">Início</a>
+          <ChevronRight size={13} />
+          <a href="#/catalogo">Loja</a>
+          <ChevronRight size={13} />
+          <span>{groupOf(p)}</span>
+        </div>
+        <div className="product-detail">
+          <div className="detail-photo">
+            <img src={p.image} alt={p.name} />
+            <span className="condition">{p.condition}</span>
+            <button
+              className="favorite"
+              aria-label="Favoritar produto"
+              onClick={() => toggleFavorite(p.id)}
+            >
+              <Heart
+                fill={data.favorites.includes(p.id) ? "currentColor" : "none"}
+              />
+            </button>
+          </div>
+          <div className="detail-info">
+            <div className="detail-badges">
+              <Tag>
+                {p.official ? (
+                  <>
+                    <BadgeCheck size={13} /> LOJA OFICIAL
+                  </>
+                ) : (
+                  <>
+                    <Store size={13} /> MARKETPLACE
+                  </>
+                )}
+              </Tag>
+              <span>{p.sku || `REF. ${p.id}`}</span>
+            </div>
+            <h1>{p.name}</h1>
+            <p className="sold-by">
+              Vendido por <strong>{p.seller}</strong>
+              {p.official && <BadgeCheck size={16} />}
+            </p>
+            {!p.official && (
+              <DemoNote>
+                Anúncio fictício para demonstrar o marketplace.
+              </DemoNote>
+            )}
+            <div className="detail-price">{money(p.price)}</div>
+            <p className="stock">
+              <span className={`status-dot ${!p.stock ? "gray" : ""}`} />
+              {p.stock ? "Disponível no catálogo" : "Produto indisponível"}
+            </p>
+            <Button
+              className="full"
+              disabled={!p.stock || p.price == null}
+              onClick={() => addCart(p)}
+            >
+              <ShoppingBag size={19} />
+              {p.price == null
+                ? "Preço sob consulta"
+                : p.stock
+                  ? "Adicionar à sacola"
+                  : "Indisponível"}
+            </Button>
+            <Button
+              variant="outline"
+              className="full"
+              onClick={() => toggleFavorite(p.id)}
+            >
+              <Heart size={17} />
+              {data.favorites.includes(p.id)
+                ? "Remover dos favoritos"
+                : "Salvar nos favoritos"}
+            </Button>
+            <div className="detail-shipping">
+              <Truck size={22} />
+              <div>
+                <strong>Entrega organizada por quem vende</strong>
+                <p>Frete e prazo serão integrados na próxima etapa.</p>
+              </div>
+            </div>
+            <div className="detail-features">
+              <span>
+                <ShieldCheck size={16} /> Vendedor identificado
+              </span>
+              <span>
+                <Package size={16} /> Estado: {p.condition}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div className="detail-bottom">
+          <section>
+            <span className="eyebrow">CONHEÇA O EQUIPAMENTO</span>
+            <h2>Sobre este produto</h2>
+            <p>
+              {p.description ||
+                "Detalhes do produto serão adicionados em breve."}
+            </p>
+            <p className="muted">
+              Descrição do catálogo de origem. Confirme as especificações
+              técnicas e a compatibilidade antes de comprar.
+            </p>
+          </section>
+          <section>
+            <h3>Informações do cadastro</h3>
+            <dl className="specs">
+              {[
+                ["Estado", p.condition],
+                ["Categoria", groupOf(p)],
+                ["SKU", p.sku || "Não informado"],
+                ["Peso", p.weight ? `${p.weight} kg` : "Não informado"],
+                [
+                  "Dimensões (C × L × A)",
+                  p.length && p.width && p.height
+                    ? `${p.length} × ${p.width} × ${p.height} cm`
+                    : "Não informadas",
+                ],
+              ].map(([label, value]) => (
+                <div key={label}>
+                  <dt>{label}</dt>
+                  <dd>{value}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        </div>
+        <section className="section">
+          {sectionHeading(
+            "CONTINUE EXPLORANDO",
+            "Outras possibilidades para voar.",
+          )}
+          <div className="product-grid">
+            {products
+              .filter(
+                (q) =>
+                  q.id !== p.id &&
+                  groupOf(q) === groupOf(p) &&
+                  (q.official || q.status === "approved"),
+              )
+              .slice(0, 4)
+              .map(card)}
+          </div>
+        </section>
+      </div>
+    );
+  }
+  function renderCart() {
+    const groups = orderGroups(data.cart, products);
+    const total = groups.reduce((s, g) => s + g.total, 0);
+    return (
+      <div className="wrap cart-page">
+        <div className="breadcrumb">
+          <a href="#/">Início</a>
+          <ChevronRight size={13} />
+          Sacola
+        </div>
+        <span className="eyebrow">SEU PRÓXIMO VOO</span>
+        <h1>
+          Na sua sacola<span className="count-inline">{cartCount}</span>
+        </h1>
+        {!groups.length ? (
+          <Empty
+            icon={ShoppingBag}
+            title="Uma sacola cheia de possibilidades"
+            text="Explore os equipamentos e escolha o que vai acompanhar seu próximo voo."
+          >
+            <a className="btn btn-primary" href="#/catalogo">
+              Explorar a loja <ArrowRight size={16} />
+            </a>
+          </Empty>
+        ) : (
+          <div className="cart-layout">
+            <div>
+              {groups.map((g) => (
+                <section className="cart-group" key={g.sellerId}>
+                  <h3>
+                    <Store size={17} />
+                    {g.seller}
+                    {g.sellerId === "official" && <BadgeCheck size={16} />}
+                  </h3>
+                  {g.items.map((p) => (
+                    <div className="cart-line" key={p.id}>
+                      <img src={p.image} alt={p.name} />
+                      <div>
+                        <a href={`#/produto/${p.id}`}>{p.name}</a>
+                        <small>{p.condition}</small>
+                        <div className="quantity">
+                          <button
+                            aria-label={`Diminuir quantidade de ${p.name}`}
+                            onClick={() =>
+                              update((d) => ({
+                                ...d,
+                                cart: d.cart
+                                  .map((l) =>
+                                    l.id === p.id
+                                      ? { ...l, quantity: l.quantity - 1 }
+                                      : l,
+                                  )
+                                  .filter((l) => l.quantity > 0),
+                              }))
+                            }
+                          >
+                            <Minus size={13} />
+                          </button>
+                          <span>{p.quantity}</span>
+                          <button
+                            aria-label={`Aumentar quantidade de ${p.name}`}
+                            onClick={() => addCart(p)}
+                          >
+                            <Plus size={13} />
+                          </button>
+                        </div>
+                      </div>
+                      <div className="cart-line-end">
+                        <strong>{money(p.price * p.quantity)}</strong>
+                        <button
+                          className="icon-btn"
+                          aria-label={`Remover ${p.name}`}
+                          onClick={() =>
+                            update((d) => ({
+                              ...d,
+                              cart: d.cart.filter((l) => l.id !== p.id),
+                            }))
+                          }
+                        >
+                          <Trash2 size={17} />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                  <p className="cart-group-footer">
+                    <Truck size={15} /> Entrega separada por vendedor{" "}
+                    <strong>{money(g.total)}</strong>
+                  </p>
+                </section>
+              ))}
+            </div>
+            <aside className="order-summary">
+              <h2>Resumo da sacola</h2>
+              <div>
+                <span>Produtos ({cartCount})</span>
+                <strong>{money(total)}</strong>
+              </div>
+              <div>
+                <span>Entrega</span>
+                <span>A integrar</span>
+              </div>
+              <div className="summary-total">
+                <span>Subtotal</span>
+                <strong>{money(total)}</strong>
+              </div>
+              <p>
+                Cada vendedor terá seu próprio pedido. O frete ainda não está
+                incluído.
+              </p>
+              <Button
+                className="full"
+                onClick={() => {
+                  if (!user) {
+                    go("/entrar?retorno=sacola");
+                    return;
+                  }
+                  setModal({ type: "checkout" });
+                }}
+              >
+                Simular pedido <ArrowRight size={17} />
+              </Button>
+              <DemoNote>
+                Sem cobrança. A Woovi ainda não está conectada.
+              </DemoNote>
+              <a className="text-link" href="#/catalogo">
+                <ArrowLeft size={15} /> Continuar explorando
+              </a>
+            </aside>
+          </div>
+        )}
+      </div>
+    );
+  }
+  function renderLogin() {
+    return (
+      <div className="login-page wrap">
+        <div className="login-story">
+          <span className="eyebrow">SUA COMUNIDADE. SEU HORIZONTE.</span>
+          <h1>
+            Bom ter você
+            <br />
+            por aqui.
+          </h1>
+          <p>
+            Um só lugar para encontrar equipamentos,
+            <br />
+            acompanhar pedidos e fazer novos negócios.
+          </p>
+          <div className="login-art">
+            <Wind size={70} />
+            <span>
+              O próximo voo
+              <br />
+              começa com você.
+            </span>
+          </div>
+          <DemoNote>
+            Acesso visual. Não use senhas ou dados pessoais reais.
+          </DemoNote>
+        </div>
+        <div className="login-card">
+          <span className="eyebrow">ACESSO DE DEMONSTRAÇÃO</span>
+          <h2>Entre na AzulSkye</h2>
+          <p>Escolha um perfil para explorar a experiência.</p>
+          <div className="demo-profiles">
+            {DEMO_ACCOUNTS.map((a) => (
+              <button
+                key={a.role}
+                onClick={() => {
+                  setUser(a);
+                  go(
+                    a.role === "client"
+                      ? params.get("retorno") === "sacola"
+                        ? "/sacola"
+                        : "/conta"
+                      : "/painel",
+                  );
+                  notify(`Bem-vindo ao perfil de ${a.label.toLowerCase()}.`);
+                }}
+              >
+                <span className={`profile-icon ${a.role}`}>
+                  {a.role === "client" ? (
+                    <UserRound />
+                  ) : a.role === "seller" ? (
+                    <Store />
+                  ) : (
+                    <LayoutDashboard />
+                  )}
+                </span>
+                <span>
+                  <strong>{a.label}</strong>
+                  <small>{a.email}</small>
+                </span>
+                <ArrowUpRight size={18} />
+              </button>
+            ))}
+          </div>
+          <div className="divider">
+            <span>ou use o formulário demonstrativo</span>
+          </div>
+          <LoginForm
+            onLogin={(a) => {
+              setUser(a);
+              go(
+                a.role === "client"
+                  ? params.get("retorno") === "sacola"
+                    ? "/sacola"
+                    : "/conta"
+                  : "/painel",
+              );
+            }}
+          />
+          <details className="credentials">
+            <summary>
+              Ver emails e senha de teste <ChevronDown size={14} />
+            </summary>
+            <p>
+              Senha para os três perfis: <code>{DEMO_PASSWORD}</code>
+            </p>
+            {DEMO_ACCOUNTS.map((a) => (
+              <p key={a.role}>
+                <strong>{a.label}:</strong> {a.email}
+              </p>
+            ))}
+          </details>
+          <p className="login-seller-link">
+            Quer vender seus equipamentos?{" "}
+            <a href="#/vender">Conheça o marketplace</a>
+          </p>
+        </div>
+      </div>
+    );
+  }
+  function renderSell() {
+    return (
+      <div className="wrap sell-page">
+        <div className="sell-intro">
+          <Tag>MARKETPLACE AZULSKYE</Tag>
+          <h1>
+            Seu equipamento.
+            <br />O próximo voo
+            <br />
+            <em>de alguém.</em>
+          </h1>
+          <p>
+            Abra sua loja e faça parte de uma comunidade que compartilha a
+            paixão por voar.
+          </p>
+          <div className="sell-steps">
+            {[
+              [
+                "01",
+                "Cadastre sua loja",
+                "Pessoa física ou empresa, você é bem-vindo.",
+              ],
+              [
+                "02",
+                "Passe pela aprovação",
+                "Cada vendedor e anúncio é analisado pela equipe.",
+              ],
+              [
+                "03",
+                "Prepare para decolar",
+                "Você cuida do envio dos seus equipamentos.",
+              ],
+            ].map(([n, t, p]) => (
+              <div key={n}>
+                <span>{n}</span>
+                <div>
+                  <h3>{t}</h3>
+                  <p>{p}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="registration-card">
+          <span className="eyebrow">FAÇA PARTE</span>
+          <h2>Quero ser vendedor</h2>
+          <p>Envie seu cadastro para conhecer o fluxo de aprovação.</p>
+          <DemoNote>
+            Formulário demonstrativo. Use somente dados fictícios.
+          </DemoNote>
+          <SellerRegistration
+            onSubmit={(form) => {
+              const id = crypto.randomUUID();
+              update((d) => ({
+                ...d,
+                sellers: [
+                  ...d.sellers,
+                  {
+                    ...form,
+                    id,
+                    status: "pending",
+                    initials: initials(form.store),
+                  },
+                ],
+                notifications: addNotification(
+                  d,
+                  "Novo pedido para vender",
+                  `${form.store} aguarda análise.`,
+                ),
+              }));
+              setModal({ type: "registrationSuccess" });
+            }}
+          />
+        </div>
+      </div>
+    );
+  }
+  function renderAccount() {
+    if (!user) return renderLogin();
+    const orders = data.orders.filter((o) => o.customerId === user.email);
+    const favorites = products.filter((p) => data.favorites.includes(p.id));
+    return (
+      <div className="wrap account-page">
+        <div className="account-welcome">
+          <div className="avatar">{initials(user.name)}</div>
+          <div>
+            <span className="eyebrow">SUA CONTA AZULSKYE</span>
+            <h1>Olá, {user.name.split(" ")[0]}.</h1>
+            <p>Tudo pronto para o seu próximo horizonte?</p>
+          </div>
+          <Button variant="outline" onClick={logout}>
+            <LogOut size={16} /> Sair
+          </Button>
+        </div>
+        <div className="account-links">
+          <button
+            onClick={() =>
+              document
+                .getElementById("my-orders")
+                .scrollIntoView({ behavior: "smooth" })
+            }
+          >
+            <Package />
+            <span>
+              Meus pedidos<small>Acompanhe suas compras</small>
+            </span>
+            <ArrowUpRight />
+          </button>
+          <button onClick={() => go("/favoritos")}>
+            <Heart />
+            <span>
+              Favoritos<small>{favorites.length} equipamentos salvos</small>
+            </span>
+            <ArrowUpRight />
+          </button>
+          <button onClick={openInstall}>
+            <Smartphone />
+            <span>
+              Aplicativo<small>Instale na tela inicial</small>
+            </span>
+            <ArrowUpRight />
+          </button>
+        </div>
+        <section id="my-orders" className="section">
+          {sectionHeading("ACOMPANHE POR AQUI", "Seus pedidos")}
+          <OrdersList
+            orders={orders}
+            onOpen={(o) => setModal({ type: "order", order: o })}
+          />
+        </section>
+        {favorites.length > 0 && (
+          <section className="section">
+            {sectionHeading(
+              "PARA O PRÓXIMO VOO",
+              "Seus favoritos",
+              "Ver todos",
+              "#/favoritos",
+            )}
+            <div className="product-grid">
+              {favorites.slice(0, 4).map(card)}
+            </div>
+          </section>
+        )}
+      </div>
+    );
+  }
+  function renderDashboard() {
+    if (!user || user.role === "client")
+      return (
+        <div className="wrap restricted">
+          <Empty
+            icon={ShieldCheck}
+            title="Seu painel de gestão"
+            text="Entre com o perfil demonstrativo de vendedor ou administrador para acessar esta área."
+          >
+            <a className="btn btn-primary" href="#/entrar">
+              Escolher acesso <ArrowRight size={16} />
+            </a>
+          </Empty>
+        </div>
+      );
+    const admin = user.role === "admin";
+    const tab = page.split("/")[2] || "visao-geral";
+    const tabs = [
+      { id: "visao-geral", label: "Visão geral", icon: LayoutDashboard },
+      { id: "pedidos", label: "Pedidos", icon: ShoppingBag },
+      {
+        id: "produtos",
+        label: admin ? "Catálogo e anúncios" : "Meus produtos",
+        icon: Package,
+      },
+      ...(admin
+        ? [{ id: "vendedores", label: "Vendedores", icon: UsersRound }]
+        : []),
+      { id: "financeiro", label: "Financeiro", icon: TrendingUp },
+      { id: "configuracoes", label: "Configurações", icon: Settings2 },
+    ];
+    const title = tabs.find((t) => t.id === tab)?.label || "Visão geral";
+    const orders = admin
+      ? data.orders
+      : data.orders.filter((o) => o.sellerId === user.sellerId);
+    const revenue = orders
+      .filter((o) =>
+        ["Pago", "Em preparação", "Enviado", "Entregue"].includes(o.status),
+      )
+      .reduce((s, o) => s + o.total, 0);
+    const vendorRequests = data.sellers.filter((s) => s.status === "pending");
+    const listings = admin
+      ? data.listings
+      : data.listings.filter((p) => p.sellerId === user.sellerId);
+    const pendingProducts = listings.filter((p) => p.status === "pending");
+    return (
+      <div className="dashboard-shell">
+        <aside className="dashboard-sidebar">
+          <div className="workspace-label">
+            <span className="workspace-icon">
+              {admin ? <Compass size={22} /> : <Store size={22} />}
+            </span>
+            <div>
+              <strong>
+                {admin ? "AzulSkye" : user.store}
+                <ChevronDown size={13} />
+              </strong>
+              <small>{admin ? "Administração" : "Painel do vendedor"}</small>
+            </div>
+          </div>
+          <span className="nav-caption">SEU ESPAÇO DE GESTÃO</span>
+          <nav>
+            {tabs.map((t) => (
+              <a
+                key={t.id}
+                href={`#/painel/${t.id}`}
+                className={tab === t.id ? "active" : ""}
+              >
+                <t.icon size={19} />
+                {t.label}
+                {t.id === "vendedores" && vendorRequests.length > 0 && (
+                  <b>{vendorRequests.length}</b>
+                )}
+              </a>
+            ))}
+          </nav>
+          <div className="sidebar-bottom">
+            <div className="sidebar-install">
+              <Smartphone size={24} />
+              <strong>Sua gestão, com você.</strong>
+              <p>Acesse direto da tela inicial.</p>
+              <button onClick={openInstall}>
+                Instalar aplicativo <ArrowUpRight size={14} />
+              </button>
+            </div>
+            <a href="#/">
+              <ArrowUpRight size={17} /> Visitar a loja
+            </a>
+            <button onClick={logout}>
+              <LogOut size={17} /> Sair da conta
+            </button>
+          </div>
+        </aside>
+        <main className="dashboard-main">
+          <div className="dashboard-topline">
+            <span>PAINEL {admin ? "ADMINISTRATIVO" : "DO VENDEDOR"}</span>
+            <div>
+              <Tag tone="neutral">Demonstração</Tag>
+              <button
+                className="icon-btn notification-button"
+                aria-label="Ver notificações"
+                onClick={() => setModal({ type: "notifications" })}
+              >
+                <Bell size={20} />
+                {unread > 0 && <i />}
+              </button>
+              <div className="avatar small">{initials(user.name)}</div>
+            </div>
+          </div>
+          <div className="dashboard-heading">
+            <div>
+              <p>
+                {new Date().toLocaleDateString("pt-BR", {
+                  weekday: "long",
+                  day: "numeric",
+                  month: "long",
+                  timeZone: "America/Sao_Paulo",
+                })}
+              </p>
+              <h1>
+                {tab === "visao-geral"
+                  ? `Bom voo, ${admin ? "equipe AzulSkye" : user.name.split(" ")[0]}.`
+                  : title}
+              </h1>
+              <span>
+                {tab === "visao-geral"
+                  ? "Seu negócio visto de cima. Acompanhe cada movimento."
+                  : "Organize sua operação com tudo no mesmo lugar."}
+              </span>
+            </div>
+            {["visao-geral", "produtos"].includes(tab) && (
+              <Button
+                onClick={() =>
+                  setModal({ type: "productForm", official: admin })
+                }
+              >
+                <Plus size={17} /> Novo produto
+              </Button>
+            )}
+          </div>
+          <DemoNote>
+            Os indicadores e pedidos abaixo são exemplos. Nenhum pagamento foi
+            processado.
+          </DemoNote>
+          {tab === "visao-geral" && (
+            <>
+              <div className="metrics-grid">
+                <Metric
+                  label="Vendas demonstrativas"
+                  value={money(revenue)}
+                  icon={TrendingUp}
+                  detail="Pedidos pagos e em atendimento"
+                />
+                <Metric
+                  label="Pedidos"
+                  value={String(orders.length).padStart(2, "0")}
+                  icon={ShoppingBag}
+                  detail="Neste ambiente de demonstração"
+                />
+                <Metric
+                  label={admin ? "Vendedores ativos" : "Anúncios publicados"}
+                  value={String(
+                    admin
+                      ? data.sellers.filter((s) => s.status === "approved")
+                          .length
+                      : listings.filter((p) => p.status === "approved").length,
+                  ).padStart(2, "0")}
+                  icon={admin ? UsersRound : Store}
+                  detail={
+                    admin
+                      ? `${vendorRequests.length} aguardando aprovação`
+                      : `${pendingProducts.length} em análise`
+                  }
+                />
+                <Metric
+                  label={
+                    admin
+                      ? "Produtos da loja oficial"
+                      : "Comissão da plataforma"
+                  }
+                  value={
+                    admin
+                      ? String(
+                          officialProducts.length +
+                            data.listings.filter((p) => p.official).length,
+                        )
+                      : `${data.commission}%`
+                  }
+                  icon={admin ? Package : CreditCard}
+                  detail={
+                    admin
+                      ? "Importados do seu catálogo"
+                      : "Percentual demonstrativo"
+                  }
+                />
+              </div>
+              <div className="dashboard-middle">
+                <section className="panel chart-panel">
+                  <div className="panel-head">
+                    <div>
+                      <h2>Vendas por vendedor</h2>
+                      <p>Distribuição dos pedidos de exemplo</p>
+                    </div>
+                    <Tag tone="neutral">Dados demonstrativos</Tag>
+                  </div>
+                  <div className="chart-total">
+                    {money(revenue)}
+                    <span>em pedidos em atendimento</span>
+                  </div>
+                  <div className="bar-chart">
+                    {[...new Set(orders.map((o) => o.seller))].map(
+                      (seller, i) => {
+                        const value = orders
+                          .filter(
+                            (o) =>
+                              o.seller === seller &&
+                              o.status !== "Cancelado" &&
+                              o.status !== "Aguardando pagamento",
+                          )
+                          .reduce((s, o) => s + o.total, 0);
+                        return (
+                          <div className="chart-bar-item" key={seller}>
+                            <div className="chart-bar-track">
+                              <div
+                                style={{
+                                  height: `${Math.max(3, (value / Math.max(revenue, 1)) * 100)}%`,
+                                }}
+                                className={i % 2 ? "light" : ""}
+                              >
+                                <span>{money(value)}</span>
+                              </div>
+                            </div>
+                            <span>{seller}</span>
+                          </div>
+                        );
+                      },
+                    )}
+                  </div>
+                </section>
+                <section className="panel actions-panel">
+                  <div className="panel-head">
+                    <div>
+                      <h2>Seu próximo passo</h2>
+                      <p>O que precisa da sua atenção</p>
+                    </div>
+                    <Compass size={22} />
+                  </div>
+                  {admin && (
+                    <button
+                      className="action-item"
+                      onClick={() => go("/painel/vendedores")}
+                    >
+                      <span className="action-icon amber">
+                        <UsersRound size={20} />
+                      </span>
+                      <span>
+                        <strong>
+                          {vendorRequests.length} pedidos para vender
+                        </strong>
+                        <small>Analise os novos cadastros</small>
+                      </span>
+                      <ChevronRight size={17} />
+                    </button>
+                  )}
+                  <button
+                    className="action-item"
+                    onClick={() => go("/painel/produtos")}
+                  >
+                    <span className="action-icon">
+                      <Package size={20} />
+                    </span>
+                    <span>
+                      <strong>
+                        {pendingProducts.length} anúncios em análise
+                      </strong>
+                      <small>
+                        {admin
+                          ? "Revise antes de publicar"
+                          : "Acompanhe suas publicações"}
+                      </small>
+                    </span>
+                    <ChevronRight size={17} />
+                  </button>
+                  <button
+                    className="action-item"
+                    onClick={() => go("/painel/configuracoes")}
+                  >
+                    <span className="action-icon">
+                      <CreditCard size={20} />
+                    </span>
+                    <span>
+                      <strong>Conectar a Woovi</strong>
+                      <small>Disponível na etapa de integração</small>
+                    </span>
+                    <ChevronRight size={17} />
+                  </button>
+                  <div className="action-tip">
+                    <Wind size={23} />
+                    <p>
+                      Cada detalhe bem cuidado leva o seu negócio mais longe.
+                    </p>
+                  </div>
+                </section>
+              </div>
+              <section className="panel">
+                <div className="panel-head">
+                  <div>
+                    <h2>Pedidos recentes</h2>
+                    <p>Acompanhe as últimas movimentações</p>
+                  </div>
+                  <a className="text-link" href="#/painel/pedidos">
+                    Ver todos <ArrowUpRight size={16} />
+                  </a>
+                </div>
+                <OrdersList
+                  orders={orders.slice(0, 5)}
+                  onOpen={(o) => setModal({ type: "order", order: o })}
+                />
+              </section>
+            </>
+          )}
+          {tab === "pedidos" && (
+            <section className="panel">
+              <div className="panel-head">
+                <h2>
+                  Todos os pedidos{" "}
+                  <span className="count-inline">{orders.length}</span>
+                </h2>
+                <Tag tone="neutral">Exemplos</Tag>
+              </div>
+              <OrdersList
+                orders={orders}
+                onOpen={(o) => setModal({ type: "order", order: o })}
+              />
+            </section>
+          )}
+          {tab === "vendedores" && admin && (
+            <div className="seller-management">
+              <div className="section-heading">
+                <h2>Cadastros de vendedores</h2>
+                <Tag tone="amber">{vendorRequests.length} em análise</Tag>
+              </div>
+              {data.sellers.map((s) => (
+                <article className="panel seller-request" key={s.id}>
+                  <div className="avatar">{s.initials}</div>
+                  <div className="seller-request-info">
+                    <h3>{s.store}</h3>
+                    <p>
+                      {s.name} · {s.documentType}
+                    </p>
+                    <span>
+                      <MapPin size={13} />
+                      {s.city}
+                    </span>
+                    <small>{s.email}</small>
+                  </div>
+                  <Tag
+                    tone={
+                      s.status === "pending"
+                        ? "amber"
+                        : s.status === "approved"
+                          ? "green"
+                          : "red"
+                    }
+                  >
+                    {s.status === "pending"
+                      ? "Em análise"
+                      : s.status === "approved"
+                        ? "Aprovado"
+                        : "Recusado"}
+                  </Tag>
+                  <div className="seller-request-actions">
+                    <Button
+                      variant="outline"
+                      onClick={() =>
+                        setModal({ type: "sellerDetail", seller: s })
+                      }
+                    >
+                      <Eye size={16} /> Ver cadastro
+                    </Button>
+                    {s.status === "pending" && (
+                      <>
+                        <Button
+                          variant="outline"
+                          onClick={() => changeSeller(s.id, "rejected")}
+                        >
+                          <X size={16} /> Recusar
+                        </Button>
+                        <Button onClick={() => changeSeller(s.id, "approved")}>
+                          <Check size={16} /> Aprovar
+                        </Button>
+                      </>
+                    )}
+                    {s.status === "approved" && (
+                      <Button
+                        variant="outline"
+                        onClick={() => changeSeller(s.id, "rejected")}
+                      >
+                        Suspender
+                      </Button>
+                    )}
+                    {s.status === "rejected" && (
+                      <Button onClick={() => changeSeller(s.id, "approved")}>
+                        Aprovar cadastro
+                      </Button>
+                    )}
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
+          {tab === "produtos" && (
+            <section className="panel">
+              <div className="panel-head">
+                <div>
+                  <h2>{admin ? "Anúncios do marketplace" : "Seus anúncios"}</h2>
+                  <p>
+                    {admin
+                      ? "A publicação depende da aprovação do vendedor e do anúncio."
+                      : "Novos produtos passam pela análise da equipe AzulSkye."}
+                  </p>
+                </div>
+              </div>
+              {listings.length ? (
+                listings.map((p) => (
+                  <div className="manage-product" key={p.id}>
+                    <img src={p.image} alt={p.name} />
+                    <div>
+                      <h3>{p.name}</h3>
+                      <p>
+                        {p.seller} · {p.condition}
+                      </p>
+                      <strong>{money(p.price)}</strong>
+                    </div>
+                    <Tag
+                      tone={
+                        p.status === "pending"
+                          ? "amber"
+                          : p.status === "approved"
+                            ? "green"
+                            : "red"
+                      }
+                    >
+                      {p.status === "pending"
+                        ? "Em análise"
+                        : p.status === "approved"
+                          ? "Publicado"
+                          : "Recusado"}
+                    </Tag>
+                    <div className="button-row">
+                      <button
+                        className="icon-btn"
+                        aria-label={`Editar ${p.name}`}
+                        onClick={() =>
+                          setModal({
+                            type: "productForm",
+                            product: p,
+                            official: p.official,
+                          })
+                        }
+                      >
+                        <Settings2 size={17} />
+                      </button>
+                      {admin && p.status !== "approved" && (
+                        <Button
+                          disabled={
+                            !p.official &&
+                            data.sellers.find((s) => s.id === p.sellerId)
+                              ?.status !== "approved"
+                          }
+                          onClick={() => changeListing(p.id, "approved")}
+                        >
+                          <Check size={15} /> Aprovar
+                        </Button>
+                      )}
+                      {admin && p.status === "pending" && (
+                        <button
+                          className="icon-btn"
+                          aria-label={`Recusar ${p.name}`}
+                          onClick={() => changeListing(p.id, "rejected")}
+                        >
+                          <X size={18} />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <Empty
+                  title="Seu primeiro anúncio está por vir"
+                  text="Cadastre um produto com fotos e informações completas."
+                >
+                  <Button
+                    onClick={() =>
+                      setModal({ type: "productForm", official: admin })
+                    }
+                  >
+                    <Plus size={16} /> Cadastrar produto
+                  </Button>
+                </Empty>
+              )}
+              {admin && (
+                <div className="official-catalog-summary">
+                  <BadgeCheck size={22} />
+                  <div>
+                    <strong>
+                      {officialProducts.length} produtos originais da AzulSkye
+                    </strong>
+                    <p>
+                      Catálogo importado com preços e fotos. Explore os produtos
+                      na loja oficial.
+                    </p>
+                  </div>
+                  <a
+                    className="btn btn-outline"
+                    href="#/catalogo?origem=official"
+                  >
+                    Ver catálogo <ArrowUpRight size={16} />
+                  </a>
+                </div>
+              )}
+            </section>
+          )}
+          {tab === "financeiro" && (
+            <>
+              <div className="metrics-grid three">
+                <Metric
+                  label="Vendas de exemplo"
+                  value={money(revenue)}
+                  icon={TrendingUp}
+                  detail="Sem transações financeiras reais"
+                />
+                <Metric
+                  label={
+                    admin
+                      ? "Comissão estimada de terceiros"
+                      : "Comissão estimada"
+                  }
+                  value={money(
+                    orders
+                      .filter((o) => o.sellerId !== "official")
+                      .reduce(
+                        (s, o) =>
+                          s +
+                          (o.status === "Cancelado"
+                            ? 0
+                            : (o.total * data.commission) / 100),
+                        0,
+                      ),
+                  )}
+                  icon={CreditCard}
+                  detail={`${data.commission}% · simulação, sem repasse`}
+                />
+                <Metric
+                  label="Saldo real"
+                  value="Não conectado"
+                  icon={ShieldCheck}
+                  detail="Aguardando integração Woovi"
+                />
+              </div>
+              <section className="panel integration-card">
+                <div className="integration-logo">W</div>
+                <div>
+                  <Tag tone="amber">NÃO CONECTADO</Tag>
+                  <h2>Pagamentos com Woovi</h2>
+                  <p>
+                    O saldo, a confirmação de pagamentos e os repasses
+                    aparecerão após a criação e habilitação da conta e
+                    implementação da integração.
+                  </p>
+                </div>
+              </section>
+            </>
+          )}
+          {tab === "configuracoes" && (
+            <div className="settings-grid">
+              {admin && (
+                <section className="panel settings-panel">
+                  <span className="eyebrow">MODELO DE NEGÓCIO</span>
+                  <h2>Comissão do marketplace</h2>
+                  <p>
+                    Percentual aplicado às vendas de terceiros. As vendas da
+                    loja oficial ficam separadas.
+                  </p>
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      const value = Number(
+                        new FormData(e.currentTarget).get("commission"),
+                      );
+                      if (
+                        Number.isFinite(value) &&
+                        value >= 0 &&
+                        value <= 100
+                      ) {
+                        update({ commission: value });
+                        notify("Comissão salva na demonstração.");
+                      }
+                    }}
+                  >
+                    <Field
+                      label="Comissão por venda (%)"
+                      name="commission"
+                      type="number"
+                      min="0"
+                      max="100"
+                      step="0.1"
+                      defaultValue={data.commission}
+                      required
+                    />
+                    <Button type="submit">
+                      Salvar comissão <Check size={16} />
+                    </Button>
+                  </form>
+                </section>
+              )}
+              <section className="panel settings-panel">
+                <span className="eyebrow">SEMPRE POR PERTO</span>
+                <h2>Aplicativo no celular</h2>
+                <p>
+                  Instale a AzulSkye na tela inicial e acesse a loja e o painel
+                  pelo navegador.
+                </p>
+                <Button onClick={openInstall}>
+                  <Smartphone size={17} /> Instalar aplicativo
+                </Button>
+                <div className="settings-notice">
+                  <Bell size={20} />
+                  <div>
+                    <strong>Notificações</strong>
+                    <p>
+                      A central visual já está disponível. Push real de vendas
+                      será implementado junto ao servidor e aos pagamentos.
+                    </p>
+                  </div>
+                </div>
+              </section>
+              <section className="panel settings-panel">
+                <span className="eyebrow">INTEGRAÇÕES</span>
+                <h2>Próximas conexões</h2>
+                {[
+                  ["Woovi", "Conta ainda não criada"],
+                  ["Frete e rastreamento", "A integrar"],
+                  ["Google e email", "Login visual nesta etapa"],
+                  ["Domínio azulsky.com", "Configurar na Vercel"],
+                ].map(([name, state]) => (
+                  <div className="integration-row" key={name}>
+                    <strong>{name}</strong>
+                    <Tag tone="neutral">{state}</Tag>
+                  </div>
+                ))}
+              </section>
+              <section className="panel settings-panel">
+                <span className="eyebrow">DEMONSTRAÇÃO LOCAL</span>
+                <h2>Recomece a exploração</h2>
+                <p>
+                  Restaure produtos demonstrativos, pedidos, favoritos,
+                  aprovações e comissão neste navegador.
+                </p>
+                <Button
+                  variant="outline"
+                  onClick={() => setModal({ type: "reset" })}
+                >
+                  <RefreshCw size={16} /> Restaurar demonstração
+                </Button>
+              </section>
+            </div>
+          )}
+          <div className="dashboard-footnote">
+            <Brand compact />
+            <span>AzulSkye · gestão com os pés no chão e os olhos no céu.</span>
+          </div>
+        </main>
+      </div>
+    );
+  }
+  function renderModal() {
+    if (!modal) return null;
+    const close = () => setModal(null);
+    return (
+      <Dialog
+        title={
+          {
+            install: "AzulSkye na tela inicial",
+            filters: "Filtrar produtos",
+            notifications: "Sua central de notificações",
+            productForm: modal.product ? "Editar produto" : "Cadastrar produto",
+            checkout: "Simular compra",
+            registrationSuccess: "Cadastro enviado",
+            order: "Detalhes do pedido",
+            sellerDetail: "Cadastro do vendedor",
+            reset: "Restaurar demonstração",
+          }[modal.type]
+        }
+        close={close}
+        wide={modal.type === "productForm"}
+      >
+        {modal.type === "install" && (
+          <div className="install-instructions">
+            <img
+              src="/icon-192.png"
+              alt="Ícone AzulSkye"
+              width="76"
+              height="76"
+            />
+            <h3>Seu próximo voo, a um toque.</h3>
+            <p>Acesse este site pelo navegador do celular para instalar.</p>
+            <ol>
+              <li>
+                <strong>iPhone / iPad</strong>
+                <span>
+                  No Safari, toque em Compartilhar e depois em “Adicionar à Tela
+                  de Início”.
+                </span>
+              </li>
+              <li>
+                <strong>Android</strong>
+                <span>
+                  No Chrome, abra o menu ⋮ e escolha “Instalar aplicativo” ou
+                  “Adicionar à tela inicial”.
+                </span>
+              </li>
+              <li>
+                <strong>Computador</strong>
+                <span>
+                  Em navegadores compatíveis, procure o ícone de instalação na
+                  barra de endereços.
+                </span>
+              </li>
+            </ol>
+            <DemoNote>
+              A instalação funciona em HTTPS ou localhost. Notificações de
+              vendas reais serão conectadas na próxima etapa.
+            </DemoNote>
+          </div>
+        )}
+        {modal.type === "filters" && (
+          <>
+            {renderFilters()}
+            <Button className="full" onClick={close}>
+              Ver resultados <ArrowRight size={16} />
+            </Button>
+          </>
+        )}
+        {modal.type === "notifications" && (
+          <div className="notification-list">
+            <DemoNote>
+              Central demonstrativa, sem notificações push reais.
+            </DemoNote>
+            <button
+              className="text-link"
+              onClick={() =>
+                update((d) => ({
+                  ...d,
+                  notifications: d.notifications.map((n) => ({
+                    ...n,
+                    read: true,
+                  })),
+                }))
+              }
+            >
+              <CheckCheck size={16} /> Marcar todas como lidas
+            </button>
+            {data.notifications.map((n) => (
+              <article key={n.id} className={n.read ? "read" : ""}>
+                <span className="notification-icon">
+                  <Bell size={18} />
+                </span>
+                <div>
+                  <h3>{n.title}</h3>
+                  <p>{n.text}</p>
+                </div>
+                {!n.read && <span className="status-dot" />}
+              </article>
+            ))}
+          </div>
+        )}
+        {modal.type === "productForm" && (
+          <ProductForm
+            product={modal.product}
+            onSubmit={(form) => {
+              const approvedSeller =
+                user.role === "admin" ||
+                data.sellers.find((s) => s.id === user.sellerId)?.status ===
+                  "approved";
+              if (!approvedSeller)
+                return notify(
+                  "Seu cadastro de vendedor precisa estar aprovado.",
+                );
+              const p = {
+                ...form,
+                id: modal.product?.id || `local-${crypto.randomUUID()}`,
+                seller:
+                  modal.product?.seller ||
+                  (modal.official ? "AzulSkye" : user.store),
+                sellerId:
+                  modal.product?.sellerId ||
+                  (modal.official ? "official" : user.sellerId),
+                official: !!modal.official,
+                status: modal.official ? "approved" : "pending",
+                stock: Number(form.quantity) > 0,
+                price: Number(form.price),
+                categories: [form.category],
+                sku: form.sku || "",
+                image: form.image,
+              };
+              update((d) => ({
+                ...d,
+                listings: modal.product
+                  ? d.listings.map((l) => (l.id === modal.product.id ? p : l))
+                  : [...d.listings, p],
+                notifications: addNotification(
+                  d,
+                  modal.official
+                    ? "Produto cadastrado"
+                    : "Anúncio enviado para análise",
+                  p.name,
+                ),
+              }));
+              close();
+              notify(
+                modal.official
+                  ? "Produto da loja oficial cadastrado."
+                  : "Produto enviado para aprovação.",
+              );
+            }}
+          />
+        )}
+        {modal.type === "checkout" && (
+          <Checkout
+            cart={data.cart}
+            products={products}
+            onSubmit={(form) => {
+              const groups = orderGroups(data.cart, products);
+              const stamp = Date.now();
+              const orders = groups.map((g, index) => ({
+                id: `AZ-TESTE-${stamp.toString().slice(-6)}-${index + 1}`,
+                date: new Date().toISOString(),
+                customer: user.name,
+                customerId: user.email,
+                seller: g.seller,
+                sellerId: g.sellerId,
+                total: g.total,
+                items: g.items,
+                status: "Aguardando pagamento",
+                demo: true,
+                delivery: form,
+              }));
+              update((d) => ({
+                ...d,
+                cart: [],
+                orders: [...orders, ...d.orders],
+                notifications: addNotification(
+                  d,
+                  "Novo pedido de teste",
+                  `${orders.length} pedido(s) criado(s) sem cobrança.`,
+                ),
+              }));
+              close();
+              go(user.role === "client" ? "/conta" : "/painel/pedidos");
+              notify(
+                "Pedido de teste criado. Nenhum pagamento foi solicitado.",
+              );
+            }}
+          />
+        )}
+        {modal.type === "registrationSuccess" && (
+          <div className="success-state">
+            <CheckCircle2 size={52} />
+            <h3>Sua loja está na fila de embarque.</h3>
+            <p>
+              O cadastro de teste foi enviado para análise. Entre como
+              administrador para aprovar ou recusar a solicitação.
+            </p>
+            <DemoNote>
+              Nenhum email foi enviado. O cadastro está salvo apenas neste
+              navegador.
+            </DemoNote>
+            <Button
+              className="full"
+              onClick={() => {
+                close();
+                go("/entrar");
+              }}
+            >
+              Explorar os acessos <ArrowRight size={16} />
+            </Button>
+          </div>
+        )}
+        {modal.type === "sellerDetail" && (
+          <>
+            <Tag tone="neutral">Cadastro de demonstração</Tag>
+            <dl className="specs">
+              {[
+                ["Loja", modal.seller.store],
+                ["Responsável", modal.seller.name],
+                ["Tipo de cadastro", modal.seller.documentType],
+                ["Email", modal.seller.email],
+                ["Localização", modal.seller.city],
+                ["Apresentação", modal.seller.bio || "Não informada"],
+              ].map(([k, v]) => (
+                <div key={k}>
+                  <dt>{k}</dt>
+                  <dd>{v}</dd>
+                </div>
+              ))}
+            </dl>
+            <p className="muted">
+              Documentação e verificação financeira serão integradas na versão
+              com servidor.
+            </p>
+          </>
+        )}
+        {modal.type === "order" &&
+          (() => {
+            const o =
+              data.orders.find((o) => o.id === modal.order.id) || modal.order;
+            const manage =
+              user?.role === "admin" ||
+              (user?.role === "seller" && user.sellerId === o.sellerId);
+            return (
+              <>
+                <DemoNote>
+                  Pedido de teste. Sem comprovação de pagamento real.
+                </DemoNote>
+                <div className="order-modal-title">
+                  <strong>{o.id}</strong>
+                  <Tag
+                    tone={
+                      o.status === "Cancelado"
+                        ? "red"
+                        : o.status === "Aguardando pagamento"
+                          ? "amber"
+                          : "green"
+                    }
+                  >
+                    {o.status}
+                  </Tag>
+                </div>
+                <p className="muted">
+                  {o.customer} · {date(o.date)} · {o.seller}
+                </p>
+                {o.items.map((p) => (
+                  <div className="order-item" key={p.id}>
+                    <img src={p.image} alt="" />
+                    <div>
+                      <strong>{p.name}</strong>
+                      <small>Quantidade: {p.quantity}</small>
+                    </div>
+                    <span>{money(p.price * p.quantity)}</span>
+                  </div>
+                ))}
+                <div className="summary-total">
+                  <span>Subtotal dos produtos</span>
+                  <strong>{money(o.total)}</strong>
+                </div>
+                {o.tracking && (
+                  <p className="tracking">
+                    <Truck size={16} /> {o.tracking}
+                  </p>
+                )}
+                {manage && (
+                  <form
+                    className="order-edit"
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      const f = new FormData(e.currentTarget);
+                      changeOrder(o.id, f.get("status"), f.get("tracking"));
+                    }}
+                  >
+                    <Field label="Status demonstrativo">
+                      <select name="status" defaultValue={o.status}>
+                        {[
+                          "Aguardando pagamento",
+                          "Pago",
+                          "Em preparação",
+                          "Enviado",
+                          "Entregue",
+                          "Cancelado",
+                        ].map((s) => (
+                          <option key={s}>{s}</option>
+                        ))}
+                      </select>
+                    </Field>
+                    <Field
+                      label="Código de rastreio (exemplo)"
+                      name="tracking"
+                      defaultValue={o.tracking || ""}
+                    />
+                    <Button type="submit">
+                      Atualizar pedido de teste <Check size={16} />
+                    </Button>
+                  </form>
+                )}
+              </>
+            );
+          })()}
+        {modal.type === "reset" && (
+          <>
+            <p>
+              Isso apaga as alterações demonstrativas deste navegador e restaura
+              os exemplos iniciais. O catálogo original será preservado.
+            </p>
+            <div className="button-row">
+              <Button variant="outline" onClick={close}>
+                Voltar
+              </Button>
+              <Button onClick={reset}>Restaurar exemplos</Button>
+            </div>
+          </>
+        )}
+      </Dialog>
+    );
+  }
+  return (
+    <>
+      <a
+        className="skip-link"
+        href="#main-content"
+        onClick={(e) => {
+          e.preventDefault();
+          document.getElementById("main-content").focus();
+        }}
+      >
+        Pular para o conteúdo
+      </a>
+      <div className="announcement">
+        <span>UM NOVO HORIZONTE PARA QUEM VOA.</span>
+        <span className="announcement-right">
+          Loja oficial & marketplace <span>↗</span>
+        </span>
+      </div>
+      <header className={`site-header ${dashboard ? "compact-header" : ""}`}>
+        <div className="header-main wrap">
+          <button
+            className="icon-btn mobile-menu-toggle"
+            aria-label="Abrir menu"
+            onClick={() => setMobileMenu(!mobileMenu)}
+          >
+            <Menu size={23} />
+          </button>
+          <Brand />
+          <form className="header-search" onSubmit={submitSearch}>
+            <Search size={19} />
+            <input
+              aria-label="Buscar equipamentos"
+              placeholder="O que vai no seu próximo voo?"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <kbd>↵</kbd>
+          </form>
+          <div className="header-actions">
+            <a className="sell-link" href="#/vender">
+              Venda na AzulSkye <ArrowUpRight size={15} />
+            </a>
+            <a
+              className="header-account"
+              href={
+                user
+                  ? user.role === "client"
+                    ? "#/conta"
+                    : "#/painel"
+                  : "#/entrar"
+              }
+              aria-label={user ? "Acessar minha conta" : "Entrar"}
+            >
+              <UserRound size={21} />
+              <span>
+                <small>
+                  {user
+                    ? `Olá, ${user.name.split(" ")[0]}`
+                    : "Bem-vindo a bordo"}
+                </small>
+                <strong>
+                  {user ? ROLE_NAMES[user.role] : "Entre ou cadastre-se"}
+                </strong>
+              </span>
+            </a>
+            <a
+              href="#/favoritos"
+              className="icon-btn favorites-header"
+              aria-label="Favoritos"
+            >
+              <Heart size={21} />
+            </a>
+            <a
+              href="#/sacola"
+              className="icon-btn bag-button"
+              aria-label={`Sacola com ${cartCount} produtos`}
+            >
+              <ShoppingBag size={21} />
+              {cartCount > 0 && <b>{cartCount}</b>}
+            </a>
+          </div>
+        </div>
+        {!dashboard && (
+          <nav className="desktop-nav wrap">
+            <a href="#/catalogo" className="all-categories">
+              <Menu size={17} /> Todas as categorias <ChevronDown size={13} />
+            </a>
+            {["Paramotores", "Peças", "Asas", "Hélices", "Estruturas"].map(
+              (c) => (
+                <a
+                  key={c}
+                  href={`#/catalogo?categoria=${encodeURIComponent(c)}`}
+                >
+                  {c}
+                </a>
+              ),
+            )}
+            <a
+              className={
+                page === "/marketplace" ? "nav-market active" : "nav-market"
+              }
+              href="#/marketplace"
+            >
+              <span /> Marketplace <ArrowUpRight size={14} />
+            </a>
+          </nav>
+        )}
+      </header>
+      {mobileMenu && (
+        <div className="mobile-menu">
+          <div>
+            <Brand />
+            <button
+              className="icon-btn"
+              aria-label="Fechar menu"
+              onClick={() => setMobileMenu(false)}
+            >
+              <X />
+            </button>
+          </div>
+          <form className="header-search" onSubmit={submitSearch}>
+            <Search size={18} />
+            <input
+              placeholder="Buscar equipamentos"
+              aria-label="Buscar no menu"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <button className="icon-btn" aria-label="Buscar">
+              <ArrowRight size={18} />
+            </button>
+          </form>
+          <a href="#/catalogo">
+            Loja oficial <ArrowUpRight size={18} />
+          </a>
+          <a href="#/marketplace">
+            Marketplace <ArrowUpRight size={18} />
+          </a>
+          <a href="#/vender">
+            Quero vender <ArrowUpRight size={18} />
+          </a>
+          <a href="#/entrar">
+            Acessos de demonstração <UserRound size={18} />
+          </a>
+          <button
+            onClick={() => {
+              setMobileMenu(false);
+              openInstall();
+            }}
+          >
+            Instalar aplicativo <Download size={18} />
+          </button>
+        </div>
+      )}
+      <main id="main-content" tabIndex={-1}>
+        {page === "/" ? (
+          renderHome()
+        ) : ["/catalogo", "/marketplace"].includes(page) ? (
+          renderCatalog()
+        ) : page.startsWith("/produto/") ? (
+          renderProduct(selected)
+        ) : page === "/sacola" ? (
+          renderCart()
+        ) : page === "/entrar" ? (
+          renderLogin()
+        ) : page === "/vender" ? (
+          renderSell()
+        ) : page === "/conta" ? (
+          renderAccount()
+        ) : page === "/favoritos" ? (
+          <section className="wrap section favorites-page">
+            {sectionHeading("SUAS ESCOLHAS", "Favoritos para o próximo voo.")}
+            <div className="product-grid">
+              {products
+                .filter(
+                  (p) =>
+                    data.favorites.includes(p.id) &&
+                    (p.official || p.status === "approved"),
+                )
+                .map(card)}
+            </div>
+            {!data.favorites.length && (
+              <Empty
+                icon={Heart}
+                title="Guarde o que faz seus olhos brilharem"
+                text="Toque no coração de um produto para encontrá-lo aqui."
+              >
+                <a className="btn btn-primary" href="#/catalogo">
+                  Explorar produtos
+                </a>
+              </Empty>
+            )}
+          </section>
+        ) : dashboard ? (
+          renderDashboard()
+        ) : (
+          <Empty
+            title="Esse horizonte ainda não existe"
+            text="Volte à loja para continuar explorando."
+          >
+            <a className="btn btn-primary" href="#/">
+              Ir para o início
+            </a>
+          </Empty>
+        )}
+      </main>
+      {!dashboard && (
+        <footer className="site-footer">
+          <div className="wrap footer-main">
+            <div className="footer-brand">
+              <Brand light />
+              <p>
+                Paramotores, peças e acessórios.
+                <br />
+                Para quem vive a liberdade de voar.
+              </p>
+              <span>Equipados para ir além.</span>
+            </div>
+            <div>
+              <h3>Explore a AzulSkye</h3>
+              <a href="#/catalogo?origem=official">Loja oficial</a>
+              <a href="#/marketplace">Marketplace</a>
+              <a href="#/catalogo">Todas as categorias</a>
+            </div>
+            <div>
+              <h3>Seu espaço</h3>
+              <a href="#/conta">Minha conta</a>
+              <a href="#/favoritos">Favoritos</a>
+              <a href="#/vender">Seja um vendedor</a>
+              <a href="#/entrar">Acessos de demonstração</a>
+            </div>
+            <div className="footer-app">
+              <h3>Nos vemos no próximo voo.</h3>
+              <p>Leve a AzulSkye para a tela inicial.</p>
+              <button onClick={openInstall}>
+                <Smartphone size={19} /> Adicionar aplicativo{" "}
+                <ArrowUpRight size={17} />
+              </button>
+            </div>
+          </div>
+          <div className="wrap footer-bottom">
+            <span>
+              © {new Date().getFullYear()} AzulSkye. Todos os direitos
+              reservados.
+            </span>
+            <span>Prévia visual · sem pagamentos reais</span>
+            <a href="https://azulsky.com/" target="_blank" rel="noreferrer">
+              azulsky.com <ArrowUpRight size={12} />
+            </a>
+          </div>
+        </footer>
+      )}
+      <nav
+        className="mobile-bottom"
+        aria-label="Navegação principal no celular"
+      >
+        <a href="#/" className={page === "/" ? "active" : ""}>
+          <Compass size={21} />
+          <span>Início</span>
+        </a>
+        <a href="#/catalogo" className={page === "/catalogo" ? "active" : ""}>
+          <Search size={21} />
+          <span>Explorar</span>
+        </a>
+        <a
+          href="#/marketplace"
+          className={page === "/marketplace" ? "active" : ""}
+        >
+          <Store size={21} />
+          <span>Marketplace</span>
+        </a>
+        <a href="#/sacola" className={page === "/sacola" ? "active" : ""}>
+          <span className="mobile-bag">
+            <ShoppingBag size={21} />
+            {cartCount > 0 && <i>{cartCount}</i>}
+          </span>
+          <span>Sacola</span>
+        </a>
+        <a
+          href={
+            user
+              ? user.role === "client"
+                ? "#/conta"
+                : "#/painel"
+              : "#/entrar"
+          }
+          className={
+            dashboard || page === "/conta" || page === "/entrar" ? "active" : ""
+          }
+        >
+          <UserRound size={21} />
+          <span>
+            {user?.role === "admin"
+              ? "Gestão"
+              : user?.role === "seller"
+                ? "Painel"
+                : "Conta"}
+          </span>
+        </a>
+      </nav>
+      {renderModal()}
+      {toast && (
+        <div className="toast" role="status">
+          <CheckCircle2 size={19} />
+          <span>{toast}</span>
+          <button aria-label="Fechar aviso" onClick={() => setToast("")}>
+            <X size={16} />
+          </button>
+        </div>
+      )}
+      <div className="demo-pill">
+        <span /> PRÉVIA VISUAL
+      </div>
+    </>
+  );
 }
-function Metric({ label, value, icon: Icon, detail }) { return <article className="metric"><div><span>{label}</span><Icon size={18}/></div><strong>{value}</strong><small>{detail}</small></article>; }
-function OrdersList({ orders, onOpen }) { return orders.length ? <div className="orders-table"><div className="orders-table-head"><span>Pedido / cliente</span><span>Data</span><span>Status</span><span>Total</span><span/></div>{orders.map(o => <button key={o.id} className="order-row" onClick={() => onOpen(o)}><span><strong>{o.id}</strong><small>{o.customer}</small></span><span>{date(o.date)}</span><span><Tag tone={o.status === 'Cancelado' ? 'red' : o.status === 'Aguardando pagamento' ? 'amber' : 'green'}>{o.status}</Tag></span><strong>{money(o.total)}</strong><ChevronRight size={16}/></button>)}</div> : <Empty title="Nenhum pedido por aqui" text="Os pedidos de teste aparecerão nesta área."/>; }
-function LoginForm({ onLogin }) { const [error, setError] = useState(''); return <form className="form-stack" onSubmit={e => { e.preventDefault(); const f = new FormData(e.currentTarget); const a = DEMO_ACCOUNTS.find(a => a.email === f.get('email').trim().toLowerCase()); if (!a || f.get('password') !== DEMO_PASSWORD) return setError('Use um dos emails de demonstração e a senha AzulDemo123!'); setError(''); onLogin(a); }}><Field label="Email" name="email" type="email" autoComplete="username" placeholder="Seu email de demonstração" required/><Field label="Senha" name="password" type="password" autoComplete="current-password" placeholder="Senha de demonstração" required/>{error && <p className="form-error" role="alert">{error}</p>}<Button className="full" type="submit">Entrar no meu espaço <ArrowRight size={17}/></Button><button className="google-demo" type="button" onClick={() => setError('O login Google será conectado na próxima etapa. Use um perfil de demonstração acima.')}><span>G</span> Continuar com Google <Tag tone="neutral">Em breve</Tag></button></form>; }
-function SellerRegistration({ onSubmit }) { const [sent, setSent] = useState(false); return <form className="form-stack" onSubmit={e => { e.preventDefault(); if (sent) return; const f = Object.fromEntries(new FormData(e.currentTarget)); onSubmit(f); setSent(true); e.currentTarget.reset(); }}><div className="form-grid"><Field label="Seu nome" name="name" placeholder="Nome demonstrativo" required maxLength="80"/><Field label="Nome da loja" name="store" placeholder="Como sua loja será chamada" required maxLength="80"/></div><div className="form-grid"><Field label="Tipo de cadastro"><select name="documentType"><option>CPF</option><option>CNPJ</option></select></Field><Field label="Email de contato" name="email" type="email" placeholder="loja@example.com" required/></div><Field label="Cidade e estado" name="city" placeholder="Ex.: Belo Horizonte, MG" required/><Field label="Conte um pouco sobre sua loja"><textarea name="bio" rows="3" placeholder="Que equipamentos você pretende vender?" required maxLength="600"/></Field><label className="radio-label consent"><input type="checkbox" required/>Entendo que este é um cadastro de teste, sujeito à aprovação demonstrativa.</label><Button className="full" type="submit" disabled={sent}>{sent ? 'Cadastro de teste enviado' : 'Enviar para análise'}<ArrowRight size={17}/></Button><small className="muted">Comissão configurável pela plataforma. Condições comerciais serão definidas antes da operação real.</small></form>; }
+function Metric({ label, value, icon: Icon, detail }) {
+  return (
+    <article className="metric">
+      <div>
+        <span>{label}</span>
+        <Icon size={18} />
+      </div>
+      <strong>{value}</strong>
+      <small>{detail}</small>
+    </article>
+  );
+}
+function OrdersList({ orders, onOpen }) {
+  return orders.length ? (
+    <div className="orders-table">
+      <div className="orders-table-head">
+        <span>Pedido / cliente</span>
+        <span>Data</span>
+        <span>Status</span>
+        <span>Total</span>
+        <span />
+      </div>
+      {orders.map((o) => (
+        <button key={o.id} className="order-row" onClick={() => onOpen(o)}>
+          <span>
+            <strong>{o.id}</strong>
+            <small>{o.customer}</small>
+          </span>
+          <span>{date(o.date)}</span>
+          <span>
+            <Tag
+              tone={
+                o.status === "Cancelado"
+                  ? "red"
+                  : o.status === "Aguardando pagamento"
+                    ? "amber"
+                    : "green"
+              }
+            >
+              {o.status}
+            </Tag>
+          </span>
+          <strong>{money(o.total)}</strong>
+          <ChevronRight size={16} />
+        </button>
+      ))}
+    </div>
+  ) : (
+    <Empty
+      title="Nenhum pedido por aqui"
+      text="Os pedidos de teste aparecerão nesta área."
+    />
+  );
+}
+function LoginForm({ onLogin }) {
+  const [error, setError] = useState("");
+  return (
+    <form
+      className="form-stack"
+      onSubmit={(e) => {
+        e.preventDefault();
+        const f = new FormData(e.currentTarget);
+        const a = DEMO_ACCOUNTS.find(
+          (a) => a.email === f.get("email").trim().toLowerCase(),
+        );
+        if (!a || f.get("password") !== DEMO_PASSWORD)
+          return setError(
+            "Use um dos emails de demonstração e a senha AzulDemo123!",
+          );
+        setError("");
+        onLogin(a);
+      }}
+    >
+      <Field
+        label="Email"
+        name="email"
+        type="email"
+        autoComplete="username"
+        placeholder="Seu email de demonstração"
+        required
+      />
+      <Field
+        label="Senha"
+        name="password"
+        type="password"
+        autoComplete="current-password"
+        placeholder="Senha de demonstração"
+        required
+      />
+      {error && (
+        <p className="form-error" role="alert">
+          {error}
+        </p>
+      )}
+      <Button className="full" type="submit">
+        Entrar no meu espaço <ArrowRight size={17} />
+      </Button>
+      <button
+        className="google-demo"
+        type="button"
+        onClick={() =>
+          setError(
+            "O login Google será conectado na próxima etapa. Use um perfil de demonstração acima.",
+          )
+        }
+      >
+        <span>G</span> Continuar com Google <Tag tone="neutral">Em breve</Tag>
+      </button>
+    </form>
+  );
+}
+function SellerRegistration({ onSubmit }) {
+  const [sent, setSent] = useState(false);
+  return (
+    <form
+      className="form-stack"
+      onSubmit={(e) => {
+        e.preventDefault();
+        if (sent) return;
+        const f = Object.fromEntries(new FormData(e.currentTarget));
+        onSubmit(f);
+        setSent(true);
+        e.currentTarget.reset();
+      }}
+    >
+      <div className="form-grid">
+        <Field
+          label="Seu nome"
+          name="name"
+          placeholder="Nome demonstrativo"
+          required
+          maxLength="80"
+        />
+        <Field
+          label="Nome da loja"
+          name="store"
+          placeholder="Como sua loja será chamada"
+          required
+          maxLength="80"
+        />
+      </div>
+      <div className="form-grid">
+        <Field label="Tipo de cadastro">
+          <select name="documentType">
+            <option>CPF</option>
+            <option>CNPJ</option>
+          </select>
+        </Field>
+        <Field
+          label="Email de contato"
+          name="email"
+          type="email"
+          placeholder="loja@example.com"
+          required
+        />
+      </div>
+      <Field
+        label="Cidade e estado"
+        name="city"
+        placeholder="Ex.: Belo Horizonte, MG"
+        required
+      />
+      <Field label="Conte um pouco sobre sua loja">
+        <textarea
+          name="bio"
+          rows="3"
+          placeholder="Que equipamentos você pretende vender?"
+          required
+          maxLength="600"
+        />
+      </Field>
+      <label className="radio-label consent">
+        <input type="checkbox" required />
+        Entendo que este é um cadastro de teste, sujeito à aprovação
+        demonstrativa.
+      </label>
+      <Button className="full" type="submit" disabled={sent}>
+        {sent ? "Cadastro de teste enviado" : "Enviar para análise"}
+        <ArrowRight size={17} />
+      </Button>
+      <small className="muted">
+        Comissão configurável pela plataforma. Condições comerciais serão
+        definidas antes da operação real.
+      </small>
+    </form>
+  );
+}
 function ProductForm({ product, onSubmit }) {
-  const [image, setImage] = useState(product?.image || ''); const [error, setError] = useState(''); const [reading, setReading] = useState(false);
-  const loadPhoto = async e => { const file = e.target.files?.[0]; if (!file) return; if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) return setError('Selecione uma imagem JPG, PNG ou WebP.'); if (file.size > 5 * 1024 * 1024) return setError('Escolha uma foto de até 5 MB.'); setReading(true); setError(''); try { const bitmap = await createImageBitmap(file); const canvas = document.createElement('canvas'); const scale = Math.min(1, 900 / Math.max(bitmap.width, bitmap.height)); canvas.width = bitmap.width * scale; canvas.height = bitmap.height * scale; const ctx = canvas.getContext('2d'); ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, canvas.width, canvas.height); ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height); setImage(canvas.toDataURL('image/webp', 0.78)); bitmap.close(); } catch { setError('Não foi possível abrir essa imagem. Tente outra foto.'); } finally { setReading(false); } };
-  return <form className="form-stack product-form" onSubmit={e => { e.preventDefault(); const data = { ...Object.fromEntries(new FormData(e.currentTarget)), image }; const issue = validateProduct(data); if (issue) return setError(issue); onSubmit(data); }}><DemoNote>Use dados fictícios. Anúncios de vendedores precisam de aprovação.</DemoNote><div className="form-grid"><div><label className="upload-area">{image ? <img src={image} alt="Prévia do produto"/> : <><Upload size={27}/><strong>Foto do equipamento</strong><span>JPG, PNG ou WebP · até 5 MB</span></>}<input aria-label="Foto do produto" type="file" accept="image/jpeg,image/png,image/webp" onChange={loadPhoto}/><span className="upload-action">{reading ? 'Preparando imagem…' : image ? 'Trocar foto' : 'Selecionar foto'}</span></label></div><div className="form-stack"><Field label="Nome do produto" name="name" defaultValue={product?.name} required maxLength="140"/><Field label="Categoria"><select name="category" defaultValue={product ? groupOf(product) : 'Paramotores'}>{GROUPS.filter(g => g !== 'Todos').map(g => <option key={g}>{g}</option>)}</select></Field><Field label="Estado do equipamento"><select name="condition" defaultValue={product?.condition || 'Novo'}><option>Novo</option><option>Usado</option></select></Field></div></div><div className="form-grid three"><Field label="Preço (R$)" name="price" type="number" step="0.01" min="0.01" required defaultValue={product?.price}/><Field label="Quantidade" name="quantity" type="number" min="0" step="1" required defaultValue={product?.stock === false ? 0 : 1}/><Field label="SKU / referência" name="sku" defaultValue={product?.sku}/></div><Field label="Descrição e compatibilidade"><textarea name="description" rows="4" required defaultValue={product?.description} placeholder="Informe modelo, fabricante, compatibilidade e, para usados, marcas de uso." maxLength="3000"/></Field><div className="form-section-title"><Package size={17}/><strong>Embalagem para envio</strong><span>Medidas do produto embalado</span></div><div className="form-grid four">{[['weight', 'Peso (kg)'], ['length', 'Comprimento (cm)'], ['width', 'Largura (cm)'], ['height', 'Altura (cm)']].map(([key, label]) => <Field key={key} label={label} name={key} type="number" min="0.01" step="0.01" required defaultValue={product?.[key]}/>)}</div>{error && <p className="form-error" role="alert">{error}</p>}<Button className="full" type="submit" disabled={reading}>{product ? 'Salvar alterações' : 'Salvar produto e continuar'}<ArrowRight size={17}/></Button></form>;
+  const [image, setImage] = useState(product?.image || "");
+  const [error, setError] = useState("");
+  const [reading, setReading] = useState(false);
+  const loadPhoto = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type))
+      return setError("Selecione uma imagem JPG, PNG ou WebP.");
+    if (file.size > 5 * 1024 * 1024)
+      return setError("Escolha uma foto de até 5 MB.");
+    setReading(true);
+    setError("");
+    try {
+      const bitmap = await createImageBitmap(file);
+      const canvas = document.createElement("canvas");
+      const scale = Math.min(1, 900 / Math.max(bitmap.width, bitmap.height));
+      canvas.width = bitmap.width * scale;
+      canvas.height = bitmap.height * scale;
+      const ctx = canvas.getContext("2d");
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+      setImage(canvas.toDataURL("image/webp", 0.78));
+      bitmap.close();
+    } catch {
+      setError("Não foi possível abrir essa imagem. Tente outra foto.");
+    } finally {
+      setReading(false);
+    }
+  };
+  return (
+    <form
+      className="form-stack product-form"
+      onSubmit={(e) => {
+        e.preventDefault();
+        const data = {
+          ...Object.fromEntries(new FormData(e.currentTarget)),
+          image,
+        };
+        const issue = validateProduct(data);
+        if (issue) return setError(issue);
+        onSubmit(data);
+      }}
+    >
+      <DemoNote>
+        Use dados fictícios. Anúncios de vendedores precisam de aprovação.
+      </DemoNote>
+      <div className="form-grid">
+        <div>
+          <label className="upload-area">
+            {image ? (
+              <img src={image} alt="Prévia do produto" />
+            ) : (
+              <>
+                <Upload size={27} />
+                <strong>Foto do equipamento</strong>
+                <span>JPG, PNG ou WebP · até 5 MB</span>
+              </>
+            )}
+            <input
+              aria-label="Foto do produto"
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              onChange={loadPhoto}
+            />
+            <span className="upload-action">
+              {reading
+                ? "Preparando imagem…"
+                : image
+                  ? "Trocar foto"
+                  : "Selecionar foto"}
+            </span>
+          </label>
+        </div>
+        <div className="form-stack">
+          <Field
+            label="Nome do produto"
+            name="name"
+            defaultValue={product?.name}
+            required
+            maxLength="140"
+          />
+          <Field label="Categoria">
+            <select
+              name="category"
+              defaultValue={product ? groupOf(product) : "Paramotores"}
+            >
+              {GROUPS.filter((g) => g !== "Todos").map((g) => (
+                <option key={g}>{g}</option>
+              ))}
+            </select>
+          </Field>
+          <Field label="Estado do equipamento">
+            <select
+              name="condition"
+              defaultValue={product?.condition || "Novo"}
+            >
+              <option>Novo</option>
+              <option>Usado</option>
+            </select>
+          </Field>
+        </div>
+      </div>
+      <div className="form-grid three">
+        <Field
+          label="Preço (R$)"
+          name="price"
+          type="number"
+          step="0.01"
+          min="0.01"
+          required
+          defaultValue={product?.price}
+        />
+        <Field
+          label="Quantidade"
+          name="quantity"
+          type="number"
+          min="0"
+          step="1"
+          required
+          defaultValue={product?.stock === false ? 0 : 1}
+        />
+        <Field
+          label="SKU / referência"
+          name="sku"
+          defaultValue={product?.sku}
+        />
+      </div>
+      <Field label="Descrição e compatibilidade">
+        <textarea
+          name="description"
+          rows="4"
+          required
+          defaultValue={product?.description}
+          placeholder="Informe modelo, fabricante, compatibilidade e, para usados, marcas de uso."
+          maxLength="3000"
+        />
+      </Field>
+      <div className="form-section-title">
+        <Package size={17} />
+        <strong>Embalagem para envio</strong>
+        <span>Medidas do produto embalado</span>
+      </div>
+      <div className="form-grid four">
+        {[
+          ["weight", "Peso (kg)"],
+          ["length", "Comprimento (cm)"],
+          ["width", "Largura (cm)"],
+          ["height", "Altura (cm)"],
+        ].map(([key, label]) => (
+          <Field
+            key={key}
+            label={label}
+            name={key}
+            type="number"
+            min="0.01"
+            step="0.01"
+            required
+            defaultValue={product?.[key]}
+          />
+        ))}
+      </div>
+      {error && (
+        <p className="form-error" role="alert">
+          {error}
+        </p>
+      )}
+      <Button className="full" type="submit" disabled={reading}>
+        {product ? "Salvar alterações" : "Salvar produto e continuar"}
+        <ArrowRight size={17} />
+      </Button>
+    </form>
+  );
 }
-function Checkout({ cart, products, onSubmit }) { const groups = orderGroups(cart, products); return <form className="form-stack" onSubmit={e => { e.preventDefault(); onSubmit(Object.fromEntries(new FormData(e.currentTarget))); }}><DemoNote>Simulação sem pagamento. Não informe endereço ou dados reais.</DemoNote><p>Serão criados <strong>{groups.length} pedido(s)</strong>, um por vendedor. Frete e pagamento estão pendentes de integração.</p><Field label="Nome do destinatário (teste)" name="recipient" defaultValue="Destinatário de demonstração" required/><div className="form-grid"><Field label="CEP de teste" name="postalCode" placeholder="00000-000" pattern="[0-9]{5}-?[0-9]{3}" required/><Field label="Cidade de teste" name="city" placeholder="Cidade demonstrativa" required/></div><Field label="Endereço de teste" name="address" placeholder="Rua de exemplo, 123" required/>{groups.map(g => <div className="checkout-seller" key={g.sellerId}><span><Store size={17}/>{g.seller}</span><strong>{money(g.total)}</strong></div>)}<div className="payment-placeholder"><CreditCard size={22}/><div><strong>Woovi · integração futura</strong><p>Nenhum QR Code ou cobrança será gerado.</p></div></div><Button className="full" type="submit">Criar pedido de teste <Check size={17}/></Button></form>; }
+function Checkout({ cart, products, onSubmit }) {
+  const groups = orderGroups(cart, products);
+  return (
+    <form
+      className="form-stack"
+      onSubmit={(e) => {
+        e.preventDefault();
+        onSubmit(Object.fromEntries(new FormData(e.currentTarget)));
+      }}
+    >
+      <DemoNote>
+        Simulação sem pagamento. Não informe endereço ou dados reais.
+      </DemoNote>
+      <p>
+        Serão criados <strong>{groups.length} pedido(s)</strong>, um por
+        vendedor. Frete e pagamento estão pendentes de integração.
+      </p>
+      <Field
+        label="Nome do destinatário (teste)"
+        name="recipient"
+        defaultValue="Destinatário de demonstração"
+        required
+      />
+      <div className="form-grid">
+        <Field
+          label="CEP de teste"
+          name="postalCode"
+          placeholder="00000-000"
+          pattern="[0-9]{5}-?[0-9]{3}"
+          required
+        />
+        <Field
+          label="Cidade de teste"
+          name="city"
+          placeholder="Cidade demonstrativa"
+          required
+        />
+      </div>
+      <Field
+        label="Endereço de teste"
+        name="address"
+        placeholder="Rua de exemplo, 123"
+        required
+      />
+      {groups.map((g) => (
+        <div className="checkout-seller" key={g.sellerId}>
+          <span>
+            <Store size={17} />
+            {g.seller}
+          </span>
+          <strong>{money(g.total)}</strong>
+        </div>
+      ))}
+      <div className="payment-placeholder">
+        <CreditCard size={22} />
+        <div>
+          <strong>Woovi · integração futura</strong>
+          <p>Nenhum QR Code ou cobrança será gerado.</p>
+        </div>
+      </div>
+      <Button className="full" type="submit">
+        Criar pedido de teste <Check size={17} />
+      </Button>
+    </form>
+  );
+}

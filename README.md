@@ -83,3 +83,11 @@ A instalação e o fallback offline devem ser testados na URL HTTPS final em dis
 ## Validação realizada
 
 Testes automatizados do catálogo, imagens locais, busca/filtros, separação de carrinho por vendedor, validação de produto e arquivos PWA. Build de produção. Verificação visual no navegador em layout de celular e desktop; fluxo de sacola, acesso cliente, criação de pedido de teste, acessos vendedor/admin, edição de anúncio, aprovação/recusa de vendedor e persistência de comissão.
+
+## Identidade oficial
+
+A implementação local da identidade oficial usa a arte original fornecida, tokens de azul/navy, Exo 2 e Manrope, além de tipografia maior em todos os perfis. Consulte [o relatório de identidade](docs/identidade-visual.md) para escopo, validações e pendências. Esta atualização não foi publicada.
+
+```sh
+npm run check # lint + build de produção
+```

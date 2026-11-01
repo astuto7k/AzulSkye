@@ -1,0 +1,23 @@
+:root {
+  --brand-primary: #0865f5;
+  --brand-primary-hover: #0754d1;
+  --brand-primary-soft: #eaf2ff;
+  --brand-navy: #071d50;
+  --brand-navy-light: #123a8c;
+  --text-primary: #14213d;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --background-primary: #ffffff;
+  --background-secondary: #f4f7fb;
+  --border-default: #e2e8f0;
+  --status-success: #16804a;
+  --status-warning: #d97706;
+  --status-error: #dc2626;
+  --status-success-soft: #eaf6ef;
+  --status-warning-soft: #fff5e5;
+  --status-error-soft: #fef2f2;
+  --text-on-navy: #d8e5ff;
+  --font-body: "Manrope", sans-serif;
+  --font-heading: "Exo 2", sans-serif;
+  --transition-duration: 180ms;
+}
