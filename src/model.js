@@ -1,5 +1,13 @@
+import { workshopSeed } from "./workshops.js";
 export const DEMO_PASSWORD = "AzulDemo123!";
 export const DEMO_ACCOUNTS = [
+  {
+    role: "workshop",
+    label: "Oficina parceira",
+    email: "oficina@azulskye.demo",
+    name: "Equipe Oficina",
+    workshopId: "oficina-demo",
+  },
   {
     role: "client",
     label: "Cliente",
@@ -132,6 +140,7 @@ export function demoSeed(products) {
     cart: [],
     favorites: [],
     commission: 0,
+    ...workshopSeed(),
     sellers: [
       {
         id: "altitude",
@@ -266,7 +275,7 @@ export function demoSeed(products) {
         total: 695.88,
         status: "Enviado",
         tracking: "RA123456789BR (exemplo)",
-        items: [{ ...byId("728"), quantity: 1 }],
+        items: [{ ...byId("728"), price: 695.88, quantity: 1 }],
         demo: true,
       },
     ],

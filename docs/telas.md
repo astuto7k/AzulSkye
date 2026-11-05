@@ -2,7 +2,15 @@
 
 Central: https://azul-skye.vercel.app/telas
 
-Senha pública de demonstração: `AzulDemo123!`. Emails: `cliente@azulskye.demo`, `vendedor@azulskye.demo`, `admin@azulskye.demo`.
+Senha pública de demonstração: `AzulDemo123!`. Emails: `cliente@azulskye.demo`, `vendedor@azulskye.demo`, `oficina@azulskye.demo`, `admin@azulskye.demo`.
+
+## Oficina parceira
+
+| Tela | Endereço |
+| --- | --- |
+| Visão geral | [/oficina](https://azul-skye.vercel.app/oficina) |
+| Meu perfil e serviços | [/oficina/perfil](https://azul-skye.vercel.app/oficina/perfil) |
+| Solicitações de manutenção | [/oficina/solicitacoes](https://azul-skye.vercel.app/oficina/solicitacoes) |
 
 ## Loja e cliente
 
@@ -21,6 +29,8 @@ Senha pública de demonstração: `AzulDemo123!`. Emails: `cliente@azulskye.demo
 | Acessos de demonstração | [/entrar](https://azul-skye.vercel.app/entrar) |
 | Conta e pedidos do cliente | [/conta](https://azul-skye.vercel.app/conta) |
 | Cadastro de vendedor | [/vender](https://azul-skye.vercel.app/vender) |
+| Oficinas parceiras | [/oficinas](https://azul-skye.vercel.app/oficinas) |
+| Cadastro de oficina / profissional | [/ser-oficina](https://azul-skye.vercel.app/ser-oficina) |
 
 ## Administrador
 
@@ -30,6 +40,7 @@ Senha pública de demonstração: `AzulDemo123!`. Emails: `cliente@azulskye.demo
 | Pedidos e detalhes | [/admin/pedidos](https://azul-skye.vercel.app/admin/pedidos) |
 | Produtos e aprovação de anúncios | [/admin/produtos](https://azul-skye.vercel.app/admin/produtos) |
 | Aprovação de vendedores | [/admin/vendedores](https://azul-skye.vercel.app/admin/vendedores) |
+| Aprovação de oficinas e serviços | [/admin/oficinas](https://azul-skye.vercel.app/admin/oficinas) |
 | Financeiro | [/admin/financeiro](https://azul-skye.vercel.app/admin/financeiro) |
 | Configurações e comissão | [/admin/configuracoes](https://azul-skye.vercel.app/admin/configuracoes) |
 

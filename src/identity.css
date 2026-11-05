@@ -2887,3 +2887,172 @@ input[type="radio"] {
   height: 100%;
   object-fit: contain;
 }
+.workshop-page {
+  padding-top: 42px;
+  padding-bottom: 70px;
+}
+.workshop-page > h1,
+.workshop-page > .section-heading h1 {
+  font-size: 40px;
+  max-width: 850px;
+}
+.workshop-page > p {
+  margin: 22px 0;
+  max-width: 900px;
+}
+.workshop-page > .panel {
+  margin-top: 25px;
+}
+.workshop-page .settings-panel > h2 {
+  margin-bottom: 18px;
+}
+.workshop-page .form-stack {
+  margin-top: 25px;
+}
+.workshop-specialties legend {
+  font-size: 14px;
+  font-weight: 600;
+}
+.workshop-specialties > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 25px;
+}
+.workshop-filters {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin: 28px 0;
+}
+.workshop-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+.workshop-grid h2 {
+  margin: 18px 0;
+  font-size: 26px;
+}
+.workshop-location {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.workshop-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0;
+}
+.workshop-grid .settings-panel > p {
+  margin: 18px 0;
+}
+.workshop-grid small {
+  display: block;
+  color: var(--text-secondary);
+  margin-bottom: 18px;
+}
+.request-form {
+  padding-top: 22px;
+  border-top: 1px solid var(--border-default);
+}
+.workshop-tabs {
+  display: flex;
+  gap: 12px;
+  overflow: auto;
+  margin: 28px 0;
+}
+.workshop-tabs > a {
+  white-space: nowrap;
+  border: 1px solid var(--border-default);
+  padding: 13px 17px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+.workshop-tabs > a.active {
+  background: var(--brand-primary);
+  color: white;
+  border-color: var(--brand-primary);
+}
+.workshop-admin {
+  display: grid;
+  gap: 22px;
+  margin-top: 24px;
+}
+.workshop-admin-row,
+.service-request {
+  border-top: 1px solid var(--border-default);
+  padding: 24px 0;
+  margin-top: 20px;
+}
+.workshop-admin-row h3,
+.service-request h3 {
+  font-size: 22px;
+}
+.workshop-admin-row p,
+.service-request p {
+  font-size: 14px;
+  margin: 10px 0;
+  overflow-wrap: anywhere;
+}
+.workshop-admin-row > .tag {
+  margin: 10px 0 18px;
+}
+.service-request .field {
+  max-width: 330px;
+  margin-top: 20px;
+}
+.workshop-home {
+  margin-top: 60px;
+  padding-top: 35px;
+  padding-bottom: 35px;
+  background: var(--background-secondary);
+  border-block: 1px solid var(--border-default);
+  display: grid;
+  grid-template-columns: 1fr 0.7fr;
+  gap: 30px;
+  align-items: center;
+}
+.workshop-home h2 {
+  font-size: 31px;
+  line-height: 1.35;
+}
+.workshop-home p {
+  font-size: 15px;
+  margin-top: 17px;
+}
+.profile-icon.workshop {
+  background: var(--brand-primary-soft);
+  color: var(--brand-primary);
+}
+@media (max-width: 800px) {
+  .workshop-home,
+  .workshop-grid {
+    grid-template-columns: 1fr;
+  }
+  .workshop-filters {
+    grid-template-columns: 1fr;
+  }
+  .workshop-page > h1,
+  .workshop-page > .section-heading h1 {
+    font-size: 32px;
+  }
+  .workshop-page {
+    padding-top: 28px;
+  }
+  .workshop-home {
+    margin-top: 35px;
+  }
+  .workshop-home h2 {
+    font-size: 28px;
+  }
+  .workshop-page .form-grid {
+    grid-template-columns: 1fr;
+  }
+  .workshop-page .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+  .workshop-admin .settings-panel {
+    padding: 22px 16px;
+  }
+}

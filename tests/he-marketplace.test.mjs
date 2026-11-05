@@ -9,10 +9,10 @@ const original = JSON.parse(
 const he = JSON.parse(
   readFileSync(new URL("../src/data/he-products.json", import.meta.url)),
 );
-test("HE prices use USD × 5.4212 × 1.10 with cent precision", () => {
+test("HE prices preserve conversion and include the additional 5% catalog adjustment", () => {
   assert.deepEqual(
     he.map((p) => p.price),
-    [17293.63, 18486.29, 23256.95, 20275.29],
+    [18158.31, 19410.6, 24419.8, 21289.05],
   );
   for (const p of he) {
     assert.equal(p.brand, "HE");
@@ -32,7 +32,7 @@ test("HE is first for every order mode and price order is retained inside each g
   const up = filterProducts(all, { sort: "price-up" });
   assert.deepEqual(
     up.slice(0, 4).map((p) => p.price),
-    [17293.63, 18486.29, 20275.29, 23256.95],
+    [18158.31, 19410.6, 21289.05, 24419.8],
   );
   assert.equal(filterProducts(all, { brand: "HE" }).length, 4);
   assert.equal(filterProducts(all, { query: "HE Paramotor" }).length, 4);

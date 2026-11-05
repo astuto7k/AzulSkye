@@ -26,6 +26,7 @@ Abra `/#/entrar`. Também é possível entrar diretamente nos botões de perfil.
 | Cliente | cliente@azulskye.demo | AzulDemo123! |
 | Vendedor | vendedor@azulskye.demo | AzulDemo123! |
 | Administrador | admin@azulskye.demo | AzulDemo123! |
+| Oficina parceira | oficina@azulskye.demo | AzulDemo123! |
 
 Essas credenciais são públicas e fictícias. Não há autenticação real. Nunca utilizar esta implementação como controle de acesso a dados reais.
 
@@ -95,3 +96,7 @@ npm run check # lint + build de produção
 ## Linha HE e central de telas
 
 Acesse `/telas`, `/admin` e `/vendedor` para supervisionar a prévia. [Mapa completo](docs/telas.md) e [memória de preços HE](docs/linha-he.md). A HE tem prioridade no catálogo em todas as ordenações, com critério secundário dentro de cada grupo. Os 160 produtos originais foram preservados (164 oficiais no total).
+
+## Oficinas parceiras e reajuste de 05/11/2026
+
+Os 163 preços cadastrados receberam +5% sobre o valor publicado, preservando o item sob consulta. A loja agora inclui o quarto perfil, oficina parceira, com cadastro CPF/CNPJ, especialidades, aprovação administrativa, diretório e solicitações demonstrativas de manutenção. [Detalhes e recomendação de banco](docs/oficinas-e-reajuste.md). Novos acessos: `/oficinas`, `/ser-oficina`, `/oficina`, `/oficina/perfil`, `/oficina/solicitacoes`, `/admin/oficinas`. Validação atual: lint, build e 13 testes aprovados.

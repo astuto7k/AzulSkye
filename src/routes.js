@@ -1,14 +1,29 @@
 export function resolveRoute(route) {
   const path = route.split("?")[0];
-  const match = path.match(/^\/(admin|vendedor)(?:\/(.*))?$/);
+  const match = path.match(/^\/(admin|vendedor|oficina)(?:\/(.*))?$/);
   return match
     ? {
         page: `/painel/${match[2] || "visao-geral"}`,
-        role: match[1] === "admin" ? "admin" : "seller",
+        role:
+          match[1] === "admin"
+            ? "admin"
+            : match[1] === "oficina"
+              ? "workshop"
+              : "seller",
       }
     : { page: path, role: null };
 }
 export const SCREEN_GROUPS = [
+  {
+    title: "Oficina parceira",
+    description:
+      "Perfil demonstrativo para empresas e profissionais de manutenção.",
+    screens: [
+      ["Visão geral", "/oficina"],
+      ["Meu perfil e serviços", "/oficina/perfil"],
+      ["Solicitações de manutenção", "/oficina/solicitacoes"],
+    ],
+  },
   {
     title: "Loja e cliente",
     description:
@@ -27,6 +42,8 @@ export const SCREEN_GROUPS = [
       ["Acessos de demonstração", "/entrar"],
       ["Conta e pedidos do cliente", "/conta"],
       ["Cadastro de vendedor", "/vender"],
+      ["Oficinas parceiras", "/oficinas"],
+      ["Cadastro de oficina / profissional", "/ser-oficina"],
     ],
   },
   {
@@ -38,6 +55,7 @@ export const SCREEN_GROUPS = [
       ["Pedidos e detalhes", "/admin/pedidos"],
       ["Produtos e aprovação de anúncios", "/admin/produtos"],
       ["Aprovação de vendedores", "/admin/vendedores"],
+      ["Aprovação de oficinas e serviços", "/admin/oficinas"],
       ["Financeiro", "/admin/financeiro"],
       ["Configurações e comissão", "/admin/configuracoes"],
     ],

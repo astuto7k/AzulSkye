@@ -18,6 +18,7 @@ import {
   Package,
   Compass,
   Wind,
+  Wrench,
   Settings2,
   SlidersHorizontal,
   LayoutDashboard,
@@ -48,6 +49,13 @@ import originalProducts from "./data/products.json";
 import heProducts from "./data/he-products.json";
 import hePricing from "./data/he-pricing.json";
 import ScreenDirectory from "./components/ScreenDirectory.jsx";
+import {
+  WorkshopDirectory,
+  WorkshopRegistration,
+  WorkshopAdmin,
+  WorkshopDashboard,
+} from "./components/Workshops.jsx";
+import { workshopSeed } from "./workshops.js";
 import { resolveRoute } from "./routes.js";
 const officialProducts = [...heProducts, ...originalProducts];
 import Brand from "./components/Brand.jsx";
@@ -67,11 +75,12 @@ const ROLE_NAMES = {
   client: "Cliente",
   seller: "Vendedor",
   admin: "Administrador",
+  workshop: "Oficina parceira",
 };
 const initial = () => {
   try {
     const value = JSON.parse(localStorage.getItem(KEY));
-    if (value?.version === 1) return value.data;
+    if (value?.version === 1) return { ...workshopSeed(), ...value.data };
   } catch {}
   return demoSeed(officialProducts);
 };
@@ -679,6 +688,24 @@ export default function App() {
             </article>
           ))}
         </section>
+        <section className="wrap workshop-home">
+          <div>
+            <span className="eyebrow">OFICINAS PARCEIRAS</span>
+            <h2>Quem cuida do equipamento também faz parte do voo.</h2>
+            <p>
+              Encontre profissionais e empresas para manutenção de motores,
+              velas e outros equipamentos.
+            </p>
+          </div>
+          <div className="button-row">
+            <a className="btn btn-primary" href="#/oficinas">
+              Explorar oficinas <Wrench size={18} />
+            </a>
+            <a className="btn btn-outline" href="#/ser-oficina">
+              Quero ser parceiro
+            </a>
+          </div>
+        </section>
         <section className="install-banner wrap">
           <div className="install-icon">
             <Smartphone size={31} />
@@ -1284,7 +1311,9 @@ export default function App() {
                       ? params.get("retorno") === "sacola"
                         ? "/sacola"
                         : "/conta"
-                      : "/painel",
+                      : a.role === "workshop"
+                        ? "/oficina"
+                        : "/painel",
                   );
                   notify(`Bem-vindo ao perfil de ${a.label.toLowerCase()}.`);
                 }}
@@ -1292,6 +1321,8 @@ export default function App() {
                 <span className={`profile-icon ${a.role}`}>
                   {a.role === "client" ? (
                     <UserRound />
+                  ) : a.role === "workshop" ? (
+                    <Wrench />
                   ) : a.role === "seller" ? (
                     <Store />
                   ) : (
@@ -1317,7 +1348,9 @@ export default function App() {
                   ? params.get("retorno") === "sacola"
                     ? "/sacola"
                     : "/conta"
-                  : "/painel",
+                  : a.role === "workshop"
+                    ? "/oficina"
+                    : "/painel",
               );
             }}
           />
@@ -1326,7 +1359,7 @@ export default function App() {
               Ver emails e senha de teste <ChevronDown size={14} />
             </summary>
             <p>
-              Senha para os três perfis: <code>{DEMO_PASSWORD}</code>
+              Senha para os quatro perfis: <code>{DEMO_PASSWORD}</code>
             </p>
             {DEMO_ACCOUNTS.map((a) => (
               <p key={a.role}>
@@ -1490,6 +1523,19 @@ export default function App() {
   }
   function renderDashboard() {
     if (
+      user?.role === "workshop" &&
+      (!requestedRole || requestedRole === "workshop")
+    )
+      return (
+        <WorkshopDashboard
+          data={data}
+          user={user}
+          page={page}
+          update={update}
+          notify={notify}
+        />
+      );
+    if (
       !user ||
       user.role === "client" ||
       (requestedRole && user.role !== requestedRole)
@@ -1499,7 +1545,7 @@ export default function App() {
           <Empty
             icon={ShieldCheck}
             title="Seu painel de gestão"
-            text="Entre com o perfil demonstrativo de vendedor ou administrador para acessar esta área."
+            text="Escolha o perfil demonstrativo correspondente para acessar esta área."
           >
             {requestedRole ? (
               <Button
@@ -1508,7 +1554,11 @@ export default function App() {
                 }
               >
                 Abrir demonstração de{" "}
-                {requestedRole === "admin" ? "administrador" : "vendedor"}{" "}
+                {requestedRole === "admin"
+                  ? "administrador"
+                  : requestedRole === "workshop"
+                    ? "oficina parceira"
+                    : "vendedor"}{" "}
                 <ArrowRight size={16} />
               </Button>
             ) : (
@@ -1533,7 +1583,10 @@ export default function App() {
         icon: Package,
       },
       ...(admin
-        ? [{ id: "vendedores", label: "Vendedores", icon: UsersRound }]
+        ? [
+            { id: "vendedores", label: "Vendedores", icon: UsersRound },
+            { id: "oficinas", label: "Oficinas parceiras", icon: Wrench },
+          ]
         : []),
       { id: "financeiro", label: "Financeiro", icon: TrendingUp },
       { id: "configuracoes", label: "Configurações", icon: Settings2 },
@@ -1921,6 +1974,14 @@ export default function App() {
               ))}
             </div>
           )}
+          {tab === "oficinas" && admin && (
+            <WorkshopAdmin
+              data={data}
+              user={user}
+              update={update}
+              notify={notify}
+            />
+          )}
           {tab === "produtos" && (
             <section className="panel">
               <div className="panel-head">
@@ -2095,9 +2156,10 @@ export default function App() {
                     {hePricing.usdToBrl.toLocaleString("pt-BR", {
                       minimumFractionDigits: 4,
                     })}
-                    . Acréscimo de {hePricing.markupPercent}%, com
-                    arredondamento para centavos. Valores fixos desta
-                    publicação.
+                    . Acréscimo inicial de {hePricing.markupPercent}% e reajuste
+                    adicional de {hePricing.catalogAdjustmentPercent}% em
+                    05/11/2026, com arredondamento para centavos. Valores fixos
+                    desta publicação.
                   </p>
                   <div className="he-price-list">
                     {heProducts.map((p) => (
@@ -2611,7 +2673,9 @@ export default function App() {
                 user
                   ? user.role === "client"
                     ? "#/conta"
-                    : "#/painel"
+                    : user.role === "workshop"
+                      ? "#/oficina"
+                      : "#/painel"
                   : "#/entrar"
               }
               aria-label={user ? "Acessar minha conta" : "Entrar"}
@@ -2704,6 +2768,9 @@ export default function App() {
           <a href="#/vender">
             Quero vender <ArrowUpRight size={18} />
           </a>
+          <a href="#/oficinas">
+            Oficinas parceiras <Wrench size={18} />
+          </a>
           <a href="#/entrar">
             Acessos de demonstração <UserRound size={18} />
           </a>
@@ -2722,6 +2789,16 @@ export default function App() {
           renderHome()
         ) : page === "/telas" ? (
           <ScreenDirectory />
+        ) : page === "/oficinas" ? (
+          <WorkshopDirectory
+            data={data}
+            user={user}
+            update={update}
+            notify={notify}
+            go={go}
+          />
+        ) : page === "/ser-oficina" ? (
+          <WorkshopRegistration data={data} update={update} notify={notify} />
         ) : ["/catalogo", "/marketplace"].includes(page) ? (
           renderCatalog()
         ) : page.startsWith("/produto/") ? (
@@ -2797,6 +2874,8 @@ export default function App() {
               <a href="#/conta">Minha conta</a>
               <a href="#/favoritos">Favoritos</a>
               <a href="#/vender">Seja um vendedor</a>
+              <a href="#/oficinas">Oficinas parceiras</a>
+              <a href="#/ser-oficina">Cadastrar oficina / profissional</a>
               <a href="#/entrar">Acessos de demonstração</a>
               <a href="#/telas">Central de todas as telas</a>
             </div>
@@ -2852,7 +2931,9 @@ export default function App() {
             user
               ? user.role === "client"
                 ? "#/conta"
-                : "#/painel"
+                : user.role === "workshop"
+                  ? "#/oficina"
+                  : "#/painel"
               : "#/entrar"
           }
           className={
@@ -2865,7 +2946,9 @@ export default function App() {
               ? "Gestão"
               : user?.role === "seller"
                 ? "Painel"
-                : "Conta"}
+                : user?.role === "workshop"
+                  ? "Oficina"
+                  : "Conta"}
           </span>
         </a>
       </nav>

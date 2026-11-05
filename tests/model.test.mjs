@@ -6,7 +6,7 @@ const products = JSON.parse(readFileSync(new URL('../src/data/products.json', im
 test('catalog retains all 160 official products and every image exists', () => {
  assert.equal(products.length, 160); assert.equal(new Set(products.map(p=>p.id)).size,160);
  for(const p of products) {assert.equal(p.official,true);assert.ok(existsSync(new URL('../public'+p.image,import.meta.url)),p.name);}
- assert.equal(products.find(p=>p.id==='1955').price,37880);
+ assert.equal(products.find(p=>p.id==='1955').price,39774);
 });
 test('accent-insensitive search and category/source/condition filters', () => {
  assert.ok(filterProducts(products,{query:'helice'}).length>0);
@@ -20,7 +20,7 @@ test('accent-insensitive search and category/source/condition filters', () => {
 test('cart separates official shop from marketplace and computes quantities', () => {
  const seed=demoSeed(products),all=[...products,...seed.listings];
  const groups=orderGroups([{id:'89',quantity:2},{id:'demo-1',quantity:1}],all);
- assert.equal(groups.length,2);assert.equal(groups[0].total,3421.88);assert.equal(groups[1].total,1890);
+ assert.equal(groups.length,2);assert.equal(groups[0].total,3592.98);assert.equal(groups[1].total,1890);
  assert.equal(orderGroups([{id:'1820',quantity:1}],all).length,0);
  assert.equal(orderGroups([{id:'demo-3',quantity:1}],all).length,0);
  assert.equal(orderGroups([{id:'demo-1',quantity:1}],all.map(p=>p.id==='demo-1'?{...p,status:'seller-inactive'}:p)).length,0);

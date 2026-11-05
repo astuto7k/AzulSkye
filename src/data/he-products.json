@@ -2,7 +2,7 @@
   {
     "id": "he-paramotor-mv1",
     "name": "HE Paramotor MV1",
-    "price": 17293.63,
+    "price": 18158.31,
     "sku": "HE-MV1",
     "brand": "HE",
     "stock": true,
@@ -38,12 +38,21 @@
       "date": "2026-10-30",
       "rateType": "PTAX venda",
       "source": "https://ptax.bcb.gov.br/ptax_internet/consultarUltimaCotacaoDolar.do"
-    }
+    },
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 17293.63,
+        "newPrice": 18158.31
+      }
+    ]
   },
   {
     "id": "he-paramotor-mv2",
     "name": "HE Paramotor MV2",
-    "price": 18486.29,
+    "price": 19410.6,
     "sku": "HE-MV2",
     "brand": "HE",
     "stock": true,
@@ -79,12 +88,21 @@
       "date": "2026-10-30",
       "rateType": "PTAX venda",
       "source": "https://ptax.bcb.gov.br/ptax_internet/consultarUltimaCotacaoDolar.do"
-    }
+    },
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 18486.29,
+        "newPrice": 19410.6
+      }
+    ]
   },
   {
     "id": "he-paramotor-rs206-performance",
     "name": "HE Paramotor - RS206 Performance",
-    "price": 23256.95,
+    "price": 24419.8,
     "sku": "HE-RS206-PERFORMANCE",
     "brand": "HE",
     "stock": true,
@@ -118,12 +136,21 @@
       "date": "2026-10-30",
       "rateType": "PTAX venda",
       "source": "https://ptax.bcb.gov.br/ptax_internet/consultarUltimaCotacaoDolar.do"
-    }
+    },
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 23256.95,
+        "newPrice": 24419.8
+      }
+    ]
   },
   {
     "id": "he-paramotor-rs185-performance",
     "name": "HE Paramotor - RS185 Performance",
-    "price": 20275.29,
+    "price": 21289.05,
     "sku": "HE-RS185-PERFORMANCE",
     "brand": "HE",
     "stock": true,
@@ -157,6 +184,15 @@
       "date": "2026-10-30",
       "rateType": "PTAX venda",
       "source": "https://ptax.bcb.gov.br/ptax_internet/consultarUltimaCotacaoDolar.do"
-    }
+    },
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 20275.29,
+        "newPrice": 21289.05
+      }
+    ]
   }
 ]

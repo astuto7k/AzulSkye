@@ -4,5 +4,7 @@
   "markupPercent": 10,
   "date": "2026-10-30",
   "rateType": "PTAX venda",
-  "source": "https://ptax.bcb.gov.br/ptax_internet/consultarUltimaCotacaoDolar.do"
+  "source": "https://ptax.bcb.gov.br/ptax_internet/consultarUltimaCotacaoDolar.do",
+  "catalogAdjustmentPercent": 5,
+  "catalogAdjustmentDate": "2026-11-05"
 }

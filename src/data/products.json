@@ -2,7 +2,7 @@
   {
     "id": "89",
     "name": "Hélice de Carbono Dust para Paramotores e Ultraleves",
-    "price": 1710.94,
+    "price": 1796.49,
     "sku": "NO0072",
     "stock": true,
     "image": "/products/89.webp",
@@ -17,12 +17,21 @@
     "weight": "0.5",
     "length": "185",
     "width": "200",
-    "height": "300"
+    "height": "300",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 1710.94,
+        "newPrice": 1796.49
+      }
+    ]
   },
   {
     "id": "94",
     "name": "Câmera Seguidora para Asa de Parapente e Paramotor",
-    "price": 380.0,
+    "price": 399.0,
     "sku": "NO0030",
     "stock": true,
     "image": "/products/94.webp",
@@ -37,12 +46,21 @@
     "weight": "0.3",
     "length": "150",
     "width": "200",
-    "height": "90"
+    "height": "90",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 380.0,
+        "newPrice": 399.0
+      }
+    ]
   },
   {
     "id": "728",
     "name": "TTO Temperatura para Moster 185cc",
-    "price": 695.88,
+    "price": 730.67,
     "sku": "NO0136",
     "stock": true,
     "image": "/products/728.webp",
@@ -57,12 +75,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 695.88,
+        "newPrice": 730.67
+      }
+    ]
   },
   {
     "id": "729",
     "name": "Colle Defletor para Moster original 185cc",
-    "price": 1483.41,
+    "price": 1557.58,
     "sku": "NO0045",
     "stock": true,
     "image": "/products/729.webp",
@@ -77,12 +104,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 1483.41,
+        "newPrice": 1557.58
+      }
+    ]
   },
   {
     "id": "730",
     "name": "Abraçadeira escape moster 185 cc",
-    "price": 349.0,
+    "price": 366.45,
     "sku": "NO0001",
     "stock": true,
     "image": "/products/730.webp",
@@ -98,12 +134,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 349.0,
+        "newPrice": 366.45
+      }
+    ]
   },
   {
     "id": "731",
     "name": "Acelerador Original vittorazzi dual",
-    "price": 1722.0,
+    "price": 1808.1,
     "sku": "NO0004",
     "stock": true,
     "image": "/products/731.webp",
@@ -118,12 +163,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 1722.0,
+        "newPrice": 1808.1
+      }
+    ]
   },
   {
     "id": "805",
     "name": "Acelerador Original Vittorazzi Mono",
-    "price": 1172.08,
+    "price": 1230.68,
     "sku": "NO0005",
     "stock": true,
     "image": "/products/805.webp",
@@ -138,12 +192,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 1172.08,
+        "newPrice": 1230.68
+      }
+    ]
   },
   {
     "id": "808",
     "name": "Anel de escape para 50 horas",
-    "price": 168.49,
+    "price": 176.91,
     "sku": "NO0008",
     "stock": true,
     "image": "/products/808.webp",
@@ -159,12 +222,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 168.49,
+        "newPrice": 176.91
+      }
+    ]
   },
   {
     "id": "811",
     "name": "Anel oring. cabeçote",
-    "price": 33.33,
+    "price": 35.0,
     "sku": "NO0009",
     "stock": true,
     "image": "/products/811.webp",
@@ -180,12 +252,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 33.33,
+        "newPrice": 35.0
+      }
+    ]
   },
   {
     "id": "813",
     "name": "Asa B intermediária auster 2",
-    "price": 19080.0,
+    "price": 20034.0,
     "sku": "NO0014",
     "stock": true,
     "image": "/products/813.webp",
@@ -200,12 +281,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 19080.0,
+        "newPrice": 20034.0
+      }
+    ]
   },
   {
     "id": "815",
     "name": "Asa CC avancada efect",
-    "price": 21980.0,
+    "price": 23079.0,
     "sku": "NO0012",
     "stock": true,
     "image": "/products/815.webp",
@@ -220,12 +310,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 21980.0,
+        "newPrice": 23079.0
+      }
+    ]
   },
   {
     "id": "817",
     "name": "Asa A Saída de Escola Flexus 3",
-    "price": 19650.0,
+    "price": 20632.5,
     "sku": "NO0015",
     "stock": true,
     "image": "/products/817.webp",
@@ -240,12 +339,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 19650.0,
+        "newPrice": 20632.5
+      }
+    ]
   },
   {
     "id": "819",
     "name": "Asa C avancada runne",
-    "price": 20280.0,
+    "price": 21294.0,
     "sku": "NO0011",
     "stock": true,
     "image": "/products/819.webp",
@@ -260,12 +368,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 20280.0,
+        "newPrice": 21294.0
+      }
+    ]
   },
   {
     "id": "820",
     "name": "Asa de Paratrike Hercules 2",
-    "price": 22280.0,
+    "price": 23394.0,
     "sku": "NO0013",
     "stock": true,
     "image": "/products/820.webp",
@@ -280,12 +397,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 22280.0,
+        "newPrice": 23394.0
+      }
+    ]
   },
   {
     "id": "821",
     "name": "Asa Voo Duplo Kuat 3",
-    "price": 23680.0,
+    "price": 24864.0,
     "sku": "NO0016",
     "stock": true,
     "image": "/products/821.webp",
@@ -300,12 +426,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 23680.0,
+        "newPrice": 24864.0
+      }
+    ]
   },
   {
     "id": "822",
     "name": "Barra de Voo Duplo",
-    "price": 1380.26,
+    "price": 1449.27,
     "sku": "NO0017",
     "stock": false,
     "image": "/products/822.webp",
@@ -320,12 +455,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 1380.26,
+        "newPrice": 1449.27
+      }
+    ]
   },
   {
     "id": "825",
     "name": "Bomba da Linha de Combustível",
-    "price": 222.2,
+    "price": 233.31,
     "sku": "NO0018",
     "stock": false,
     "image": "/products/825.webp",
@@ -342,12 +486,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 222.2,
+        "newPrice": 233.31
+      }
+    ]
   },
   {
     "id": "826",
     "name": "bomina de ignição moster",
-    "price": 548.0,
+    "price": 575.4,
     "sku": "NO0019",
     "stock": false,
     "image": "/products/826.webp",
@@ -363,12 +516,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 548.0,
+        "newPrice": 575.4
+      }
+    ]
   },
   {
     "id": "831",
     "name": "Borracha filtro moster silic",
-    "price": 304.79,
+    "price": 320.03,
     "sku": "NO0021",
     "stock": true,
     "image": "/products/831.webp",
@@ -384,12 +546,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 304.79,
+        "newPrice": 320.03
+      }
+    ]
   },
   {
     "id": "832",
     "name": "Cabecote do moster",
-    "price": 833.25,
+    "price": 874.91,
     "sku": "NO0022",
     "stock": true,
     "image": "/products/832.webp",
@@ -405,12 +576,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 833.25,
+        "newPrice": 874.91
+      }
+    ]
   },
   {
     "id": "834",
     "name": "Cabo de Rádio",
-    "price": 132.83,
+    "price": 139.47,
     "sku": "NO0023",
     "stock": false,
     "image": "/products/834.webp",
@@ -427,12 +607,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 132.83,
+        "newPrice": 139.47
+      }
+    ]
   },
   {
     "id": "835",
     "name": "Cabo sensor de temperatura",
-    "price": 333.57,
+    "price": 350.25,
     "sku": "NO0025",
     "stock": false,
     "image": "/products/835.webp",
@@ -449,12 +638,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 333.57,
+        "newPrice": 350.25
+      }
+    ]
   },
   {
     "id": "836",
     "name": "caixa aibox do filtro de ar moster silic",
-    "price": 659.3,
+    "price": 692.27,
     "sku": "NO0027",
     "stock": true,
     "image": "/products/836.webp",
@@ -470,12 +668,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 659.3,
+        "newPrice": 692.27
+      }
+    ]
   },
   {
     "id": "838",
     "name": "Camisa noar casual",
-    "price": 95.0,
+    "price": 99.75,
     "sku": "NO0029",
     "stock": false,
     "image": "/products/838.webp",
@@ -490,12 +697,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 95.0,
+        "newPrice": 99.75
+      }
+    ]
   },
   {
     "id": "839",
     "name": "Camisa de voo com proteção uv",
-    "price": 280.0,
+    "price": 294.0,
     "sku": "",
     "stock": true,
     "image": "/products/839.webp",
@@ -510,12 +726,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 280.0,
+        "newPrice": 294.0
+      }
+    ]
   },
   {
     "id": "840",
     "name": "Capa de Hélice",
-    "price": 220.25,
+    "price": 231.26,
     "sku": "NO0031",
     "stock": true,
     "image": "/products/840.webp",
@@ -530,12 +755,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 220.25,
+        "newPrice": 231.26
+      }
+    ]
   },
   {
     "id": "841",
     "name": "Capa de paramotor",
-    "price": 379.36,
+    "price": 398.33,
     "sku": "NO0032",
     "stock": true,
     "image": "/products/841.webp",
@@ -550,12 +784,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 379.36,
+        "newPrice": 398.33
+      }
+    ]
   },
   {
     "id": "842",
     "name": "Capacete  de voo SEM BLUETOOTH",
-    "price": 2580.0,
+    "price": 2709.0,
     "sku": "NO0033",
     "stock": true,
     "image": "/products/842.webp",
@@ -570,12 +813,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 2580.0,
+        "newPrice": 2709.0
+      }
+    ]
   },
   {
     "id": "843",
     "name": "Carburador walbro 37",
-    "price": 2210.89,
+    "price": 2321.43,
     "sku": "NO0034",
     "stock": true,
     "image": "/products/843.webp",
@@ -591,12 +843,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 2210.89,
+        "newPrice": 2321.43
+      }
+    ]
   },
   {
     "id": "845",
     "name": "Cochim do escape moster",
-    "price": 68.28,
+    "price": 71.69,
     "sku": "NO0041",
     "stock": true,
     "image": "/products/845.webp",
@@ -612,12 +873,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 68.28,
+        "newPrice": 71.69
+      }
+    ]
   },
   {
     "id": "846",
     "name": "Cilindro camisa do moster",
-    "price": 3349.16,
+    "price": 3516.62,
     "sku": "NO0037",
     "stock": true,
     "image": "/products/846.webp",
@@ -633,12 +903,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 3349.16,
+        "newPrice": 3516.62
+      }
+    ]
   },
   {
     "id": "847",
     "name": "Cochim da partida do moster",
-    "price": 62.79,
+    "price": 65.93,
     "sku": "NO0040",
     "stock": true,
     "image": "/products/847.webp",
@@ -654,12 +933,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 62.79,
+        "newPrice": 65.93
+      }
+    ]
   },
   {
     "id": "851",
     "name": "Cochim do Motor Monster",
-    "price": 70.64,
+    "price": 74.17,
     "sku": "NO0042",
     "stock": true,
     "image": "/products/851.webp",
@@ -675,12 +963,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 70.64,
+        "newPrice": 74.17
+      }
+    ]
   },
   {
     "id": "852",
     "name": "Colete Inflável Paramotor Tipo Ágama",
-    "price": 2666.4,
+    "price": 2799.72,
     "sku": "NO0043",
     "stock": true,
     "image": "/products/852.webp",
@@ -695,12 +992,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 2666.4,
+        "newPrice": 2799.72
+      }
+    ]
   },
   {
     "id": "853",
     "name": "Correia do Motor Moster Original Vittorazi",
-    "price": 412.06,
+    "price": 432.66,
     "sku": "NO0046",
     "stock": true,
     "image": "/products/853.webp",
@@ -716,12 +1022,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 412.06,
+        "newPrice": 432.66
+      }
+    ]
   },
   {
     "id": "868",
     "name": "Curso teorico de paramotor",
-    "price": 697.0,
+    "price": 731.85,
     "sku": "NO0053",
     "stock": true,
     "image": "/products/868.webp",
@@ -738,12 +1053,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 697.0,
+        "newPrice": 731.85
+      }
+    ]
   },
   {
     "id": "882",
     "name": "Embreagem Centrífuga do Moster",
-    "price": 1111.0,
+    "price": 1166.55,
     "sku": "NO0055",
     "stock": true,
     "image": "/products/882.webp",
@@ -759,12 +1083,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 1111.0,
+        "newPrice": 1166.55
+      }
+    ]
   },
   {
     "id": "884",
     "name": "Engate rapdo de helice",
-    "price": 620.0,
+    "price": 651.0,
     "sku": "NO0057",
     "stock": false,
     "image": "/products/884.webp",
@@ -781,12 +1114,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 620.0,
+        "newPrice": 651.0
+      }
+    ]
   },
   {
     "id": "887",
     "name": "Escapamento do Moster Completo",
-    "price": 6577.12,
+    "price": 6905.98,
     "sku": "NO0058",
     "stock": true,
     "image": "/products/887.webp",
@@ -801,12 +1143,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 6577.12,
+        "newPrice": 6905.98
+      }
+    ]
   },
   {
     "id": "888",
     "name": "Espaçador Aluminio para Hélice",
-    "price": 177.76,
+    "price": 186.65,
     "sku": "NO0059",
     "stock": true,
     "image": "/products/888.webp",
@@ -822,12 +1173,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 177.76,
+        "newPrice": 186.65
+      }
+    ]
   },
   {
     "id": "889",
     "name": "Esponja do filtro do moster 18",
-    "price": 130.7,
+    "price": 137.24,
     "sku": "NO0060",
     "stock": true,
     "image": "/products/889.webp",
@@ -843,12 +1203,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 130.7,
+        "newPrice": 137.24
+      }
+    ]
   },
   {
     "id": "891",
     "name": "Estrutura alumínio aro solo",
-    "price": 3888.5,
+    "price": 4082.93,
     "sku": "NO0061",
     "stock": true,
     "image": "/products/891.webp",
@@ -863,12 +1232,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 3888.5,
+        "newPrice": 4082.93
+      }
+    ]
   },
   {
     "id": "892",
     "name": "Filtro interno do tanque",
-    "price": 60.7,
+    "price": 63.74,
     "sku": "NO0064",
     "stock": true,
     "image": "/products/892.webp",
@@ -884,12 +1262,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 60.7,
+        "newPrice": 63.74
+      }
+    ]
   },
   {
     "id": "898",
     "name": "Fita de carga trikao",
-    "price": 220.0,
+    "price": 231.0,
     "sku": "NO0065",
     "stock": true,
     "image": "/products/898.webp",
@@ -905,12 +1292,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 220.0,
+        "newPrice": 231.0
+      }
+    ]
   },
   {
     "id": "899",
     "name": "Hélice de carbono E-props",
-    "price": 2444.2,
+    "price": 2566.41,
     "sku": "NO0070",
     "stock": true,
     "image": "/products/899.webp",
@@ -925,12 +1321,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 2444.2,
+        "newPrice": 2566.41
+      }
+    ]
   },
   {
     "id": "900",
     "name": "Hélice de carbono E-props tripa",
-    "price": 3666.3,
+    "price": 3849.62,
     "sku": "NO0071",
     "stock": true,
     "image": "/products/900.webp",
@@ -945,12 +1350,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 3666.3,
+        "newPrice": 3849.62
+      }
+    ]
   },
   {
     "id": "904",
     "name": "Junta do cilindro",
-    "price": 35.58,
+    "price": 37.36,
     "sku": "NO0078",
     "stock": true,
     "image": "/products/904.webp",
@@ -966,12 +1380,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 35.58,
+        "newPrice": 37.36
+      }
+    ]
   },
   {
     "id": "905",
     "name": "Junta carburador MY 22",
-    "price": 27.788,
+    "price": 29.18,
     "sku": "NO0080",
     "stock": false,
     "image": "/products/905.webp",
@@ -987,12 +1410,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 27.788,
+        "newPrice": 29.18
+      }
+    ]
   },
   {
     "id": "907",
     "name": "Junta do escapamento",
-    "price": 27.78,
+    "price": 29.17,
     "sku": "NO0082",
     "stock": true,
     "image": "/products/907.webp",
@@ -1008,12 +1440,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 27.78,
+        "newPrice": 29.17
+      }
+    ]
   },
   {
     "id": "909",
     "name": "kit cahorretes",
-    "price": 133.0,
+    "price": 139.65,
     "sku": "NO0085",
     "stock": true,
     "image": "/products/909.webp",
@@ -1029,12 +1470,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 133.0,
+        "newPrice": 139.65
+      }
+    ]
   },
   {
     "id": "910",
     "name": "Kit de Juntas do Moster 185 cc",
-    "price": 305.53,
+    "price": 320.81,
     "sku": "NO0086",
     "stock": false,
     "image": "/products/910.webp",
@@ -1055,12 +1505,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 305.53,
+        "newPrice": 320.81
+      }
+    ]
   },
   {
     "id": "911",
     "name": "kit parafusos e borracha defletor",
-    "price": 180.94,
+    "price": 189.99,
     "sku": "NO0089",
     "stock": true,
     "image": "/products/911.webp",
@@ -1075,12 +1534,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 180.94,
+        "newPrice": 189.99
+      }
+    ]
   },
   {
     "id": "912",
     "name": "Mola Fina da Partida",
-    "price": 111.1,
+    "price": 116.66,
     "sku": "NO0095",
     "stock": true,
     "image": "/products/912.webp",
@@ -1096,12 +1564,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 111.1,
+        "newPrice": 116.66
+      }
+    ]
   },
   {
     "id": "1069",
     "name": "Mola Grossa da Partida",
-    "price": 282.56,
+    "price": 296.69,
     "sku": "NO0096",
     "stock": true,
     "image": "/products/1069.webp",
@@ -1117,12 +1594,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 282.56,
+        "newPrice": 296.69
+      }
+    ]
   },
   {
     "id": "1077",
     "name": "Par de mosquetão de alumínio para voos solo",
-    "price": 485.0,
+    "price": 509.25,
     "sku": "NO0100",
     "stock": true,
     "image": "/products/1077.webp",
@@ -1138,12 +1624,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 485.0,
+        "newPrice": 509.25
+      }
+    ]
   },
   {
     "id": "1078",
     "name": "Par de mosquetão inox para voos duplos e trikão",
-    "price": 722.15,
+    "price": 758.26,
     "sku": "NO0101",
     "stock": true,
     "image": "/products/1078.webp",
@@ -1159,12 +1654,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 722.15,
+        "newPrice": 758.26
+      }
+    ]
   },
   {
     "id": "1082",
     "name": "Par de mosquetro inox para voo solo",
-    "price": 722.15,
+    "price": 758.26,
     "sku": "NO0102",
     "stock": true,
     "image": "/products/1082.webp",
@@ -1180,12 +1684,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 722.15,
+        "newPrice": 758.26
+      }
+    ]
   },
   {
     "id": "1088",
     "name": "Parafuso Prisioneiro Cilindro",
-    "price": 104.65,
+    "price": 109.88,
     "sku": "NO0103",
     "stock": true,
     "image": "/products/1088.webp",
@@ -1201,12 +1714,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 104.65,
+        "newPrice": 109.88
+      }
+    ]
   },
   {
     "id": "1089",
     "name": "Paraquedas quadrado",
-    "price": 4285.0,
+    "price": 4499.25,
     "sku": "NO0104",
     "stock": false,
     "image": "/products/1089.webp",
@@ -1222,12 +1744,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 4285.0,
+        "newPrice": 4499.25
+      }
+    ]
   },
   {
     "id": "1091",
     "name": "Paraquedas Reserva Redondo",
-    "price": 3640.0,
+    "price": 3822.0,
     "sku": "NO0106",
     "stock": false,
     "image": "/products/1091.webp",
@@ -1243,12 +1774,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 3640.0,
+        "newPrice": 3822.0
+      }
+    ]
   },
   {
     "id": "1094",
     "name": "Paraquedas Reserva Redondo Completo",
-    "price": 4920.0,
+    "price": 5166.0,
     "sku": "NO0105",
     "stock": false,
     "image": "/products/1094.webp",
@@ -1264,12 +1804,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 4920.0,
+        "newPrice": 5166.0
+      }
+    ]
   },
   {
     "id": "1095",
     "name": "Paraquedas Reserva Quadrado Completo",
-    "price": 5585.0,
+    "price": 5864.25,
     "sku": "NO0107",
     "stock": false,
     "image": "/products/1095.webp",
@@ -1285,12 +1834,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 5585.0,
+        "newPrice": 5864.25
+      }
+    ]
   },
   {
     "id": "1294",
     "name": "Pinhão Completo da Embreagem",
-    "price": 1388.0,
+    "price": 1457.4,
     "sku": "NO0109",
     "stock": true,
     "image": "/products/1294.webp",
@@ -1305,12 +1863,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 1388.0,
+        "newPrice": 1457.4
+      }
+    ]
   },
   {
     "id": "1295",
     "name": "Pistão do moster 185 cc A B",
-    "price": 1297.66,
+    "price": 1362.54,
     "sku": "NO0110",
     "stock": true,
     "image": "/products/1295.webp",
@@ -1326,12 +1893,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 1297.66,
+        "newPrice": 1362.54
+      }
+    ]
   },
   {
     "id": "1346",
     "name": "Porca latão",
-    "price": 7.78,
+    "price": 8.17,
     "sku": "NO0111",
     "stock": true,
     "image": "/products/1346.webp",
@@ -1348,12 +1924,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 7.78,
+        "newPrice": 8.17
+      }
+    ]
   },
   {
     "id": "1350",
     "name": "Porta instrumentos Noar",
-    "price": 581.21,
+    "price": 610.27,
     "sku": "NO0112",
     "stock": true,
     "image": "/products/1350.webp",
@@ -1368,12 +1953,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 581.21,
+        "newPrice": 610.27
+      }
+    ]
   },
   {
     "id": "1353",
     "name": "Radio comunicador",
-    "price": 380.0,
+    "price": 399.0,
     "sku": "NO0114",
     "stock": false,
     "image": "/products/1353.webp",
@@ -1388,12 +1982,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 380.0,
+        "newPrice": 399.0
+      }
+    ]
   },
   {
     "id": "1354",
     "name": "kit reparo carburador",
-    "price": 222.2,
+    "price": 233.31,
     "sku": "NO0090",
     "stock": true,
     "image": "/products/1354.webp",
@@ -1409,12 +2012,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 222.2,
+        "newPrice": 233.31
+      }
+    ]
   },
   {
     "id": "1355",
     "name": "kit reparo silenciador",
-    "price": 261.63,
+    "price": 274.71,
     "sku": "NO0091",
     "stock": true,
     "image": "/products/1355.webp",
@@ -1430,12 +2042,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 261.63,
+        "newPrice": 274.71
+      }
+    ]
   },
   {
     "id": "1358",
     "name": "Retentor moster 185 cc",
-    "price": 188.87,
+    "price": 198.31,
     "sku": "NO0116",
     "stock": true,
     "image": "/products/1358.webp",
@@ -1451,12 +2072,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 188.87,
+        "newPrice": 198.31
+      }
+    ]
   },
   {
     "id": "1359",
     "name": "Roldana carretel da partida",
-    "price": 885.0,
+    "price": 929.25,
     "sku": "NO0119",
     "stock": true,
     "image": "/products/1359.webp",
@@ -1472,12 +2102,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 885.0,
+        "newPrice": 929.25
+      }
+    ]
   },
   {
     "id": "1360",
     "name": "Roldana interna da partida",
-    "price": 488.0,
+    "price": 512.4,
     "sku": "NO0120",
     "stock": true,
     "image": "/products/1360.webp",
@@ -1493,12 +2132,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 488.0,
+        "newPrice": 512.4
+      }
+    ]
   },
   {
     "id": "1361",
     "name": "Rolamento bloco moster",
-    "price": 222.2,
+    "price": 233.31,
     "sku": "NO0117",
     "stock": true,
     "image": "/products/1361.webp",
@@ -1514,12 +2162,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 222.2,
+        "newPrice": 233.31
+      }
+    ]
   },
   {
     "id": "1362",
     "name": "Rolamento da polia moster",
-    "price": 222.2,
+    "price": 233.31,
     "sku": "NO0118",
     "stock": true,
     "image": "/products/1362.webp",
@@ -1535,12 +2192,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 222.2,
+        "newPrice": 233.31
+      }
+    ]
   },
   {
     "id": "1363",
     "name": "Saco de roubada",
-    "price": 320.31,
+    "price": 336.33,
     "sku": "NO0122",
     "stock": true,
     "image": "/products/1363.webp",
@@ -1555,12 +2221,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 320.31,
+        "newPrice": 336.33
+      }
+    ]
   },
   {
     "id": "1364",
     "name": "Selete dudek",
-    "price": 7221.5,
+    "price": 7582.58,
     "sku": "NO0125",
     "stock": true,
     "image": "/products/1364.webp",
@@ -1575,12 +2250,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 7221.5,
+        "newPrice": 7582.58
+      }
+    ]
   },
   {
     "id": "1365",
     "name": "Selete sol evolution",
-    "price": 3510.76,
+    "price": 3686.3,
     "sku": "NO0124",
     "stock": true,
     "image": "/products/1365.webp",
@@ -1595,12 +2279,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 3510.76,
+        "newPrice": 3686.3
+      }
+    ]
   },
   {
     "id": "1368",
     "name": "Selete passageiro No ar",
-    "price": 1380.26,
+    "price": 1449.27,
     "sku": "NO0126",
     "stock": false,
     "image": "/products/1368.webp",
@@ -1616,12 +2309,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 1380.26,
+        "newPrice": 1449.27
+      }
+    ]
   },
   {
     "id": "1369",
     "name": "Sistema de bluetooth",
-    "price": 780.0,
+    "price": 819.0,
     "sku": "NO0129",
     "stock": true,
     "image": "/products/1369.webp",
@@ -1636,12 +2338,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 780.0,
+        "newPrice": 819.0
+      }
+    ]
   },
   {
     "id": "1370",
     "name": "Silenciador do escape",
-    "price": 1555.4,
+    "price": 1633.17,
     "sku": "NO0128",
     "stock": true,
     "image": "/products/1370.webp",
@@ -1657,12 +2368,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 1555.4,
+        "newPrice": 1633.17
+      }
+    ]
   },
   {
     "id": "1371",
     "name": "Tampa do pião da embreagem",
-    "price": 45.84,
+    "price": 48.13,
     "sku": "NO0130",
     "stock": true,
     "image": "/products/1371.webp",
@@ -1678,12 +2398,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 45.84,
+        "newPrice": 48.13
+      }
+    ]
   },
   {
     "id": "1373",
     "name": "Trava valvula da gasolina",
-    "price": 52.33,
+    "price": 54.95,
     "sku": "NO0133",
     "stock": true,
     "image": "/products/1373.webp",
@@ -1699,12 +2428,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 52.33,
+        "newPrice": 54.95
+      }
+    ]
   },
   {
     "id": "1374",
     "name": "Triangulo escapamento",
-    "price": 428.0,
+    "price": 449.4,
     "sku": "NO0134",
     "stock": true,
     "image": "/products/1374.webp",
@@ -1720,12 +2458,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 428.0,
+        "newPrice": 449.4
+      }
+    ]
   },
   {
     "id": "1375",
     "name": "TTO conta horas horimetro",
-    "price": 655.2,
+    "price": 687.96,
     "sku": "NO0135",
     "stock": true,
     "image": "/products/1375.webp",
@@ -1740,12 +2487,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 655.2,
+        "newPrice": 687.96
+      }
+    ]
   },
   {
     "id": "1376",
     "name": "Colete salva inflavel",
-    "price": 680.0,
+    "price": 714.0,
     "sku": "NO0044",
     "stock": true,
     "image": "/products/1376.webp",
@@ -1760,12 +2516,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 680.0,
+        "newPrice": 714.0
+      }
+    ]
   },
   {
     "id": "1377",
     "name": "Vela de ingnição",
-    "price": 73.26,
+    "price": 76.92,
     "sku": "NO0139",
     "stock": true,
     "image": "/products/1377.webp",
@@ -1781,12 +2546,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 73.26,
+        "newPrice": 76.92
+      }
+    ]
   },
   {
     "id": "1378",
     "name": "Fonia 3m para capacete",
-    "price": 1550.0,
+    "price": 1627.5,
     "sku": "NO0068",
     "stock": false,
     "image": "/products/1378.webp",
@@ -1802,12 +2576,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 1550.0,
+        "newPrice": 1627.5
+      }
+    ]
   },
   {
     "id": "1653",
     "name": "Acelerador Original poline mono",
-    "price": 1200.86,
+    "price": 1260.9,
     "sku": "NO0002",
     "stock": true,
     "image": "/products/1653.webp",
@@ -1822,12 +2605,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 1200.86,
+        "newPrice": 1260.9
+      }
+    ]
   },
   {
     "id": "1655",
     "name": "Acelerador Original poline dual",
-    "price": 1722.05,
+    "price": 1808.15,
     "sku": "NO0003",
     "stock": true,
     "image": "/products/1655.webp",
@@ -1842,12 +2634,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 1722.05,
+        "newPrice": 1808.15
+      }
+    ]
   },
   {
     "id": "1656",
     "name": "Acelerador Red fly dual",
-    "price": 579.6,
+    "price": 608.58,
     "sku": "NO0006",
     "stock": true,
     "image": "/products/1656.webp",
@@ -1862,12 +2663,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 579.6,
+        "newPrice": 608.58
+      }
+    ]
   },
   {
     "id": "1658",
     "name": "Acelerador up fly dual",
-    "price": 412.97,
+    "price": 433.62,
     "sku": "NO0007",
     "stock": false,
     "image": "/products/1658.webp",
@@ -1882,12 +2692,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 412.97,
+        "newPrice": 433.62
+      }
+    ]
   },
   {
     "id": "1659",
     "name": "Caixa aibox do filtro de ar moster my 22",
-    "price": 789.0,
+    "price": 828.45,
     "sku": "NO0026",
     "stock": true,
     "image": "/products/1659.webp",
@@ -1902,12 +2721,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 789.0,
+        "newPrice": 828.45
+      }
+    ]
   },
   {
     "id": "1660",
     "name": "Engate Rapdo Bateria",
-    "price": 20.93,
+    "price": 21.98,
     "sku": "NO0056",
     "stock": true,
     "image": "/products/1660.webp",
@@ -1923,12 +2751,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 20.93,
+        "newPrice": 21.98
+      }
+    ]
   },
   {
     "id": "1661",
     "name": "Flange baquelete Metal",
-    "price": 257.13,
+    "price": 269.99,
     "sku": "NO0066",
     "stock": true,
     "image": "/products/1661.webp",
@@ -1943,12 +2780,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 257.13,
+        "newPrice": 269.99
+      }
+    ]
   },
   {
     "id": "1665",
     "name": "Grampo estrutura p2f",
-    "price": 23.55,
+    "price": 24.73,
     "sku": "NO0069",
     "stock": true,
     "image": "/products/1665.webp",
@@ -1964,12 +2810,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 23.55,
+        "newPrice": 24.73
+      }
+    ]
   },
   {
     "id": "1666",
     "name": "Falange Airbox my 22",
-    "price": 350.0,
+    "price": 367.5,
     "sku": "NO0062",
     "stock": true,
     "image": "/products/1666.webp",
@@ -1985,12 +2840,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 350.0,
+        "newPrice": 367.5
+      }
+    ]
   },
   {
     "id": "1672",
     "name": "Helice Madeira ventilação forçada",
-    "price": 770.7,
+    "price": 809.24,
     "sku": "NO0076",
     "stock": false,
     "image": "/products/1672.webp",
@@ -2005,12 +2869,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 770.7,
+        "newPrice": 809.24
+      }
+    ]
   },
   {
     "id": "1673",
     "name": "Helice Madeira ventilaçao forçada personalizada",
-    "price": 770.7,
+    "price": 809.24,
     "sku": "NO0077",
     "stock": true,
     "image": "/products/1673.webp",
@@ -2025,12 +2898,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 770.7,
+        "newPrice": 809.24
+      }
+    ]
   },
   {
     "id": "1674",
     "name": "Junta carburador silt",
-    "price": 35.58,
+    "price": 37.36,
     "sku": "NO0081",
     "stock": true,
     "image": "/products/1674.webp",
@@ -2045,12 +2927,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 35.58,
+        "newPrice": 37.36
+      }
+    ]
   },
   {
     "id": "1675",
     "name": "Junta interna Baquelete",
-    "price": 27.78,
+    "price": 29.17,
     "sku": "NO0079",
     "stock": true,
     "image": "/products/1675.webp",
@@ -2066,12 +2957,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 27.78,
+        "newPrice": 29.17
+      }
+    ]
   },
   {
     "id": "1677",
     "name": "Junta do silenciador",
-    "price": 33.33,
+    "price": 35.0,
     "sku": "NO0083",
     "stock": true,
     "image": "/products/1677.webp",
@@ -2088,12 +2988,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 33.33,
+        "newPrice": 35.0
+      }
+    ]
   },
   {
     "id": "1678",
     "name": "Junta externa Baquelete",
-    "price": 45.0,
+    "price": 47.25,
     "sku": "NO0084",
     "stock": true,
     "image": "/products/1678.webp",
@@ -2109,12 +3018,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 45.0,
+        "newPrice": 47.25
+      }
+    ]
   },
   {
     "id": "1679",
     "name": "Kit Palhetas do Carburador",
-    "price": 207.21,
+    "price": 217.57,
     "sku": "NO0088",
     "stock": true,
     "image": "/products/1679.webp",
@@ -2130,12 +3048,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 207.21,
+        "newPrice": 217.57
+      }
+    ]
   },
   {
     "id": "1681",
     "name": "Mola cachorrete",
-    "price": 48.99,
+    "price": 51.44,
     "sku": "NO0093",
     "stock": true,
     "image": "/products/1681.webp",
@@ -2151,12 +3078,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 48.99,
+        "newPrice": 51.44
+      }
+    ]
   },
   {
     "id": "1682",
     "name": "Puxador de start partida",
-    "price": 212.96,
+    "price": 223.61,
     "sku": "NO0113",
     "stock": true,
     "image": "/products/1682.webp",
@@ -2172,12 +3108,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 212.96,
+        "newPrice": 223.61
+      }
+    ]
   },
   {
     "id": "1685",
     "name": "Rolete do Pistão",
-    "price": 104.65,
+    "price": 109.88,
     "sku": "NO0121",
     "stock": true,
     "image": "/products/1685.webp",
@@ -2193,12 +3138,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 104.65,
+        "newPrice": 109.88
+      }
+    ]
   },
   {
     "id": "1686",
     "name": "Trava clip estrutura carbom",
-    "price": 35.72,
+    "price": 37.51,
     "sku": "NO0131",
     "stock": false,
     "image": "/products/1686.webp",
@@ -2214,12 +3168,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 35.72,
+        "newPrice": 37.51
+      }
+    ]
   },
   {
     "id": "1687",
     "name": "Tubo engate estrutura carbom",
-    "price": 35.72,
+    "price": 37.51,
     "sku": "NO0137",
     "stock": true,
     "image": "/products/1687.webp",
@@ -2235,12 +3198,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 35.72,
+        "newPrice": 37.51
+      }
+    ]
   },
   {
     "id": "1688",
     "name": "União aro estrutura carbom",
-    "price": 35.72,
+    "price": 37.51,
     "sku": "NO0138",
     "stock": false,
     "image": "/products/1688.webp",
@@ -2256,12 +3228,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 35.72,
+        "newPrice": 37.51
+      }
+    ]
   },
   {
     "id": "1731",
     "name": "Trava estrutura p2f",
-    "price": 16.67,
+    "price": 17.5,
     "sku": "NO0132",
     "stock": true,
     "image": "/products/1731.webp",
@@ -2277,12 +3258,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 16.67,
+        "newPrice": 17.5
+      }
+    ]
   },
   {
     "id": "1733",
     "name": "Paramotor Moster 185cc com Titânio - Configuração Plus",
-    "price": 53860.0,
+    "price": 56553.0,
     "sku": "",
     "stock": true,
     "image": "/products/1733.webp",
@@ -2297,12 +3287,21 @@
     "weight": "1",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 53860.0,
+        "newPrice": 56553.0
+      }
+    ]
   },
   {
     "id": "1745",
     "name": "Paramotor Aton 80cc com UP Carbon - Configuração Básica",
-    "price": 37980.65,
+    "price": 39879.68,
     "sku": "NO0144",
     "stock": true,
     "image": "/products/1745.webp",
@@ -2317,12 +3316,21 @@
     "weight": "1",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 37980.65,
+        "newPrice": 39879.68
+      }
+    ]
   },
   {
     "id": "1746",
     "name": "Paramotor Moster 185cc  my 25 - Configuração PLUS",
-    "price": 39828.0,
+    "price": 41819.4,
     "sku": "",
     "stock": true,
     "image": "/products/1746.webp",
@@ -2337,12 +3345,21 @@
     "weight": "1",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 39828.0,
+        "newPrice": 41819.4
+      }
+    ]
   },
   {
     "id": "1764",
     "name": "Estrutura de Paramotor de Alumínio Ponto Médio com Selete",
-    "price": 1500.0,
+    "price": 1575.0,
     "sku": "",
     "stock": false,
     "image": "/products/1764.webp",
@@ -2357,12 +3374,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 1500.0,
+        "newPrice": 1575.0
+      }
+    ]
   },
   {
     "id": "1789",
     "name": "Tecido de Asa de Paramotor (Asa Condenada – Não Serve Para Voos)",
-    "price": 420.0,
+    "price": 441.0,
     "sku": "",
     "stock": true,
     "image": "/products/1789.webp",
@@ -2377,12 +3403,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 420.0,
+        "newPrice": 441.0
+      }
+    ]
   },
   {
     "id": "1790",
     "name": "Tecido de Asa de Paramotor (Asa Condenada – Não Serve Para Voos) (Copy)",
-    "price": 420.0,
+    "price": 441.0,
     "sku": "",
     "stock": true,
     "image": "/products/1790.webp",
@@ -2397,12 +3432,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 420.0,
+        "newPrice": 441.0
+      }
+    ]
   },
   {
     "id": "1791",
     "name": "Tecido de Asa de Paramotor (Asa Condenada – Não Serve Para Voos) (Copy) (Copy)",
-    "price": 420.0,
+    "price": 441.0,
     "sku": "",
     "stock": true,
     "image": "/products/1791.webp",
@@ -2417,12 +3461,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 420.0,
+        "newPrice": 441.0
+      }
+    ]
   },
   {
     "id": "1793",
     "name": "Borracha Filtro Moster MY 22",
-    "price": 365.75,
+    "price": 384.04,
     "sku": "NO0020",
     "stock": true,
     "image": "/products/1793.webp",
@@ -2437,12 +3490,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 365.75,
+        "newPrice": 384.04
+      }
+    ]
   },
   {
     "id": "1794",
     "name": "Cabo extensor de temperatura",
-    "price": 324.42,
+    "price": 340.64,
     "sku": "NO0024",
     "stock": true,
     "image": "/products/1794.webp",
@@ -2457,12 +3519,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 324.42,
+        "newPrice": 340.64
+      }
+    ]
   },
   {
     "id": "1797",
     "name": "Caixa de Valvula Aleta de torque Baquelete",
-    "price": 388.85,
+    "price": 408.29,
     "sku": "NO0028",
     "stock": true,
     "image": "/products/1797.webp",
@@ -2477,12 +3548,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 388.85,
+        "newPrice": 408.29
+      }
+    ]
   },
   {
     "id": "1798",
     "name": "Carretilha start",
-    "price": 115.38,
+    "price": 121.15,
     "sku": "NO0035",
     "stock": true,
     "image": "/products/1798.webp",
@@ -2497,12 +3577,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 115.38,
+        "newPrice": 121.15
+      }
+    ]
   },
   {
     "id": "1799",
     "name": "Chassi estrutura titanio com chassi bipartido",
-    "price": 13332.0,
+    "price": 13998.6,
     "sku": "NO0036",
     "stock": true,
     "image": "/products/1799.webp",
@@ -2517,12 +3606,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 13332.0,
+        "newPrice": 13998.6
+      }
+    ]
   },
   {
     "id": "1800",
     "name": "Cilindro co2  colete 33g",
-    "price": 277.75,
+    "price": 291.64,
     "sku": "NO0039",
     "stock": true,
     "image": "/products/1800.webp",
@@ -2537,12 +3635,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 277.75,
+        "newPrice": 291.64
+      }
+    ]
   },
   {
     "id": "1801",
     "name": "Cilindro com agama 60 g",
-    "price": 277.75,
+    "price": 291.64,
     "sku": "NO0038",
     "stock": true,
     "image": "/products/1801.webp",
@@ -2557,12 +3664,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 277.75,
+        "newPrice": 291.64
+      }
+    ]
   },
   {
     "id": "1802",
     "name": "Falange helice",
-    "price": 111.1,
+    "price": 116.66,
     "sku": "NO0063",
     "stock": true,
     "image": "/products/1802.webp",
@@ -2577,12 +3693,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 111.1,
+        "newPrice": 116.66
+      }
+    ]
   },
   {
     "id": "1803",
     "name": "Curva do escapamento moster",
-    "price": 1306.03,
+    "price": 1371.33,
     "sku": "NO0054",
     "stock": true,
     "image": "/products/1803.webp",
@@ -2597,12 +3722,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 1306.03,
+        "newPrice": 1371.33
+      }
+    ]
   },
   {
     "id": "1805",
     "name": "4 kit Mola escape",
-    "price": 92.55,
+    "price": 97.18,
     "sku": "NO0092",
     "stock": false,
     "image": "/products/1805.webp",
@@ -2617,12 +3751,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 92.55,
+        "newPrice": 97.18
+      }
+    ]
   },
   {
     "id": "1806",
     "name": "Molas escape",
-    "price": 18.33,
+    "price": 19.25,
     "sku": "NO0094",
     "stock": true,
     "image": "/products/1806.webp",
@@ -2637,12 +3780,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 18.33,
+        "newPrice": 19.25
+      }
+    ]
   },
   {
     "id": "1807",
     "name": "Motor de arranque moster 85 cc",
-    "price": 2720.0,
+    "price": 2856.0,
     "sku": "NO0097",
     "stock": true,
     "image": "/products/1807.webp",
@@ -2658,12 +3810,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 2720.0,
+        "newPrice": 2856.0
+      }
+    ]
   },
   {
     "id": "1808",
     "name": "Partida completa",
-    "price": 2795.0,
+    "price": 2934.75,
     "sku": "NO0108",
     "stock": true,
     "image": "/products/1808.webp",
@@ -2679,12 +3840,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 2795.0,
+        "newPrice": 2934.75
+      }
+    ]
   },
   {
     "id": "1811",
     "name": "Refil filtro interno tanque",
-    "price": 35.0,
+    "price": 36.75,
     "sku": "NO0115",
     "stock": true,
     "image": "/products/1811.webp",
@@ -2699,12 +3869,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 35.0,
+        "newPrice": 36.75
+      }
+    ]
   },
   {
     "id": "1815",
     "name": "Selete passageiro sol",
-    "price": 2688.62,
+    "price": 2823.05,
     "sku": "NO0127",
     "stock": true,
     "image": "/placeholder.svg",
@@ -2719,12 +3898,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 2688.62,
+        "newPrice": 2823.05
+      }
+    ]
   },
   {
     "id": "1817",
     "name": "Asa cosmos flow",
-    "price": 20980.0,
+    "price": 22029.0,
     "sku": "",
     "stock": true,
     "image": "/products/1817.webp",
@@ -2739,12 +3927,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 20980.0,
+        "newPrice": 22029.0
+      }
+    ]
   },
   {
     "id": "1818",
     "name": "Asa rpm flow",
-    "price": 21900.0,
+    "price": 22995.0,
     "sku": "",
     "stock": true,
     "image": "/products/1818.webp",
@@ -2759,7 +3956,16 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 21900.0,
+        "newPrice": 22995.0
+      }
+    ]
   },
   {
     "id": "1820",
@@ -2784,7 +3990,7 @@
   {
     "id": "1821",
     "name": "Conteine lateral",
-    "price": 528.0,
+    "price": 554.4,
     "sku": "",
     "stock": true,
     "image": "/products/1821.webp",
@@ -2799,12 +4005,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 528.0,
+        "newPrice": 554.4
+      }
+    ]
   },
   {
     "id": "1823",
     "name": "Corda da partida",
-    "price": 50.0,
+    "price": 52.5,
     "sku": "",
     "stock": true,
     "image": "/products/1823.webp",
@@ -2820,12 +4035,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 50.0,
+        "newPrice": 52.5
+      }
+    ]
   },
   {
     "id": "1824",
     "name": "Defletor de carbono",
-    "price": 580.0,
+    "price": 609.0,
     "sku": "",
     "stock": true,
     "image": "/products/1824.webp",
@@ -2840,12 +4064,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 580.0,
+        "newPrice": 609.0
+      }
+    ]
   },
   {
     "id": "1826",
     "name": "Kit térmico",
-    "price": 4890.0,
+    "price": 5134.5,
     "sku": "",
     "stock": true,
     "image": "/products/1826.webp",
@@ -2860,12 +4093,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 4890.0,
+        "newPrice": 5134.5
+      }
+    ]
   },
   {
     "id": "1830",
     "name": "Anilha Balão",
-    "price": 116.05,
+    "price": 121.85,
     "sku": "NO0010",
     "stock": true,
     "image": "/products/1830.webp",
@@ -2880,12 +4122,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 116.05,
+        "newPrice": 121.85
+      }
+    ]
   },
   {
     "id": "1835",
     "name": "Flange baquelete x carburador",
-    "price": 185.0,
+    "price": 194.25,
     "sku": "NO0067",
     "stock": true,
     "image": "/products/1835.webp",
@@ -2901,12 +4152,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 185.0,
+        "newPrice": 194.25
+      }
+    ]
   },
   {
     "id": "1837",
     "name": "Kit voo duplo",
-    "price": 5320.0,
+    "price": 5586.0,
     "sku": "",
     "stock": true,
     "image": "/products/1837.webp",
@@ -2922,12 +4182,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 5320.0,
+        "newPrice": 5586.0
+      }
+    ]
   },
   {
     "id": "1838",
     "name": "Motor aton 80c Vittorazi",
-    "price": 29997.0,
+    "price": 31496.85,
     "sku": "",
     "stock": true,
     "image": "/products/1838.webp",
@@ -2942,12 +4211,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 29997.0,
+        "newPrice": 31496.85
+      }
+    ]
   },
   {
     "id": "1863",
     "name": "Engate Rápido de Bracinho para Paramotor em Alumínio – Ponto Médio Universal",
-    "price": 592.0,
+    "price": 621.6,
     "sku": "",
     "stock": true,
     "image": "/products/1863.webp",
@@ -2963,12 +4241,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 592.0,
+        "newPrice": 621.6
+      }
+    ]
   },
   {
     "id": "1868",
     "name": "Engate Rápido para Selete com Anilhas – Aço Inox Reforçado",
-    "price": 198.0,
+    "price": 207.9,
     "sku": "",
     "stock": true,
     "image": "/products/1868.webp",
@@ -2985,12 +4272,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 198.0,
+        "newPrice": 207.9
+      }
+    ]
   },
   {
     "id": "1873",
     "name": "Campana Original para Paramotor Moster 185cc",
-    "price": 1338.0,
+    "price": 1404.9,
     "sku": "",
     "stock": true,
     "image": "/products/1873.webp",
@@ -3006,12 +4302,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 1338.0,
+        "newPrice": 1404.9
+      }
+    ]
   },
   {
     "id": "1884",
     "name": "Motor Vittorazi Moster 185 MY’25 – Alto Desempenho para Paramotor",
-    "price": 29997.0,
+    "price": 31496.85,
     "sku": "",
     "stock": true,
     "image": "/products/1884.webp",
@@ -3026,12 +4331,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 29997.0,
+        "newPrice": 31496.85
+      }
+    ]
   },
   {
     "id": "1888",
     "name": "Motor Vittorazi Moster 185 MY’25 DUAL – Elétrico e Manual",
-    "price": 29319.29,
+    "price": 30785.25,
     "sku": "",
     "stock": true,
     "image": "/products/1888.webp",
@@ -3046,12 +4360,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 29319.29,
+        "newPrice": 30785.25
+      }
+    ]
   },
   {
     "id": "1955",
     "name": "Paramotor Moster 185cc  my25 - Configuração Básica",
-    "price": 37880.0,
+    "price": 39774.0,
     "sku": "",
     "stock": true,
     "image": "/products/1955.webp",
@@ -3066,12 +4389,21 @@
     "weight": "1",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 37880.0,
+        "newPrice": 39774.0
+      }
+    ]
   },
   {
     "id": "1963",
     "name": "Estrutura aluminio minizinha",
-    "price": 4880.0,
+    "price": 5124.0,
     "sku": "NO0061-1",
     "stock": true,
     "image": "/products/1963.webp",
@@ -3086,12 +4418,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 4880.0,
+        "newPrice": 5124.0
+      }
+    ]
   },
   {
     "id": "1973",
     "name": "Aro Solo Inox para Paramotor",
-    "price": 7221.5,
+    "price": 7582.58,
     "sku": "NO0061-3",
     "stock": true,
     "image": "/products/1973.webp",
@@ -3106,12 +4447,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 7221.5,
+        "newPrice": 7582.58
+      }
+    ]
   },
   {
     "id": "1975",
     "name": "Estrutura Fênix Inox para Paramotor – Aro Solo 1,45 m | Flutua na Água",
-    "price": 9890.0,
+    "price": 10384.5,
     "sku": "NO0061-2-1",
     "stock": true,
     "image": "/products/1975.webp",
@@ -3126,12 +4476,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 9890.0,
+        "newPrice": 10384.5
+      }
+    ]
   },
   {
     "id": "2002",
     "name": "Curso Teórico de Voo Duplo – Segurança e Responsabilidade No ar",
-    "price": 2890.0,
+    "price": 3034.5,
     "sku": "",
     "stock": true,
     "image": "/products/2002.webp",
@@ -3149,12 +4508,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 2890.0,
+        "newPrice": 3034.5
+      }
+    ]
   },
   {
     "id": "2027",
     "name": "Voo Duplo de Paramotor – Cupom GABI (R$10 de Desconto)",
-    "price": 399.0,
+    "price": 418.95,
     "sku": "",
     "stock": true,
     "image": "/products/2027.webp",
@@ -3169,12 +4537,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 399.0,
+        "newPrice": 418.95
+      }
+    ]
   },
   {
     "id": "2045",
     "name": "“Evolução do Piloto de Paramotor (Modo Ansioso 😅)”",
-    "price": 24.97,
+    "price": 26.22,
     "sku": "",
     "stock": true,
     "image": "/products/2045.webp",
@@ -3189,12 +4566,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 24.97,
+        "newPrice": 26.22
+      }
+    ]
   },
   {
     "id": "2053",
     "name": "Adesivo Oficial NoAr Paramotor",
-    "price": 12.0,
+    "price": 12.6,
     "sku": "",
     "stock": true,
     "image": "/products/2053.webp",
@@ -3209,12 +4595,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 12.0,
+        "newPrice": 12.6
+      }
+    ]
   },
   {
     "id": "2055",
     "name": "Adesivo NoAr Paramotor – Estilo de Vida no Ar",
-    "price": 12.97,
+    "price": 13.62,
     "sku": "",
     "stock": true,
     "image": "/products/2055.webp",
@@ -3229,12 +4624,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 12.97,
+        "newPrice": 13.62
+      }
+    ]
   },
   {
     "id": "2093",
     "name": "Reboque de Faixa: O Guia Completo",
-    "price": 389.0,
+    "price": 408.45,
     "sku": "10000",
     "stock": true,
     "image": "/products/2093.webp",
@@ -3251,12 +4655,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 389.0,
+        "newPrice": 408.45
+      }
+    ]
   },
   {
     "id": "2098",
     "name": "Curso de Adaptação para Voo de Paratrike",
-    "price": 497.0,
+    "price": 521.85,
     "sku": "",
     "stock": true,
     "image": "/products/2098.webp",
@@ -3273,12 +4686,21 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 497.0,
+        "newPrice": 521.85
+      }
+    ]
   },
   {
     "id": "2130",
     "name": "Tampão de Escapamento em Borracha Vermelha para Silenciador de Paramotor",
-    "price": 49.0,
+    "price": 51.45,
     "sku": "",
     "stock": true,
     "image": "/products/2130.webp",
@@ -3293,6 +4715,15 @@
     "weight": "",
     "length": "",
     "width": "",
-    "height": ""
+    "height": "",
+    "priceAdjustments": [
+      {
+        "id": "catalog-2026-11-05-plus5",
+        "date": "2026-11-05",
+        "percent": 5,
+        "previousPrice": 49.0,
+        "newPrice": 51.45
+      }
+    ]
   }
 ]

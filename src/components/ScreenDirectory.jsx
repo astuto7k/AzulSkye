@@ -4,6 +4,7 @@ import {
   ShieldCheck,
   Store,
   UserRound,
+  Wrench,
 } from "lucide-react";
 import { SCREEN_GROUPS } from "../routes.js";
 export default function ScreenDirectory() {
@@ -18,7 +19,7 @@ export default function ScreenDirectory() {
       <div className="directory-logins">
         <h2>Acessos de demonstração</h2>
         <p>
-          Senha dos três perfis: <code>AzulDemo123!</code>
+          Senha dos quatro perfis: <code>AzulDemo123!</code>
         </p>
         <div>
           <span>
@@ -26,6 +27,9 @@ export default function ScreenDirectory() {
           </span>
           <span>
             <Store size={18} /> vendedor@azulskye.demo
+          </span>
+          <span>
+            <Wrench size={18} /> oficina@azulskye.demo
           </span>
           <span>
             <ShieldCheck size={18} /> admin@azulskye.demo
