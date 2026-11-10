@@ -3057,3 +3057,30 @@ input[type="radio"] {
     padding: 22px 16px;
   }
 }
+
+/* Marketplace entry remains visible before the home catalog sections. */
+.marketplace-spotlight {
+  margin-top: 26px;
+  padding: 28px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  background: var(--brand-primary-soft);
+  border: 1px solid #c6d9fd;
+  border-radius: 16px;
+}
+.marketplace-spotlight-icon { color: var(--brand-primary); flex-shrink: 0; }
+.marketplace-spotlight-copy { flex: 1; min-width: 0; }
+.marketplace-spotlight h2 { font-size: 25px; line-height: 1.25; margin: 9px 0; }
+.marketplace-spotlight p { color: var(--text-secondary); font-size: 14px; line-height: 1.6; margin: 0; }
+.marketplace-spotlight .eyebrow { color: var(--brand-navy-light); font-size: 11px; }
+.marketplace-spotlight-actions { display: flex; flex-direction: column; gap: 10px; flex-shrink: 0; }
+.desktop-nav .nav-market { background: var(--brand-primary-soft); color: var(--brand-navy-light); padding: 10px 16px; border-radius: 8px; font-weight: 800; }
+@media (max-width: 760px) {
+ .marketplace-spotlight { flex-wrap: wrap; gap: 14px; padding: 22px; }
+ .marketplace-spotlight-icon { display: none; }
+ .marketplace-spotlight-copy { flex-basis: 100%; }
+ .marketplace-spotlight h2 { font-size: 23px; }
+ .marketplace-spotlight-actions { width: 100%; flex-direction: row; flex-wrap: wrap; }
+ .marketplace-spotlight-actions .btn { flex: 1; padding: 12px; font-size: 13px; white-space: nowrap; }
+}

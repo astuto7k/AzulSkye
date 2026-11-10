@@ -474,8 +474,8 @@ export default function App() {
               <a className="btn btn-lime" href="#/catalogo">
                 Explorar equipamentos <ArrowUpRight size={19} />
               </a>
-              <a className="hero-secondary" href="#/catalogo">
-                Ver categorias <ArrowRight size={16} />
+              <a className="hero-secondary" href="#/marketplace">
+                Explorar marketplace <ArrowRight size={16} />
               </a>
             </div>
             <div className="hero-bottom">
@@ -547,6 +547,18 @@ export default function App() {
             </span>
           </button>
         </div>
+        <section className="marketplace-spotlight wrap" aria-labelledby="marketplace-spotlight-title">
+          <div className="marketplace-spotlight-icon"><Store size={30} /></div>
+          <div className="marketplace-spotlight-copy">
+            <span className="eyebrow">MARKETPLACE AZULSKYE · NOVOS E USADOS</span>
+            <h2 id="marketplace-spotlight-title">Compre de outros pilotos. Venda seu equipamento.</h2>
+            <p>Além da loja oficial, encontre anúncios da comunidade ou cadastre seus produtos para vender na AzulSkye.</p>
+          </div>
+          <div className="marketplace-spotlight-actions">
+            <a className="btn btn-primary" href="#/marketplace">Ver anúncios <ArrowUpRight size={18} /></a>
+            <a className="btn btn-outline" href="#/vender">Quero vender <Plus size={18} /></a>
+          </div>
+        </section>
         <section className="section wrap">
           {sectionHeading(
             "ESCOLHA SUA PRÓXIMA DECOLAGEM",
