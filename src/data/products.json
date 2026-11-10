@@ -3936,7 +3936,8 @@
         "previousPrice": 20980.0,
         "newPrice": 22029.0
       }
-    ]
+    ],
+    "status": "hidden"
   },
   {
     "id": "1818",
@@ -3965,7 +3966,8 @@
         "previousPrice": 21900.0,
         "newPrice": 22995.0
       }
-    ]
+    ],
+    "status": "hidden"
   },
   {
     "id": "1820",
@@ -4725,5 +4727,53 @@
         "newPrice": 51.45
       }
     ]
+  },
+  {
+    "id": "powerseat-comfort-low",
+    "name": "PowerSeat Comfort Low",
+    "price": 5499.9,
+    "brand": "Dudek",
+    "categories": [
+      "Seletes"
+    ],
+    "description": "Selete Dudek de paramotor para quem quer uma proposta mais voltada a conforto e suporte. Nível: Conforto. Uso: Mais conforto no conjunto e uso de paramotor.",
+    "image": "/products/powerseat-comfort-low.png",
+    "gallery": [
+      "/products/powerseat-comfort-low.png"
+    ],
+    "official": true,
+    "seller": "AzulSkye",
+    "sellerId": "official",
+    "condition": "Novo",
+    "stock": true,
+    "sku": "",
+    "weight": "",
+    "length": "",
+    "width": "",
+    "height": ""
+  },
+  {
+    "id": "macpara-colorado-2gt",
+    "name": "MAC PARA Colorado 2 GT",
+    "price": 22990,
+    "brand": "MAC PARA",
+    "categories": [
+      "Asas"
+    ],
+    "description": "Vela / asa MAC PARA Colorado 2 GT para paramotor. Consulte os tamanhos disponíveis e a compatibilidade com seu conjunto.",
+    "image": "/products/macpara-colorado-2gt.png",
+    "gallery": [
+      "/products/macpara-colorado-2gt.png"
+    ],
+    "official": true,
+    "seller": "AzulSkye",
+    "sellerId": "official",
+    "condition": "Novo",
+    "stock": true,
+    "sku": "",
+    "weight": "",
+    "length": "",
+    "width": "",
+    "height": ""
   }
 ]

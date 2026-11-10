@@ -55,11 +55,11 @@ test("workshops only view their own maintenance requests and sellers do not rece
 test("all copied prices receive one 5% increase and the unpriced product stays unpriced", () => {
   const read = (name) =>
     JSON.parse(readFileSync(new URL("../src/data/" + name, import.meta.url)));
-  const products = [...read("products.json"), ...read("he-products.json")];
+  const products = [...read("products.json"), ...read("he-products.json")].filter((p) => p.priceAdjustments);
   assert.equal(products.filter((p) => p.price !== null).length, 163);
-  assert.equal(products.find((p) => p.id === "1820").price, null);
+  assert.equal(read("products.json").find((p) => p.id === "1820").price, null);
   assert.equal(
-    Math.round(products.reduce((s, p) => s + (p.price || 0), 0) * 100),
+    Math.round(products.reduce((s, p) => s + (p.priceAdjustments?.[0]?.newPrice || 0), 0) * 100),
     70717004,
   );
   for (const p of products.filter((p) => p.price !== null)) {
@@ -67,6 +67,6 @@ test("all copied prices receive one 5% increase and the unpriced product stays u
       (a) => a.id === "catalog-2026-11-05-plus5",
     );
     assert.equal(changes.length, 1);
-    assert.equal(changes[0].newPrice, p.price);
+    assert.equal(p.price, p.priceOverride?.price ?? changes[0].newPrice);
   }
 });

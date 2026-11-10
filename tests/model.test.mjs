@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
 import { filterProducts, orderGroups, validateProduct, demoSeed, groupOf } from '../src/model.js';
 const products = JSON.parse(readFileSync(new URL('../src/data/products.json', import.meta.url)));
-test('catalog retains all 160 official products and every image exists', () => {
- assert.equal(products.length, 160); assert.equal(new Set(products.map(p=>p.id)).size,160);
+test('catalog retains the original catalog plus two new official products and every image exists', () => {
+ assert.equal(products.length, 162); assert.equal(new Set(products.map(p=>p.id)).size,162);
  for(const p of products) {assert.equal(p.official,true);assert.ok(existsSync(new URL('../public'+p.image,import.meta.url)),p.name);}
  assert.equal(products.find(p=>p.id==='1955').price,39774);
 });
@@ -36,4 +36,14 @@ test('PWA contains standalone manifest, correctly sized icons and offline fallba
  assert.equal(manifest.display,'standalone');
  for(const icon of manifest.icons) assert.ok(existsSync(new URL('../public'+icon.src,import.meta.url)));
  assert.ok(existsSync(new URL('../public/offline.html',import.meta.url)));
+});
+
+test('removed products stay out of search and cart, and new products have their categories', () => {
+ assert.ok(!filterProducts(products).some(p => ['1817','1818'].includes(p.id)));
+ assert.equal(groupOf(products.find(p => p.id === 'powerseat-comfort-low')), 'Seletes');
+ assert.equal(products.find(p => p.id === 'powerseat-comfort-low').price, 5499.9);
+ assert.equal(products.find(p => p.id === 'macpara-colorado-2gt').price, 22990);
+ const hidden = {...products[0],status:'hidden'};
+ assert.deepEqual(orderGroups([{id:hidden.id,quantity:1}],[hidden]), []);
+ assert.equal(filterProducts([{...hidden,status:'approved'}]).length,1);
 });

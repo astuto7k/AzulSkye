@@ -67,6 +67,7 @@ import {
   filterProducts,
   groupOf,
   money,
+  normalize,
   orderGroups,
   validateProduct,
 } from "./model.js";
@@ -203,6 +204,7 @@ export default function App() {
   const [gallerySelection, setGallerySelection] = useState(null);
   const [mobileMenu, setMobileMenu] = useState(false);
   const [search, setSearch] = useState("");
+  const [manageSearch, setManageSearch] = useState("");
   const [installPrompt, setInstallPrompt] = useState(null);
   const [visibleCount, setVisibleCount] = useState(12);
   const [filters, setFilters] = useState({
@@ -261,7 +263,7 @@ export default function App() {
     notify("Você saiu do acesso de demonstração.");
   };
   const products = [
-    ...officialProducts,
+    ...officialProducts.map((p) => ({ ...p, ...(data.productOverrides?.[p.id] || {}) })),
     ...data.listings.map((p) =>
       !p.official &&
       data.sellers.find((s) => s.id === p.sellerId)?.status !== "approved"
@@ -274,7 +276,7 @@ export default function App() {
   const { page, role: requestedRole } = resolveRoute(route);
   const params = new URLSearchParams(route.split("?")[1] || "");
   const dashboard = page.startsWith("/painel");
-  const selected = products.find((p) => p.id === page.split("/")[2]);
+  const selected = products.find((p) => p.id === page.split("/")[2] && !["hidden", "rejected"].includes(p.status));
   const activeCategory = params.get("categoria") || filters.category;
   const activeQuery = params.get("q") || "";
   const activeFilters = {
@@ -289,10 +291,10 @@ export default function App() {
   };
   const filtered = filterProducts(products, activeFilters);
   const featured = featuredIds
-    .map((id) => officialProducts.find((p) => p.id === id))
+    .map((id) => filterProducts(products).find((p) => p.id === id))
     .filter(Boolean);
   const addCart = (p) => {
-    if (!p.stock || p.price == null) return;
+    if (["hidden", "rejected"].includes(p.status) || !p.stock || p.price == null) return;
     update((d) => ({
       ...d,
       cart: d.cart.some((l) => l.id === p.id)
@@ -333,12 +335,16 @@ export default function App() {
   const changeListing = (id, status) => {
     update((d) => ({
       ...d,
+      productOverrides: officialProducts.some((p) => p.id === id)
+        ? { ...d.productOverrides, [id]: { ...d.productOverrides?.[id], status } }
+        : d.productOverrides,
       listings: d.listings.map((p) => (p.id === id ? { ...p, status } : p)),
+      cart: status === "hidden" ? d.cart.filter((line) => line.id !== id) : d.cart,
     }));
     notify(
       status === "approved"
         ? "Anúncio aprovado e publicado no marketplace."
-        : "Anúncio recusado.",
+        : status === "hidden" ? "Produto retirado da loja." : "Anúncio recusado.",
     );
   };
   const changeOrder = (id, status, tracking) => {
@@ -1125,6 +1131,7 @@ export default function App() {
             {products
               .filter(
                 (q) =>
+                  !["hidden", "rejected"].includes(q.status) &&
                   q.id !== p.id &&
                   groupOf(q) === groupOf(p) &&
                   (q.official || q.status === "approved"),
@@ -1602,7 +1609,7 @@ export default function App() {
       .reduce((s, o) => s + o.total, 0);
     const vendorRequests = data.sellers.filter((s) => s.status === "pending");
     const listings = admin
-      ? data.listings
+      ? products
       : data.listings.filter((p) => p.sellerId === user.sellerId);
     const pendingProducts = listings.filter((p) => p.status === "pending");
     return (
@@ -1986,16 +1993,18 @@ export default function App() {
             <section className="panel">
               <div className="panel-head">
                 <div>
-                  <h2>{admin ? "Anúncios do marketplace" : "Seus anúncios"}</h2>
+                  <h2>{admin ? "Todos os produtos" : "Seus anúncios"}</h2>
                   <p>
                     {admin
-                      ? "A publicação depende da aprovação do vendedor e do anúncio."
+                      ? "Gerencie a loja oficial e os anúncios do marketplace. Alterações de demonstração salvas neste navegador."
                       : "Novos produtos passam pela análise da equipe AzulSkye."}
                   </p>
                 </div>
               </div>
+              <Button onClick={() => setModal({ type: "productForm", official: admin })}><Plus size={16} /> Cadastrar produto</Button>
+              <Field label="Buscar no gerenciamento" value={manageSearch} onChange={(e) => setManageSearch(e.target.value)} placeholder="Nome ou referência do produto" />
               {listings.length ? (
-                listings.map((p) => (
+                listings.filter((p) => normalize(`${p.name} ${p.sku}`).includes(normalize(manageSearch))).map((p) => (
                   <div className="manage-product" key={p.id}>
                     <img src={p.image} alt={p.name} />
                     <div>
@@ -2009,16 +2018,16 @@ export default function App() {
                       tone={
                         p.status === "pending"
                           ? "amber"
-                          : p.status === "approved"
+                          : (!p.status || p.status === "approved")
                             ? "green"
                             : "red"
                       }
                     >
                       {p.status === "pending"
                         ? "Em análise"
-                        : p.status === "approved"
+                        : (!p.status || p.status === "approved")
                           ? "Publicado"
-                          : "Recusado"}
+                          : p.status === "hidden" ? "Retirado da loja" : "Recusado"}
                     </Tag>
                     <div className="button-row">
                       <button
@@ -2034,7 +2043,7 @@ export default function App() {
                       >
                         <Settings2 size={17} />
                       </button>
-                      {admin && p.status !== "approved" && (
+                      {admin && p.status && p.status !== "approved" && (
                         <Button
                           disabled={
                             !p.official &&
@@ -2043,9 +2052,10 @@ export default function App() {
                           }
                           onClick={() => changeListing(p.id, "approved")}
                         >
-                          <Check size={15} /> Aprovar
+                          <Check size={15} /> {p.status === "hidden" ? "Recolocar na loja" : "Aprovar"}
                         </Button>
                       )}
+                      {admin && p.status !== "hidden" && <Button variant="outline" onClick={() => changeListing(p.id, "hidden")}>Retirar da loja</Button>}
                       {admin && p.status === "pending" && (
                         <button
                           className="icon-btn"
@@ -2159,10 +2169,10 @@ export default function App() {
                     . Acréscimo inicial de {hePricing.markupPercent}% e reajuste
                     adicional de {hePricing.catalogAdjustmentPercent}% em
                     05/11/2026, com arredondamento para centavos. Valores fixos
-                    desta publicação.
+                    anteriores à revisão manual de 10/11/2026. Os preços atuais abaixo foram definidos pela AzulSkye e podem ser editados em Produtos.
                   </p>
                   <div className="he-price-list">
-                    {heProducts.map((p) => (
+                    {products.filter((p) => p.brand === "HE").map((p) => (
                       <div key={p.id}>
                         <span>
                           {p.name}
@@ -2401,7 +2411,9 @@ export default function App() {
                   "Seu cadastro de vendedor precisa estar aprovado.",
                 );
               const p = {
+                ...modal.product,
                 ...form,
+                gallery: modal.product?.image === form.image ? modal.product.gallery : [form.image],
                 id: modal.product?.id || `local-${crypto.randomUUID()}`,
                 seller:
                   modal.product?.seller ||
@@ -2419,6 +2431,9 @@ export default function App() {
               };
               update((d) => ({
                 ...d,
+                productOverrides: modal.product && officialProducts.some((item) => item.id === p.id)
+                  ? { ...d.productOverrides, [p.id]: p }
+                  : d.productOverrides,
                 listings: modal.product
                   ? d.listings.map((l) => (l.id === modal.product.id ? p : l))
                   : [...d.listings, p],
@@ -2818,6 +2833,7 @@ export default function App() {
               {products
                 .filter(
                   (p) =>
+                    !["hidden", "rejected"].includes(p.status) &&
                     data.favorites.includes(p.id) &&
                     (p.official || p.status === "approved"),
                 )
@@ -3195,7 +3211,7 @@ function ProductForm({ product, onSubmit }) {
           ...Object.fromEntries(new FormData(e.currentTarget)),
           image,
         };
-        const issue = validateProduct(data);
+        const issue = validateProduct(data, !!product?.official);
         if (issue) return setError(issue);
         onSubmit(data);
       }}
@@ -3276,7 +3292,7 @@ function ProductForm({ product, onSubmit }) {
           min="0"
           step="1"
           required
-          defaultValue={product?.stock === false ? 0 : 1}
+          defaultValue={product?.quantity ?? (product?.stock === false ? 0 : 1)}
         />
         <Field
           label="SKU / referência"
@@ -3313,7 +3329,7 @@ function ProductForm({ product, onSubmit }) {
             type="number"
             min="0.01"
             step="0.01"
-            required
+            required={!product?.official}
             defaultValue={product?.[key]}
           />
         ))}

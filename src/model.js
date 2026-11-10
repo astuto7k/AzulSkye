@@ -47,6 +47,7 @@ export const GROUPS = [
   "Motores",
   "Peças",
   "Asas",
+  "Seletes",
   "Hélices",
   "Estruturas",
   "Segurança",
@@ -55,6 +56,7 @@ export const GROUPS = [
 export function groupOf(p) {
   const text = normalize(p.categories.join(" "));
   if (/pecas|grupo|bloco/.test(text)) return "Peças";
+  if (/seletes/.test(text)) return "Seletes";
   if (/paramotor/.test(text)) return "Paramotores";
   if (/motores/.test(text)) return "Motores";
   if (/asas/.test(text)) return "Asas";
@@ -77,6 +79,7 @@ export function filterProducts(
 ) {
   const list = products.filter(
     (p) =>
+      !["hidden", "rejected"].includes(p.status) &&
       (p.official || p.status === "approved") &&
       normalize(
         `${p.name} ${p.sku} ${p.brand || ""} ${p.categories.join(" ")} ${p.seller}`,
@@ -104,6 +107,7 @@ export function orderGroups(cart, products) {
     const p = products.find((p) => p.id === line.id);
     if (
       !p ||
+      ["hidden", "rejected"].includes(p.status) ||
       !p.stock ||
       p.price == null ||
       (!p.official && p.status !== "approved")
@@ -119,7 +123,7 @@ export function orderGroups(cart, products) {
   }
   return Object.values(groups);
 }
-export function validateProduct(data) {
+export function validateProduct(data, existingOfficial = false) {
   if (!data.name?.trim() || !data.description?.trim())
     return "Preencha nome e descrição.";
   if (!(Number(data.price) > 0)) return "Informe um preço maior que zero.";
@@ -127,7 +131,7 @@ export function validateProduct(data) {
     return "Selecione o estado do produto.";
   if (!data.image) return "Adicione uma foto do produto.";
   if (
-    ["weight", "length", "width", "height"].some(
+    !existingOfficial && ["weight", "length", "width", "height"].some(
       (key) => !(Number(data[key]) > 0),
     )
   )
