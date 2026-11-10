@@ -653,11 +653,11 @@ export default function App() {
           </div>
           <div className="institutional-photo">
             <img
-              src="/hero.webp"
-              alt="Piloto em voo sobre o mar"
+              src="/brand/azulskye-voo-charger2.png"
+              alt="Pilotos em paramotor com asa Charger 2 laranja e azul"
               loading="lazy"
-              width="1600"
-              height="900"
+              width="959"
+              height="1640"
             />
           </div>
         </section>

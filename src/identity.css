@@ -420,10 +420,11 @@ textarea:focus-visible {
   aspect-ratio: 1.1;
 }
 .institutional-photo > img {
+  display: block;
   height: 100%;
   width: 100%;
-  object-fit: cover;
-  object-position: 65% center;
+  object-fit: contain;
+  object-position: center;
 }
 .brand-pillars {
   display: grid;
