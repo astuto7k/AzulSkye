@@ -208,7 +208,7 @@ export default function App() {
   };
   const filtered = filterProducts(products, activeFilters);
   const featured = featuredIds
-    .map((id) => filterProducts(products).find((p) => p.id === id))
+    .map((id) => products.find((p) => p.id === id))
     .filter(Boolean);
   const addCart = (p) => {
     if(!p.official){go("/produto/"+p.id);return;}
@@ -461,7 +461,7 @@ export default function App() {
             "Explorar motores HE",
             "#/catalogo?marca=HE",
           )}
-          <div className="product-grid">{featured.slice(0, 4).map(card)}</div>
+          <div className="product-grid">{featured.filter(p => p.brand === "HE").slice(0,4).map(card)}</div>
         </section>
         <section className="market-banner wrap">
           <div className="market-banner-copy">
@@ -507,7 +507,7 @@ export default function App() {
             "Explorar peças",
             "#/catalogo?categoria=Pe%C3%A7as",
           )}
-          <div className="product-grid">{featured.slice(8, 12).map(card)}</div>
+          <div className="product-grid">{featured.filter(p => p.brand !== "HE").slice(-4).map(card)}</div>
         </section>
         <section
           className="institutional wrap"
@@ -918,7 +918,7 @@ export default function App() {
                   : "Disponível no catálogo"
                 : "Produto indisponível"}
             </p>
-            {!p.official ? <Inquiry partner={{id:p.sellerId,phone:p.phone}} product={p} user={user} refresh={store.refresh}/> : <Button
+            {!p.official || p.price==null ? <Inquiry partner={p.official?null:{id:p.sellerId,phone:p.phone}} product={p} user={user} refresh={store.refresh}/> : <Button
               className="full"
               disabled={!p.stock || p.price == null}
               onClick={() => addCart(p)}

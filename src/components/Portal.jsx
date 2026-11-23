@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Bell, LogOut, Plus, ArrowUpRight } from "lucide-react";
 import { api, destination } from "../store.js";
-import { money, groupOf } from "../model.js";
+import { money } from "../model.js";
 import { SPECIALTIES, SERVICE_STATUSES } from "../workshops.js";
 import { InfinitePayStatus } from "./InfinitePay.jsx";
 import ProductForm from "./ProductForm.jsx";
@@ -327,21 +327,27 @@ export function Inquiry({ partner, product, user, refresh }) {
   return (
     <div className="inquiry">
       <div className="live-actions">
-        <a
-          className="btn btn-primary"
-          target="_blank"
-          rel="noreferrer"
-          href={
-            "https://wa.me/" +
-            partner.phone +
-            "?text=" +
-            encodeURIComponent(text)
-          }
-        >
-          Conversar no WhatsApp <ArrowUpRight size={16} />
-        </a>
+        {partner?.phone && (
+          <a
+            className="btn btn-primary"
+            target="_blank"
+            rel="noreferrer"
+            href={
+              "https://wa.me/" +
+              partner.phone +
+              "?text=" +
+              encodeURIComponent(text)
+            }
+          >
+            Conversar no WhatsApp <ArrowUpRight size={16} />
+          </a>
+        )}
         <button className="btn btn-outline" onClick={() => setOpen(!open)}>
-          {product ? "Enviar interesse pelo site" : "Solicitar orçamento"}
+          {!partner
+            ? "Consultar a loja oficial"
+            : product
+              ? "Enviar interesse pelo site"
+              : "Solicitar orçamento"}
         </button>
       </div>
       {open &&
@@ -354,7 +360,7 @@ export function Inquiry({ partner, product, user, refresh }) {
                 "request",
                 {
                   ...formValues(e),
-                  partner_id: partner.id,
+                  partner_id: partner?.id,
                   product_id: product?.id,
                 },
                 "Solicitação enviada. Acompanhe em Minha conta.",
@@ -496,7 +502,6 @@ function Products({ products, save, partner, admin }) {
                   id: edit.id,
                   version: edit.updated_at,
                   partner_id: partner?.id,
-                  originalGroup: edit.id ? groupOf(edit) : null,
                 },
                 admin ? "Produto salvo." : "Anúncio enviado para análise.",
                 () => setEdit(null),
@@ -646,7 +651,7 @@ function Requests({ requests, save, manage }) {
             </span>
           </summary>
           <p>
-            {r.store_partners?.name} · {r.name} ·{" "}
+            {r.store_partners?.name || "Loja oficial AzulSkye"} · {r.name} ·{" "}
             <a
               href={"https://wa.me/" + r.phone}
               target="_blank"
@@ -678,7 +683,7 @@ function Requests({ requests, save, manage }) {
               <label className="field">
                 <span>Situação</span>
                 <select name="status" defaultValue={r.status}>
-                  {(r.store_partners?.kind === "seller"
+                  {(r.store_partners?.kind !== "workshop"
                     ? ["Recebida", "Em negociação", "Concluída", "Cancelada"]
                     : SERVICE_STATUSES
                   ).map((s) => (
@@ -756,7 +761,6 @@ function PushSettings({ run }) {
       throw Error(
         "Use um navegador com notificações. No iPhone, abra o app pela tela de início.",
       );
-    const sw = await navigator.serviceWorker.ready;
     if (sub) {
       await api("unpush", { endpoint: sub.endpoint });
       await sub.unsubscribe();
@@ -765,6 +769,7 @@ function PushSettings({ run }) {
     }
     if ((await Notification.requestPermission()) !== "granted")
       throw Error("Permita notificações nas configurações deste site.");
+    const sw = await navigator.serviceWorker.ready;
     const { key } = await api("push-key", {});
     const raw = atob(key.replace(/-/g, "+").replace(/_/g, "/"));
     const subscription = await sw.pushManager.subscribe({
@@ -829,10 +834,21 @@ const paths = {
   workshop: "oficina",
   client: "conta",
 };
+function LoginRedirect({ route }) {
+  useEffect(() => {
+    go("/entrar?voltar=" + encodeURIComponent(route));
+  }, [route]);
+  return (
+    <section className="wrap portal" role="status">
+      Abrindo acesso à conta…
+    </section>
+  );
+}
 export function Portal({ page, role, store, route, openInstall }) {
   const { refresh, account } = store,
     user = account?.user;
   const { save, run, busy, feedback } = useCommand(refresh);
+  const [days, setDays] = useState(30);
   const query = new URLSearchParams(route.split("?")[1] || "");
   const ret = query.get("voltar"),
     next = ret && /^\/(?!\/)/.test(ret) ? ret : null;
@@ -845,7 +861,7 @@ export function Portal({ page, role, store, route, openInstall }) {
         initialMode={query.get("modo")}
       />
     );
-  if (!user) return <Login refresh={refresh} account={account} next={route} />;
+  if (!user) return <LoginRedirect route={route} />;
   const own = account.own;
   if (page === "/vender" || page === "/ser-oficina") {
     const kind = page === "/vender" ? "seller" : "workshop";
@@ -893,7 +909,12 @@ export function Portal({ page, role, store, route, openInstall }) {
     tab = page.split("/")[2] || "visao-geral",
     menu = menus[view];
   const orders = account.orders,
-    paid = orders.filter((o) => o.status === "paid");
+    paid = orders.filter(
+      (o) =>
+        o.status === "paid" &&
+        (!days ||
+          new Date(o.paid_at).getTime() >= Date.now() - days * 86400000),
+    );
   const requests = account.requests.filter((r) =>
     admin || client
       ? r.account_id === user.id || admin
@@ -945,6 +966,28 @@ export function Portal({ page, role, store, route, openInstall }) {
         ))}
         {!client && <a href="#/conta">Minha conta</a>}
       </nav>
+      {admin && ["visao-geral", "financeiro"].includes(tab) && (
+        <div className="live-actions">
+          <label>
+            Período de vendas{" "}
+            <select
+              value={days}
+              onChange={(e) => setDays(Number(e.target.value))}
+            >
+              {[
+                [7, "Últimos 7 dias"],
+                [30, "Últimos 30 dias"],
+                [90, "Últimos 90 dias"],
+                [0, "Todo o período"],
+              ].map(([n, label]) => (
+                <option key={n} value={n}>
+                  {label}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+      )}
       {feedback}
       <fieldset className="live-controls" disabled={busy}>
         {tab === "visao-geral" && (

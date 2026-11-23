@@ -96,16 +96,13 @@ export async function session(req) {
   );
   return entry?.store_accounts || null;
 }
-export async function issueSession(res, account) {
+export async function issueSession(res, account, credential) {
   const token = randomToken();
-  await db("store_sessions", {
+  const saved = await db("rpc/store_open_session", {
     method: "POST",
-    body: {
-      token_hash: digest(token),
-      account_id: account,
-      expires_at: new Date(Date.now() + 14 * 86400000).toISOString(),
-    },
+    body: { account, credential, token_digest: digest(token) },
   });
+  requireValue(saved, "Suas credenciais mudaram. Entre novamente.", 401);
   setCookie(res, token, 14 * 86400);
 }
 export function setCookie(res, value, age) {

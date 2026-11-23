@@ -75,7 +75,7 @@ export async function accountAction(action, body, req, res) {
       prefer: "return=representation",
       body: { name, login, password_hash, recovery_hash: digest(recovery) },
     });
-    await issueSession(res, user.id);
+    await issueSession(res, user.id, password_hash);
     return { recovery };
   }
   const [row] = await db(
@@ -86,7 +86,7 @@ export async function accountAction(action, body, req, res) {
   if (action === "login") {
     const ok = await checkPassword(body.password, row?.password_hash);
     check(ok, "E-mail ou senha incorretos.", 401);
-    await issueSession(res, row.id);
+    await issueSession(res, row.id, row.password_hash);
     return {};
   }
   const proof = digest(clean(body.code, 100, 16)),
@@ -96,17 +96,18 @@ export async function accountAction(action, body, req, res) {
     "E-mail ou código de recuperação inválido.",
     403,
   );
+  const nextHash = await passwordHash(body.password);
   const changed = await db("rpc/store_reset_password", {
     method: "POST",
     body: {
       account: row.id,
       proof,
-      password_value: await passwordHash(body.password),
+      password_value: nextHash,
       recovery_value: digest(recovery),
     },
   });
   check(changed, "O código já foi utilizado.", 409);
-  await issueSession(res, row.id);
+  await issueSession(res, row.id, nextHash);
   return { recovery };
 }
 export async function panel(user) {
@@ -384,25 +385,26 @@ export async function mutate(action, b, user) {
   }
   if (action === "request") {
     await limit("inquiry:" + uid, 20, 3600);
-    const p = await getPartner(b.partner_id);
-    check(p.status === "approved", "Parceiro indisponível.");
+    const p = b.partner_id ? await getPartner(b.partner_id) : null;
+    check(!p || p.status === "approved", "Parceiro indisponível.");
     let product_id = null;
-    if (p.kind === "seller") {
+    if (!p || p.kind === "seller") {
       product_id = identifier(b.product_id);
+      const owner = p ? "eq." + p.id : "is.null";
       const [item] = await db(
         "store_products?id=eq." +
           product_id +
-          "&partner_id=eq." +
-          p.id +
+          "&partner_id=" +
+          owner +
           "&status=eq.approved",
       );
-      check(item && productView(item).stock, "Anúncio indisponível.");
+      check(item && (!p || productView(item).stock), "Anúncio indisponível.");
     }
     await db("store_requests", {
       method: "POST",
       body: {
         account_id: uid,
-        partner_id: p.id,
+        partner_id: p?.id || null,
         product_id,
         name: user.name,
         phone: phoneNumber(b.phone),
@@ -415,14 +417,14 @@ export async function mutate(action, b, user) {
   if (action === "reply") {
     const [r] = await db("store_requests?id=eq." + identifier(b.id));
     check(r, "Solicitação não encontrada.", 404);
-    const p = await getPartner(r.partner_id);
+    const p = r.partner_id ? await getPartner(r.partner_id) : null;
     check(
-      admin || (p.account_id === uid && p.status === "approved"),
+      admin || (p?.account_id === uid && p.status === "approved"),
       "Acesso restrito.",
       403,
     );
     const states =
-      p.kind === "workshop"
+      p?.kind === "workshop"
         ? SERVICE_STATUSES
         : ["Recebida", "Em negociação", "Concluída", "Cancelada"];
     check(states.includes(b.status), "Situação inválida.");
