@@ -1,3 +1,4 @@
+import { InfinitePayCheckout, InfinitePayReturn } from "./components/InfinitePay.jsx";
 import React, { useEffect, useRef, useState } from "react";
 import {
   ArrowUpRight,
@@ -1261,9 +1262,9 @@ export default function App() {
                 <strong>{money(total)}</strong>
               </div>
               <p>
-                Cada vendedor terá seu próprio pedido. O frete ainda não está
-                incluído.
+                O pagamento online atende somente à loja oficial. Confira a forma de entrega antes de pagar. Produtos do marketplace permanecem em demonstração.
               </p>
+              <InfinitePayCheckout cart={data.cart} products={products} />
               <Button
                 className="full"
                 onClick={() => {
@@ -1277,7 +1278,7 @@ export default function App() {
                 Simular pedido <ArrowRight size={17} />
               </Button>
               <DemoNote>
-                Sem cobrança. A Woovi ainda não está conectada.
+                A simulação abaixo não cria cobrança na InfinitePay.
               </DemoNote>
               <a className="text-link" href="#/catalogo">
                 <ArrowLeft size={15} /> Continuar explorando
@@ -1873,7 +1874,7 @@ export default function App() {
                       <CreditCard size={20} />
                     </span>
                     <span>
-                      <strong>Conectar a Woovi</strong>
+                      <strong>Configurar InfinitePay</strong>
                       <small>Disponível na etapa de integração</small>
                     </span>
                     <ChevronRight size={17} />
@@ -2150,18 +2151,16 @@ export default function App() {
                   label="Saldo real"
                   value="Não conectado"
                   icon={ShieldCheck}
-                  detail="Aguardando integração Woovi"
+                  detail="InfinitePay · loja oficial"
                 />
               </div>
               <section className="panel integration-card">
                 <div className="integration-logo">W</div>
                 <div>
                   <Tag tone="amber">NÃO CONECTADO</Tag>
-                  <h2>Pagamentos com Woovi</h2>
+                  <h2>Pagamentos com InfinitePay</h2>
                   <p>
-                    O saldo, a confirmação de pagamentos e os repasses
-                    aparecerão após a criação e habilitação da conta e
-                    implementação da integração.
+                    Os valores deste painel são demonstrações. As vendas reais podem ser consultadas na conta InfinitePay. A InfinitePay não divide pagamentos nem faz repasses automáticos a vendedores do marketplace.
                   </p>
                 </div>
               </section>
@@ -2274,7 +2273,7 @@ export default function App() {
                 <span className="eyebrow">INTEGRAÇÕES</span>
                 <h2>Próximas conexões</h2>
                 {[
-                  ["Woovi", "Conta ainda não criada"],
+                  ["InfinitePay", "Checkout da loja oficial; ativação depende da configuração do servidor"],
                   ["Frete e rastreamento", "A integrar"],
                   ["Google e email", "Login visual nesta etapa"],
                   ["Domínio azulsky.com", "Configurar na Vercel"],
@@ -2832,6 +2831,11 @@ export default function App() {
           renderProduct(selected)
         ) : page === "/sacola" ? (
           renderCart()
+        ) : page === "/pagamento" ? (
+          <InfinitePayReturn onPaid={(items) => update((d) => ({ ...d, cart: d.cart.flatMap((line) => {
+            const paid = items.find((item) => item.id === line.id)?.quantity || 0;
+            return line.quantity > paid ? [{ ...line, quantity: line.quantity - paid }] : [];
+          }) }))} />
         ) : page === "/entrar" ? (
           renderLogin()
         ) : page === "/vender" ? (
@@ -2921,7 +2925,7 @@ export default function App() {
               © {new Date().getFullYear()} AzulSkye. Todos os direitos
               reservados.
             </span>
-            <span>Prévia visual · sem pagamentos reais</span>
+            <span>Painéis e marketplace em demonstração</span>
             <a href="https://azulsky.com/" target="_blank" rel="noreferrer">
               azulsky.com <ArrowUpRight size={12} />
             </a>
@@ -3414,7 +3418,7 @@ function Checkout({ cart, products, onSubmit }) {
       <div className="payment-placeholder">
         <CreditCard size={22} />
         <div>
-          <strong>Woovi · integração futura</strong>
+          <strong>Pagamento demonstrativo</strong>
           <p>Nenhum QR Code ou cobrança será gerado.</p>
         </div>
       </div>

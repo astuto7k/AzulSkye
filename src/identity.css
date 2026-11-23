@@ -3084,3 +3084,17 @@ input[type="radio"] {
  .marketplace-spotlight-actions { width: 100%; flex-direction: row; flex-wrap: wrap; }
  .marketplace-spotlight-actions .btn { flex: 1; padding: 12px; font-size: 13px; white-space: nowrap; }
 }
+
+.infinitepay-checkout { margin: 20px 0; padding: 20px; }
+.infinitepay-heading { display: flex; gap: 12px; align-items: flex-start; color: var(--brand-navy); }
+.infinitepay-heading h2 { font-size: 20px; margin: 0 0 8px; }
+.infinitepay-checkout p { font-size: 14px; line-height: 1.6; }
+.infinitepay-checkout .form-stack > label { display: grid; gap: 8px; font-size: 14px; }
+.infinitepay-checkout .infinitepay-consent { display: flex; align-items: flex-start; gap: 10px; line-height: 1.5; }
+.infinitepay-consent input { width: 18px; height: 18px; flex-shrink: 0; margin-top: 3px; }
+.infinitepay-secure { display: flex; gap: 8px; align-items: flex-start; color: var(--text-secondary); }
+.infinitepay-return { max-width: 800px; }
+.infinitepay-return .panel { padding: 28px; }
+.infinitepay-return h1 { font-size: 30px; margin: 15px 0; }
+.infinitepay-return p { margin: 16px 0; overflow-wrap: anywhere; }
+.infinitepay-return .checkout-seller { gap: 16px; }
