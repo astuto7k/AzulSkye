@@ -124,3 +124,12 @@ test('checkout normalizes Brazilian contact formats consistently, including DDD 
    assert.throws(()=>customerData({...customer,[field]:value}),error=>error.field===field);
  }
 });
+test('a checkout link can be reopened only for its original cart and before expiration',async()=>{
+ const {usableHandoff}=await import('../src/checkout-handoff.js');
+ const saved={cartKey:'basket',id:'AZ-12345678-1234-1234-1234-123456789012',url:'https://checkout.infinitepay.io/shop/sample',expiresAt:'2026-11-24T00:30:00Z'};
+ const now=Date.parse('2026-11-24T00:00:00Z');
+ assert.ok(usableHandoff(saved,'basket',now));
+ assert.equal(usableHandoff(saved,'other',now),false);
+ assert.equal(usableHandoff(saved,'basket',now+1800000),false);
+ assert.equal(usableHandoff({...saved,url:'https://example.com'},'basket',now),false);
+});

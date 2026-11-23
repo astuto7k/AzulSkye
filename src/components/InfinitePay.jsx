@@ -1,3 +1,4 @@
+import {usableHandoff} from '../checkout-handoff.js';
 import {checkoutContact} from '../checkout-contact.js';
 import '../checkout.css';
 import { useEffect, useRef, useState } from 'react';
@@ -43,12 +44,44 @@ function CheckoutSummary({group,config,total}) {
   </aside>;
 }
 
+const handoffKey = 'azulskye-payment-handoff';
+function readHandoff() {
+  try {
+    const value = JSON.parse(sessionStorage.getItem(handoffKey));
+    if (usableHandoff(value, value?.cartKey)) return value;
+  } catch { /* An unavailable or cleared session starts a fresh checkout. */ }
+  return null;
+}
+
+function PaymentLink({payment}) {
+  const [notice,setNotice] = useState('');
+  const [manual,setManual] = useState(false);
+  async function copy() {
+    try {
+      await navigator.clipboard.writeText(payment.url);
+      setNotice('Link copiado. Abra-o no Chrome ou Safari.');
+    } catch {
+      setManual(true);
+      setNotice('Selecione o link abaixo para copiar.');
+    }
+  }
+  return <section className="ck-card ck-link"><div className="ck-title"><CreditCard size={22}/><h2>Escolha como pagar na InfinitePay</h2></div>
+    <p>Toque em <strong>Crédito</strong> para informar o cartão ou em <strong>Pix</strong> para seguir até o QR Code e o código copia e cola.</p>
+    <a className="btn btn-primary ck-submit" href={payment.url}>Abrir Pix ou cartão <ArrowRight size={18}/></a>
+    <button type="button" className="btn btn-outline ck-submit" onClick={copy}>Copiar link para outro navegador</button>
+    <p role="status">{notice}</p>
+    {manual && <input aria-label="Link para pagamento" readOnly value={payment.url} onFocus={event=>event.target.select()}/>}
+    <a className="text-link" href={'#/pagamento?order='+encodeURIComponent(payment.id)}>Consultar este pedido</a>
+  </section>;
+}
+
 export function InfinitePayCheckout({ cart, products, user, pickup }) {
   const [config,setConfig] = useState(null);
   const [fieldErrors,setFieldErrors] = useState({});
   const [error,setError] = useState(null);
   const [busy,setBusy] = useState(false);
   const lock = useRef(false);
+  const [payment,setPayment] = useState(readHandoff);
   const [token,setToken] = useState(()=>{
     try { return sessionStorage.getItem('azulskye-checkout-attempt') || accessToken(); } catch { return accessToken(); }
   });
@@ -61,9 +94,25 @@ export function InfinitePayCheckout({ cart, products, user, pickup }) {
   }
   useEffect(()=>{loadConfig();},[]);
   const total = (official?.total || 0) + (config?.shippingCents || 0)/100;
+  const cartKey = JSON.stringify([user?.id || null, config?.deliveryMode, config?.shippingCents,
+    official?.items.map(p=>[p.id,p.quantity,p.price]).sort((a,b)=>String(a[0]).localeCompare(String(b[0])))]);
+  const ready = usableHandoff(payment,cartKey);
+  useEffect(()=>{
+    if (!payment) return;
+    const expire = () => {
+      if (Date.parse(payment.expiresAt)<=Date.now()) {
+        setPayment(null);setToken(accessToken());
+      }
+      lock.current=false;setBusy(false);
+    };
+    window.addEventListener('pageshow',expire);
+    const timer=setTimeout(expire,Math.max(0,Date.parse(payment.expiresAt)-Date.now()+20));
+    return ()=>{window.removeEventListener('pageshow',expire);clearTimeout(timer);};
+  },[payment]);
   async function submit(event) {
     event.preventDefault();
     if (lock.current || !config?.enabled || !official || hasMarketplace) return;
+    const showLink = event.nativeEvent.submitter?.value === 'showLink';
     const form = event.currentTarget;
     const values = Object.fromEntries(new FormData(form));
     const {customer,errors} = checkoutContact(values);
@@ -81,7 +130,11 @@ export function InfinitePayCheckout({ cart, products, user, pickup }) {
       });
       localStorage.setItem('azulskye-payment-'+result.id,token);
       sessionStorage.removeItem('azulskye-checkout-attempt');
-      window.location.assign(result.url);
+      const handoff = {...result,cartKey};
+      if (!usableHandoff(handoff,cartKey)) throw new Error('O link de pagamento está indisponível. Consulte seu pedido.');
+      sessionStorage.setItem(handoffKey,JSON.stringify(handoff));
+      setPayment(handoff);lock.current=false;setBusy(false);
+      if (!showLink) window.location.assign(result.url);
     } catch(err) {
       if(fields.some(f=>f.name===err.field)){
         setFieldErrors({[err.field]:err.message});form.elements.namedItem(err.field)?.focus();
@@ -96,7 +149,7 @@ export function InfinitePayCheckout({ cart, products, user, pickup }) {
     {!official || hasMarketplace ? <div className="ck-card"><h2>{hasMarketplace?'Revise sua sacola':'Sua sacola está vazia'}</h2><p>{hasMarketplace?'Combine a compra de anúncios do marketplace diretamente com o vendedor.':'Escolha um produto da loja oficial para continuar.'}</p><a className="btn btn-primary" href={hasMarketplace?'#/sacola':'#/catalogo'}>{hasMarketplace?'Revisar sacola':'Explorar produtos'}</a></div>:
     <div className="ck-layout">
       <CheckoutSummary group={official} config={config} total={total}/>
-      <form className="ck-form" noValidate onSubmit={submit} onChange={e=>{
+      {ready ? <PaymentLink payment={payment}/> : <form className="ck-form" noValidate onSubmit={submit} onChange={e=>{
         const field=e.target.name;
         if(fieldErrors[field]) setFieldErrors(prev=>({...prev,[field]:undefined}));
       }}>
@@ -113,12 +166,14 @@ export function InfinitePayCheckout({ cart, products, user, pickup }) {
           {fieldErrors.deliveryConsent && <small className="ck-warning" id="ck-consent-error" role="alert">{fieldErrors.deliveryConsent}</small>}
         </section>
         <section className="ck-pay"><div className="ck-title"><CreditCard size={22}/><h2>Pagamento</h2></div>
-          <p>Escolha Pix ou cartão na InfinitePay. As condições de parcelamento aparecem antes da confirmação.</p>
+          <ul className="ck-methods"><li><strong>Pix</strong><span>QR Code ou copia e cola</span></li><li><strong>Cartão de crédito</strong><span>À vista ou parcelado</span></li></ul>
+          <p>Na próxima tela, escolha <strong>Pix</strong> ou <strong>Crédito</strong> para informar os dados do cartão.</p>
           {error && <div className="form-error" role="alert">{error.message}
           {error.newAttempt && <button type="button" className="text-link" onClick={()=>{sessionStorage.removeItem('azulskye-checkout-attempt');setToken(accessToken());setError(null);}}>Iniciar outro pedido</button>}</div>}
-          <button className="btn btn-primary ck-submit" disabled={busy}>{busy?'Abrindo a InfinitePay…':'Ir para pagamento'} <ArrowRight size={18}/></button>
+          <button className="btn btn-primary ck-submit" disabled={busy}>{busy?'Abrindo a InfinitePay…':'Abrir pagamento na InfinitePay'} <ArrowRight size={18}/></button>
+          <button type="submit" name="handoff" value="showLink" className="text-link ck-alternate" disabled={busy}>Usar outro navegador</button>
         </section></>}
-      </form>
+      </form>}
     </div>}
   </section>;
 }
@@ -141,6 +196,7 @@ export function InfinitePayReturn({ onPaid }) {
       localStorage.setItem(`azulskye-payment-${id}`, token);
       setOrder(result);
       if (result.status === 'paid') {
+        if (readHandoff()?.id === id) sessionStorage.removeItem(handoffKey);
         sessionStorage.removeItem('azulskye-checkout-attempt');
         const marker = `azulskye-payment-applied-${id}`;
         if (!localStorage.getItem(marker)) {

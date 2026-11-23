@@ -41,3 +41,13 @@
  .ck-fields {grid-template-columns:repeat(2,minmax(0,1fr))}
  .ck-fields label:first-child {grid-column:1/-1}
 }
+.ck-methods {display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:14px 0}
+.ck-methods li {flex:1 1 115px;padding:10px 12px;background:white;border:1px solid #cbdcf5;border-radius:8px}
+.ck-methods strong,.ck-methods span {display:block}
+.ck-methods strong {color:var(--brand-navy);font-size:.95rem}
+.ck-methods span {color:var(--text-secondary);font-size:.82rem}
+.ck-alternate {display:block;margin:12px auto 0}
+.ck-link {align-self:start}
+.ck-link .btn + .btn {margin-top:10px}
+.ck-link input {width:100%;padding:10px}
+@media(min-width:800px){.ck-link {grid-column:1;grid-row:1}}

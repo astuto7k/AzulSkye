@@ -101,7 +101,7 @@ export function makeService({ env = process.env, fetchImpl = fetch, now = () => 
       const row = existing[0];
       if (row.amount !== body.expectedAmount || row.items.length !== quote.items.length || quote.items.some(item=>!row.items.some(p=>p.id===item.id && p.quantity===item.quantity && p.price===item.price)) || (row.buyer_id || null) !== buyerId || row.customer.email !== customer.email)
         throw new CheckoutError('Sua sacola mudou. Reabra o checkout para criar outro pedido.', 409, true);
-      if (row.checkout_url && row.status === 'pending' && new Date(row.expires_at) > now()) return { id: row.id, url: row.checkout_url };
+      if (row.checkout_url && row.status === 'pending' && new Date(row.expires_at) > now()) return { id: row.id, url: row.checkout_url, expiresAt: row.expires_at };
       throw new CheckoutError('Este pedido já foi iniciado. Consulte o pagamento ou reabra o checkout.', 409, true);
     }
     // The database function applies the rate limit and creates one unique order atomically.
@@ -122,7 +122,7 @@ export function makeService({ env = process.env, fetchImpl = fetch, now = () => 
       });
       const url = safeCheckoutUrl(result.url);
       await db(`checkout_orders?id=eq.${id}&status=eq.creating`, { method: 'PATCH', body: { checkout_url: url, status: 'pending' }, prefer: 'return=minimal' });
-      return { id, url };
+      return { id, url, expiresAt };
     } catch (error) {
       // Preserve the row if the provider may have created a charge; never create another link automatically.
       await db(`checkout_orders?id=eq.${id}&status=eq.creating`, { method: 'PATCH', body: { status: 'review' }, prefer: 'return=minimal' }).catch(() => {});
