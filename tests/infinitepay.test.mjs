@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { quoteCart, customerData, verifiedPayment, settings, safeCheckoutUrl, makeService } from '../server/infinitepay.js';
 const token = 'a'.repeat(64);
-const env = { APP_URL: 'https://azul-skye.vercel.app', INFINITEPAY_ENABLED: 'true', INFINITEPAY_API_KEY: 'test-key', INFINITEPAY_HANDLE: 'test-store', SUPABASE_URL: 'https://db.example.test', SUPABASE_SERVICE_ROLE_KEY: 'test-db-key', CHECKOUT_DELIVERY_MODE: 'pickup' };
+const env = { APP_URL: 'https://azul-skye.vercel.app', INFINITEPAY_ENABLED: 'true', INFINITEPAY_API_KEY: 'test-key', INFINITEPAY_HANDLE: 'test-store', SUPABASE_URL: 'https://db.example.test', SUPABASE_SECRET_KEY: 'test-db-key', CHECKOUT_DELIVERY_MODE: 'pickup' };
 const customer = { name: 'Cliente Teste', email: 'TESTE@example.com', phone: '+5511999999999' };
 const body = { accessToken: token, items: [{ id: 'he-paramotor-mv1', quantity: 1 }], customer, delivery: 'pickup', expectedAmount: 2090000 };
 const respond = data => ({ ok: true, status: 200, json: async () => data });
@@ -12,7 +12,7 @@ test('checkout derives prices from deployed catalog and refuses marketplace, hid
 });
 test('live checkout stays disabled until account, storage and delivery are explicitly configured', () => {
  assert.equal(settings(env).ready,true);
- for (const key of ['INFINITEPAY_ENABLED','INFINITEPAY_HANDLE','INFINITEPAY_API_KEY','SUPABASE_URL','SUPABASE_SERVICE_ROLE_KEY','APP_URL','CHECKOUT_DELIVERY_MODE']) assert.equal(settings({...env,[key]:''}).ready,false,key);
+ for (const key of ['INFINITEPAY_ENABLED','INFINITEPAY_HANDLE','INFINITEPAY_API_KEY','SUPABASE_URL','SUPABASE_SECRET_KEY','APP_URL','CHECKOUT_DELIVERY_MODE']) assert.equal(settings({...env,[key]:''}).ready,false,key);
  assert.equal(settings({...env,CHECKOUT_DELIVERY_MODE:'flat'}).ready,false);
  assert.equal(settings({...env,CHECKOUT_DELIVERY_MODE:'flat',CHECKOUT_SHIPPING_CENTS:'1500'}).ready,true);
 });

@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import { randomBytes, randomUUID, createHash, timingSafeEqual } from 'node:crypto';
 
 const catalog = ['products.json', 'he-products.json'].flatMap(name => JSON.parse(readFileSync(new URL(`../src/data/${name}`, import.meta.url))));
+let readinessCache;
 const sha = value => createHash('sha256').update(value).digest('hex');
 export class CheckoutError extends Error {
   constructor(message, status = 400) { super(message); this.status = status; }
@@ -9,7 +10,7 @@ export class CheckoutError extends Error {
 export function settings(env = process.env) {
   const origin = env.APP_URL?.replace(/\/$/, '');
   const ready = env.INFINITEPAY_ENABLED === 'true' && !!env.INFINITEPAY_API_KEY &&
-    !!env.INFINITEPAY_HANDLE && !!env.SUPABASE_URL && !!env.SUPABASE_SERVICE_ROLE_KEY &&
+    !!env.INFINITEPAY_HANDLE && !!env.SUPABASE_URL && !!env.SUPABASE_SECRET_KEY &&
     /^https:\/\//.test(origin || '') && ['pickup', 'flat'].includes(env.CHECKOUT_DELIVERY_MODE) &&
     (env.CHECKOUT_DELIVERY_MODE !== 'flat' || /^\d+$/.test(env.CHECKOUT_SHIPPING_CENTS || ''));
   return { ready, origin, deliveryMode: env.CHECKOUT_DELIVERY_MODE, shippingCents: env.CHECKOUT_DELIVERY_MODE === 'flat' ? Number(env.CHECKOUT_SHIPPING_CENTS) : 0 };
@@ -56,7 +57,7 @@ export function makeService({ env = process.env, fetchImpl = fetch, now = () => 
   const config = settings(env);
   async function db(path, { method = 'GET', body, prefer } = {}) {
     const response = await fetchImpl(`${env.SUPABASE_URL}/rest/v1/${path}`, {
-      method, headers: { apikey: env.SUPABASE_SERVICE_ROLE_KEY, Authorization: `Bearer ${env.SUPABASE_SERVICE_ROLE_KEY}`, 'Content-Type': 'application/json', ...(prefer ? { Prefer: prefer } : {}) },
+      method, headers: { apikey: env.SUPABASE_SECRET_KEY, 'Content-Type': 'application/json', ...(prefer ? { Prefer: prefer } : {}) },
       ...(body ? { body: JSON.stringify(body) } : {}), signal: AbortSignal.timeout(10000),
     });
     if (!response.ok) throw new CheckoutError('Não foi possível salvar ou consultar o pedido. Tente novamente.', 503);
@@ -97,7 +98,7 @@ export function makeService({ env = process.env, fetchImpl = fetch, now = () => 
     // The database function applies the rate limit and creates one unique order atomically.
     const id = `AZ-${randomUUID()}`;
     const expiresAt = new Date(now().getTime() + 30 * 60000).toISOString();
-    const order = { id, access_hash: requestId, ip_hash: sha(`${env.SUPABASE_SERVICE_ROLE_KEY}:${ip}`), customer,
+    const order = { id, access_hash: requestId, ip_hash: sha(`${env.SUPABASE_SECRET_KEY}:${ip}`), customer,
       items: quote.items, amount: quote.amount + config.shippingCents, shipping_amount: config.shippingCents,
       delivery: config.deliveryMode, status: 'creating', expires_at: expiresAt };
     const accepted = await db('rpc/create_checkout_order', { method: 'POST', body: { order_data: order } });
@@ -145,6 +146,20 @@ export function makeService({ env = process.env, fetchImpl = fetch, now = () => 
     if (row.status !== 'paid') throw new CheckoutError('Pagamento ainda não confirmado.', 409);
     return { received: true };
   }
-  return { config, create, status, webhook };
+  async function availability() {
+    if (!config.ready) return false;
+    try {
+      const fingerprint = sha(`${env.SUPABASE_URL}:${env.SUPABASE_SECRET_KEY}:${env.INFINITEPAY_API_KEY}:${env.INFINITEPAY_HANDLE}`);
+      if (readinessCache?.fingerprint === fingerprint && readinessCache.until > Date.now()) return readinessCache.ready;
+      await db('checkout_orders?select=id&limit=0');
+      // Read-only check with a nonexistent transaction: validates the merchant/key without creating a charge.
+      const check = await provider('payment_check', { handle: env.INFINITEPAY_HANDLE, order_nsu: 'azulskye-connection-check', transaction_nsu: '00000000-0000-0000-0000-000000000000', slug: 'azulskye-connection-check' });
+      const ready = typeof check.success === 'boolean' || typeof check.paid === 'boolean';
+      readinessCache = { fingerprint, ready, until: Date.now() + 60000 };
+      return ready;
+    }
+    catch { return false; }
+  }
+  return { config, create, status, webhook, availability };
 }
 export function newAccessToken() { return randomBytes(32).toString('hex'); }

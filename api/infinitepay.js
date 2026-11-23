@@ -6,7 +6,7 @@ export default async function handler(req, res) {
   const action = req.query?.action;
   try {
     if (req.method === 'GET' && action === 'config') {
-      return res.status(200).json({ enabled: service.config.ready, deliveryMode: service.config.deliveryMode || null, shippingCents: service.config.shippingCents || 0 });
+      return res.status(200).json({ enabled: await service.availability(), deliveryMode: service.config.deliveryMode || null, shippingCents: service.config.shippingCents || 0 });
     }
     if (req.method !== 'POST') { res.setHeader('Allow', 'GET, POST'); return res.status(405).json({ error: 'Método não permitido.' }); }
     if (!String(req.headers['content-type'] || '').startsWith('application/json')) throw new CheckoutError('Envie JSON.', 415);
