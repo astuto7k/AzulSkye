@@ -37,7 +37,7 @@ export function InfinitePayCheckout({ cart, products }) {
       const phone = `+55${digits.length <= 11 ? digits : digits.replace(/^55/, '')}`;
       // Persist access before requesting the provider, so a failed browser write never loses a live checkout.
       sessionStorage.setItem('azulskye-checkout-attempt', token);
-      localStorage.setItem(`azulskye-payment-access-${token}`, token);
+      localStorage.setItem('azulskye-last-payment-attempt', token);
       const result = await request('checkout', {
         items: official.items.map(({ id, quantity }) => ({ id, quantity })),
         expectedAmount: Math.round(total * 100), accessToken: token,
@@ -82,7 +82,7 @@ export function InfinitePayReturn({ onPaid }) {
       let token = localStorage.getItem(`azulskye-payment-${id}`);
       if (!token) {
         // Recover after a redirect or browser interruption before the order id was stored.
-        token = sessionStorage.getItem('azulskye-checkout-attempt');
+        token = sessionStorage.getItem('azulskye-checkout-attempt') || localStorage.getItem('azulskye-last-payment-attempt');
       }
       if (!token) throw new Error('Abra esta página no mesmo navegador em que iniciou a compra. Se você já pagou, confira também o comprovante recebido da InfinitePay.');
       const result = await request('status', { order: id, transaction: params.get('transaction_nsu'), slug: params.get('slug') }, token);
@@ -115,4 +115,17 @@ export function InfinitePayReturn({ onPaid }) {
     </>}
     <div className="button-row"><button className="btn btn-primary" onClick={check} disabled={busy}>Consultar novamente</button><a className="btn btn-outline" href="#/catalogo">Voltar à loja</a></div>
   </div></section>;
+}
+
+export function InfinitePayStatus() {
+  const [enabled, setEnabled] = useState(null);
+  useEffect(() => { request('config').then(c => setEnabled(c.enabled)).catch(() => setEnabled(false)); }, []);
+  return <section className="panel integration-card">
+    <CreditCard size={30} />
+    <div><strong>{enabled === null ? 'Consultando conexão…' : enabled ? 'CHECKOUT ATIVO · LOJA OFICIAL' : 'CHECKOUT EM CONFIGURAÇÃO'}</strong>
+      <h2>Pagamentos com InfinitePay</h2>
+      <p>Os indicadores deste painel são demonstrações. Consulte as vendas reais e os recebimentos na InfinitePay. Pedidos do checkout são registrados no banco, sem divisão automática ou repasses a vendedores do marketplace.</p>
+      <a className="btn btn-outline" href="https://app.infinitepay.io/sales" target="_blank" rel="noreferrer">Ver vendas na InfinitePay</a>
+    </div>
+  </section>;
 }

@@ -3098,3 +3098,17 @@ input[type="radio"] {
 .infinitepay-return h1 { font-size: 30px; margin: 15px 0; }
 .infinitepay-return p { margin: 16px 0; overflow-wrap: anywhere; }
 .infinitepay-return .checkout-seller { gap: 16px; }
+
+.infinitepay-checkout .form-stack > label:not(.infinitepay-consent) input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 46px;
+  padding: 11px 12px;
+  font: inherit;
+  font-size: 16px;
+  color: var(--text-primary);
+  background: #fff;
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+}
+.infinitepay-checkout .form-stack > label input:focus-visible { outline: 2px solid var(--brand-primary); outline-offset: 2px; }

@@ -103,3 +103,16 @@ test('endpoint is closed to cross-origin calls and never leaks env credentials',
  await handler({method:'POST',query:{action:'checkout'},headers:{'content-type':'text/plain'},body:{}},res);
  assert.equal(code,415);assert.equal(headers['Cache-Control'],'no-store');
 });
+test('readiness checks storage and merchant credentials without creating a payment link',async()=>{
+ const calls=[];
+ const service=makeService({env:{...env,SUPABASE_URL:'https://ready-db.example.test'},fetchImpl:async(url,options)=>{
+  calls.push(url);
+  if(url.includes('checkout_orders?')) { assert.equal(options.headers.apikey,'test-db-key');assert.equal(options.headers.Authorization,undefined); return respond([]); }
+  return respond({success:false,paid:false});
+ }});
+ assert.equal(await service.availability(),true);
+ assert.equal(await service.availability(),true);
+ assert.equal(calls.length,2);assert.ok(!calls.some(url=>url.endsWith('/links')));
+ const failing=makeService({env:{...env,SUPABASE_URL:'https://missing-db.example.test'},fetchImpl:async()=>({ok:false})});
+ assert.equal(await failing.availability(),false);
+});

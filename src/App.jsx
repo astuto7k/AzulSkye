@@ -1,4 +1,4 @@
-import { InfinitePayCheckout, InfinitePayReturn } from "./components/InfinitePay.jsx";
+import { InfinitePayCheckout, InfinitePayReturn, InfinitePayStatus } from "./components/InfinitePay.jsx";
 import React, { useEffect, useRef, useState } from "react";
 import {
   ArrowUpRight,
@@ -1255,7 +1255,7 @@ export default function App() {
               </div>
               <div>
                 <span>Entrega</span>
-                <span>A integrar</span>
+                <span>Conferir abaixo</span>
               </div>
               <div className="summary-total">
                 <span>Subtotal</span>
@@ -2149,21 +2149,12 @@ export default function App() {
                 />
                 <Metric
                   label="Saldo real"
-                  value="Não conectado"
+                  value="Na InfinitePay"
                   icon={ShieldCheck}
                   detail="InfinitePay · loja oficial"
                 />
               </div>
-              <section className="panel integration-card">
-                <div className="integration-logo">W</div>
-                <div>
-                  <Tag tone="amber">NÃO CONECTADO</Tag>
-                  <h2>Pagamentos com InfinitePay</h2>
-                  <p>
-                    Os valores deste painel são demonstrações. As vendas reais podem ser consultadas na conta InfinitePay. A InfinitePay não divide pagamentos nem faz repasses automáticos a vendedores do marketplace.
-                  </p>
-                </div>
-              </section>
+              <InfinitePayStatus />
             </>
           )}
           {tab === "configuracoes" && (
