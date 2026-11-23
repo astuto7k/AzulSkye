@@ -53,13 +53,17 @@ function accessMatches(token, hash) {
   if (typeof token !== 'string' || !/^[a-f0-9]{64}$/.test(token) || !hash) return false;
   return timingSafeEqual(Buffer.from(sha(token), 'hex'), Buffer.from(hash, 'hex'));
 }
-export function makeService({ env = process.env, fetchImpl = fetch, now = () => new Date() } = {}) {
+export function makeService({ env = process.env, fetchImpl = fetch, now = () => new Date(), loadProducts, afterPaid } = {}) {
   const config = settings(env);
   async function db(path, { method = 'GET', body, prefer } = {}) {
     const response = await fetchImpl(`${env.SUPABASE_URL}/rest/v1/${path}`, {
       method, headers: { apikey: env.SUPABASE_SECRET_KEY, 'Content-Type': 'application/json', ...(prefer ? { Prefer: prefer } : {}) },
       ...(body ? { body: JSON.stringify(body) } : {}), signal: AbortSignal.timeout(10000),
     });
+    if (!response.ok && path==='rpc/create_checkout_order' && response.json) {
+      const msg=(await response.json().catch(()=>({}))).message;
+      if(['catalog_changed','stock_unavailable'].includes(msg))throw new CheckoutError('Preço ou estoque mudou. Atualize a sacola antes de pagar.',409);
+    }
     if (!response.ok) throw new CheckoutError('Não foi possível salvar ou consultar o pedido. Tente novamente.', 503);
     return response.status === 204 ? null : await response.json();
   }
@@ -78,9 +82,10 @@ export function makeService({ env = process.env, fetchImpl = fetch, now = () => 
     return rows[0];
   }
   function enabled() { if (!config.ready) throw new CheckoutError('O pagamento online está em configuração. Nenhuma cobrança foi criada.', 503); }
-  async function create(body, ip = 'unknown') {
+  async function create(body, ip = 'unknown', buyerId = null) {
     enabled();
-    const quote = quoteCart(body.items);
+    if (!Array.isArray(body.items) || body.items.length > 20 || !body.items.length || body.items.some(l=> !l || typeof l.id!=='string' || !/^[\w-]{1,100}$/.test(l.id))) throw new CheckoutError('Sacola inválida.');
+    const quote = quoteCart(body.items, loadProducts ? await loadProducts(body.items.map(l=>l.id)) : catalog);
     const customer = customerData(body.customer);
     if (!/^[a-f0-9]{64}$/.test(body.accessToken || '')) throw new CheckoutError('Sessão de compra inválida. Reabra o checkout.');
     if (body.delivery !== config.deliveryMode) throw new CheckoutError('Confirme a forma de entrega disponível.');
@@ -90,7 +95,7 @@ export function makeService({ env = process.env, fetchImpl = fetch, now = () => 
     const existing = await db(`checkout_orders?access_hash=eq.${requestId}&limit=1`);
     if (existing.length) {
       const row = existing[0];
-      if (row.amount !== body.expectedAmount || JSON.stringify(row.items) !== JSON.stringify(quote.items) || row.customer.email !== customer.email)
+      if (row.amount !== body.expectedAmount || row.items.length !== quote.items.length || quote.items.some(item=>!row.items.some(p=>p.id===item.id && p.quantity===item.quantity && p.price===item.price)) || (row.buyer_id || null) !== buyerId || row.customer.email !== customer.email)
         throw new CheckoutError('Sua sacola mudou. Reabra o checkout para criar outro pedido.', 409);
       if (row.checkout_url && row.status === 'pending' && new Date(row.expires_at) > now()) return { id: row.id, url: row.checkout_url };
       throw new CheckoutError('Este pedido já foi iniciado. Consulte o pagamento ou reabra o checkout.', 409);
@@ -98,7 +103,7 @@ export function makeService({ env = process.env, fetchImpl = fetch, now = () => 
     // The database function applies the rate limit and creates one unique order atomically.
     const id = `AZ-${randomUUID()}`;
     const expiresAt = new Date(now().getTime() + 30 * 60000).toISOString();
-    const order = { id, access_hash: requestId, ip_hash: sha(`${env.SUPABASE_SECRET_KEY}:${ip}`), customer,
+    const order = { id, buyer_id: buyerId, access_hash: requestId, ip_hash: sha(`${env.SUPABASE_SECRET_KEY}:${ip}`), customer,
       items: quote.items, amount: quote.amount + config.shippingCents, shipping_amount: config.shippingCents,
       delivery: config.deliveryMode, status: 'creating', expires_at: expiresAt };
     const accepted = await db('rpc/create_checkout_order', { method: 'POST', body: { order_data: order } });
@@ -135,6 +140,7 @@ export function makeService({ env = process.env, fetchImpl = fetch, now = () => 
     let row = await lookup(body.order);
     if (!accessMatches(token, row.access_hash)) throw new CheckoutError('Use o navegador em que iniciou esta compra para consultar o pedido.', 403);
     if (row.status !== 'paid' && body.transaction && body.slug) row = await confirm(row, body.transaction, body.slug);
+    if(row.status==='paid' && afterPaid) await afterPaid(row.id).catch(()=>{});
     return { id: row.id, status: row.status, amount: row.amount, items: row.items, delivery: row.delivery,
       captureMethod: row.capture_method || null, expired: new Date(row.expires_at) < now() };
   }
@@ -144,6 +150,7 @@ export function makeService({ env = process.env, fetchImpl = fetch, now = () => 
     let row = await lookup(body.order_nsu);
     if (row.status !== 'paid') row = await confirm(row, body.transaction_nsu, body.invoice_slug || body.slug);
     if (row.status !== 'paid') throw new CheckoutError('Pagamento ainda não confirmado.', 409);
+    if(afterPaid) await afterPaid(row.id);
     return { received: true };
   }
   async function availability() {

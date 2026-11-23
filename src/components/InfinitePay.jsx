@@ -15,7 +15,7 @@ async function request(action, body, token) {
 function accessToken() {
   return Array.from(crypto.getRandomValues(new Uint8Array(32)), value => value.toString(16).padStart(2, '0')).join('');
 }
-export function InfinitePayCheckout({ cart, products }) {
+export function InfinitePayCheckout({ cart, products, user, pickup }) {
   const [config, setConfig] = useState(null);
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
@@ -51,12 +51,14 @@ export function InfinitePayCheckout({ cart, products }) {
   return <section className="panel infinitepay-checkout" aria-labelledby="infinitepay-title">
     <div className="infinitepay-heading"><CreditCard size={24} /><div><h2 id="infinitepay-title">Pix e cartão · InfinitePay</h2><p>Pagamento da loja oficial AzulSkye.</p></div></div>
     {!config ? <p role="status">Verificando disponibilidade do pagamento…</p> : !config.enabled ?
-      <p className="settings-notice" role="status">O pagamento online está em configuração. Nenhuma cobrança será criada. O pedido de demonstração continua disponível abaixo.</p> : <>
-      <p>Você pagará na página segura da InfinitePay e poderá voltar para consultar a confirmação. O login demonstrativo não é necessário para esta compra.</p>
+      <p className="settings-notice" role="status">O pagamento online está em configuração. Nenhuma cobrança será criada.</p> : <>
+      <p>Você pagará na página segura da InfinitePay e poderá voltar para consultar a confirmação. Entre na sua conta antes de pagar para acompanhar o pedido pelo painel.</p>
       {hasMarketplace ? <p className="form-error" role="alert">Para pagar a loja oficial, retire da sacola os anúncios de outros vendedores. O marketplace ainda não aceita pagamento online.</p> : !official ? <p>Adicione um produto da loja oficial para pagar com Pix ou cartão.</p> :
       <form className="form-stack" onSubmit={submit}>
-        <label>Seu nome<input name="name" autoComplete="name" required minLength={3} maxLength={140} /></label>
-        <label>E-mail para o pedido<input name="email" type="email" autoComplete="email" required maxLength={254} /></label>
+        {!user && <a className="text-link" href="#/entrar?voltar=%2Fsacola">Entrar para acompanhar esta compra</a>}
+        {pickup && <p>{pickup}</p>}
+        <label>Seu nome<input name="name" defaultValue={user?.name} autoComplete="name" required minLength={3} maxLength={140} /></label>
+        <label>E-mail para o pedido<input name="email" defaultValue={user?.email} type="email" autoComplete="email" required maxLength={254} /></label>
         <label>Celular com DDD<input name="phone" type="tel" autoComplete="tel" required placeholder="(11) 99999-9999" maxLength={20} /></label>
         <div className="checkout-seller"><span>Produtos</span><strong>{money(official.total)}</strong></div>
         <div className="checkout-seller"><span>{config.deliveryMode === 'pickup' ? 'Retirada combinada (sem envio)' : 'Frete fixo'}</span><strong>{money(config.shippingCents / 100)}</strong></div>
@@ -124,7 +126,7 @@ export function InfinitePayStatus() {
     <CreditCard size={30} />
     <div><strong>{enabled === null ? 'Consultando conexão…' : enabled ? 'CHECKOUT ATIVO · LOJA OFICIAL' : 'CHECKOUT EM CONFIGURAÇÃO'}</strong>
       <h2>Pagamentos com InfinitePay</h2>
-      <p>Os indicadores deste painel são demonstrações. Consulte as vendas reais e os recebimentos na InfinitePay. Pedidos do checkout são registrados no banco, sem divisão automática ou repasses a vendedores do marketplace.</p>
+      <p>Os totais acima somam os pedidos confirmados pelo checkout. Consulte as taxas, o saldo e as datas de recebimento da sua conta na InfinitePay.</p>
       <a className="btn btn-outline" href="https://app.infinitepay.io/sales" target="_blank" rel="noreferrer">Ver vendas na InfinitePay</a>
     </div>
   </section>;

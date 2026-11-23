@@ -1,8 +1,10 @@
+import { checkoutProducts, session } from '../server/store-db.js';
+import { deliverSale } from '../server/store-push.js';
 import { CheckoutError, makeService } from '../server/infinitepay.js';
 export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
   res.setHeader('X-Content-Type-Options', 'nosniff');
-  const service = makeService();
+  const service = makeService({loadProducts:checkoutProducts,afterPaid:deliverSale});
   const action = req.query?.action;
   try {
     if (req.method === 'GET' && action === 'config') {
@@ -15,7 +17,7 @@ export default async function handler(req, res) {
     if (!body || JSON.stringify(body).length > 12000) throw new CheckoutError('Solicitação inválida.');
     if (action !== 'webhook' && req.headers.origin !== service.config.origin) throw new CheckoutError('Origem não permitida.', 403);
     let result;
-    if (action === 'checkout') result = await service.create(body, String(req.headers['x-vercel-forwarded-for'] || req.headers['x-forwarded-for'] || req.socket?.remoteAddress || '').split(',')[0]);
+    if (action === 'checkout') result = await service.create(body, String(req.headers['x-vercel-forwarded-for'] || req.headers['x-forwarded-for'] || req.socket?.remoteAddress || '').split(',')[0], (await session(req))?.id || null);
     else if (action === 'status') result = await service.status(body, String(req.headers.authorization || '').replace(/^Bearer /, ''));
     else if (action === 'webhook') result = await service.webhook(body);
     else throw new CheckoutError('Rota não encontrada.', 404);

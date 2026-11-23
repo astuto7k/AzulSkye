@@ -1,0 +1,169 @@
+.portal {
+  padding-block: clamp(1.5rem, 5vw, 4rem);
+  min-height: 55vh;
+}
+.portal h1 {
+  font-size: clamp(2rem, 5vw, 3.6rem);
+  line-height: 1.1;
+  margin: 0.4rem 0;
+}
+.portal h2 {
+  margin: 1.5rem 0 0.75rem;
+  font-size: clamp(1.25rem, 3vw, 1.7rem);
+}
+.portal .live-form h2:first-child {
+  margin-top: 0;
+}
+.portal fieldset.live-controls,
+.portal > fieldset {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  min-width: 0;
+}
+.live-heading,
+.live-actions,
+.live-row,
+.live-record summary,
+.portal-tabs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+.live-heading {
+  justify-content: space-between;
+}
+.live-actions {
+  margin-block: 0.85rem;
+}
+.live-form {
+  display: grid;
+  gap: 1rem;
+  max-width: 54rem;
+  padding: clamp(1rem, 3vw, 2.3rem);
+  margin: 1rem 0;
+}
+.auth-page {
+  display: grid;
+  place-items: center;
+}
+.auth-page .live-form {
+  width: min(100%, 32rem);
+}
+.portal .form-error,
+.portal .settings-notice {
+  margin: 0.75rem 0;
+  overflow-wrap: anywhere;
+}
+.portal-tabs {
+  margin: 1.25rem 0;
+  gap: 0.35rem;
+  border-bottom: 1px solid var(--border-default);
+  padding-bottom: 0.6rem;
+}
+.portal-tabs a {
+  padding: 0.65rem 0.9rem;
+  border-radius: 0.5rem;
+  font-weight: 650;
+  color: var(--text-secondary);
+}
+.portal-tabs a.active {
+  background: var(--brand-primary-soft);
+  color: var(--brand-navy-light);
+}
+.live-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+  gap: 0.8rem;
+  margin-bottom: 1.25rem;
+}
+.live-metric {
+  padding: 1.1rem;
+  display: grid;
+  gap: 0.4rem;
+}
+.live-metric strong {
+  font-size: 1.6rem;
+  color: var(--brand-navy);
+}
+.live-empty,
+.live-record,
+.live-row {
+  padding: 1rem;
+  border: 1px solid var(--border-default);
+  border-radius: 0.7rem;
+  margin: 0.65rem 0;
+  overflow-wrap: anywhere;
+}
+.live-empty {
+  color: var(--text-secondary);
+  background: var(--background-secondary);
+}
+.live-record summary {
+  cursor: pointer;
+  justify-content: space-between;
+  min-height: 2.5rem;
+}
+.live-record summary::after {
+  content: "⌄";
+}
+.live-record[open] summary {
+  border-bottom: 1px solid var(--border-default);
+  margin-bottom: 0.8rem;
+}
+.live-record p,
+.live-form p {
+  color: var(--text-secondary);
+}
+.live-record .form-stack,
+.inquiry .form-stack {
+  margin-top: 1rem;
+}
+.live-thumb {
+  width: 3.7rem;
+  height: 3.7rem;
+  object-fit: contain;
+  background: var(--background-secondary);
+  border-radius: 0.5rem;
+}
+.live-grow {
+  flex: 1 1 12rem;
+  min-width: 0;
+  display: grid;
+  gap: 0.3rem;
+}
+.live-row .btn,
+.live-record .btn {
+  min-height: 2.65rem;
+  padding: 0.65rem 0.9rem;
+}
+.live-actions input,
+.live-actions select {
+  max-width: 100%;
+  padding: 0.65rem;
+  border: 1px solid var(--border-default);
+  border-radius: 0.5rem;
+}
+.recovery-code {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background: var(--brand-primary-soft);
+  overflow-wrap: anywhere;
+  user-select: all;
+}
+@media (max-width: 600px) {
+  .portal-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+  .portal-tabs a {
+    white-space: nowrap;
+  }
+  .live-row .live-actions {
+    margin: 0;
+  }
+  .live-record summary {
+    gap: 0.3rem;
+  }
+}

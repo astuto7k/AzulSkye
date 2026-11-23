@@ -17,7 +17,7 @@ export const SCREEN_GROUPS = [
   {
     title: "Oficina parceira",
     description:
-      "Perfil demonstrativo para empresas e profissionais de manutenção.",
+      "Perfil para empresas e profissionais de manutenção.",
     screens: [
       ["Visão geral", "/oficina"],
       ["Meu perfil e serviços", "/oficina/perfil"],
@@ -37,9 +37,9 @@ export const SCREEN_GROUPS = [
       ["Produto HE MV2", "/produto/he-paramotor-mv2"],
       ["Produto HE RS206", "/produto/he-paramotor-rs206-performance"],
       ["Produto HE RS185", "/produto/he-paramotor-rs185-performance"],
-      ["Sacola e checkout de teste", "/sacola"],
+      ["Sacola e pagamento", "/sacola"],
       ["Favoritos", "/favoritos"],
-      ["Acessos de demonstração", "/entrar"],
+      ["Entrar ou criar conta", "/entrar"],
       ["Conta e pedidos do cliente", "/conta"],
       ["Cadastro de vendedor", "/vender"],
       ["Oficinas parceiras", "/oficinas"],
@@ -49,26 +49,27 @@ export const SCREEN_GROUPS = [
   {
     title: "Administrador",
     description:
-      "Entre com o perfil de administrador para supervisionar a operação demonstrativa.",
+      "Entre com o perfil de administrador para supervisionar a operação da loja.",
     screens: [
       ["Visão geral", "/admin"],
       ["Pedidos e detalhes", "/admin/pedidos"],
       ["Produtos e aprovação de anúncios", "/admin/produtos"],
       ["Aprovação de vendedores", "/admin/vendedores"],
       ["Aprovação de oficinas e serviços", "/admin/oficinas"],
+      ["Atendimentos", "/admin/solicitacoes"],
       ["Financeiro", "/admin/financeiro"],
-      ["Configurações e comissão", "/admin/configuracoes"],
+      ["Configurações e notificações", "/admin/configuracoes"],
     ],
   },
   {
     title: "Vendedor",
     description:
-      "Entre com o perfil de vendedor para acompanhar sua loja de exemplo.",
+      "Entre com o perfil de vendedor para acompanhar sua loja.",
     screens: [
       ["Visão geral", "/vendedor"],
-      ["Pedidos e detalhes", "/vendedor/pedidos"],
+      ["Contatos recebidos", "/vendedor/pedidos"],
       ["Produtos e cadastro de anúncio", "/vendedor/produtos"],
-      ["Financeiro", "/vendedor/financeiro"],
+      ["Negociações", "/vendedor/financeiro"],
       ["Configurações e instalação", "/vendedor/configuracoes"],
     ],
   },
