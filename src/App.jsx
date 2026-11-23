@@ -1113,18 +1113,7 @@ export default function App() {
                 <span>Produtos ({cartCount})</span>
                 <strong>{money(total)}</strong>
               </div>
-              <div>
-                <span>Entrega</span>
-                <span>Conferir abaixo</span>
-              </div>
-              <div className="summary-total">
-                <span>Subtotal</span>
-                <strong>{money(total)}</strong>
-              </div>
-              <p>
-                O pagamento online atende somente à loja oficial. Confira a forma de entrega antes de pagar. No marketplace, combine diretamente com o vendedor.
-              </p>
-              <InfinitePayCheckout cart={data.cart} products={products} user={user} pickup={store.catalog?.settings.pickup}/>
+              <a href="#/checkout" className="btn btn-primary full">Finalizar compra <ArrowRight size={17}/></a>
               <a className="text-link" href="#/catalogo">
                 <ArrowLeft size={15} /> Continuar explorando
               </a>
@@ -1366,6 +1355,8 @@ export default function App() {
           renderProduct(selected)
         ) : page === "/sacola" ? (
           renderCart()
+        ) : page === "/checkout" ? (
+          <InfinitePayCheckout cart={data.cart} products={products} user={user} pickup={store.catalog?.settings.pickup}/>
         ) : page === "/pagamento" ? (
           <InfinitePayReturn onPaid={(items) => update((d) => ({ ...d, cart: d.cart.flatMap((line) => {
             const paid = items.find((item) => item.id === line.id)?.quantity || 0;

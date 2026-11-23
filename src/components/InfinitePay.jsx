@@ -1,5 +1,7 @@
-import { useEffect, useState } from 'react';
-import { CreditCard, ShieldCheck } from 'lucide-react';
+import {checkoutContact} from '../checkout-contact.js';
+import '../checkout.css';
+import { useEffect, useRef, useState } from 'react';
+import { CreditCard, ArrowLeft, ArrowRight, LockKeyhole, MapPin, ShoppingBag, UserRound } from 'lucide-react';
 import { money, orderGroups } from '../model.js';
 
 async function request(action, body, token) {
@@ -9,67 +11,115 @@ async function request(action, body, token) {
     ...(body ? { body: JSON.stringify(body) } : {}),
   });
   const result = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(result.error || 'Pagamento indisponível no momento. Nenhuma confirmação foi registrada.');
+  if (!response.ok) {
+    const error = new Error(result.error || 'Pagamento indisponível no momento. Tente novamente.');
+    error.field = result.field;
+    error.newAttempt = result.newAttempt === true;
+    throw error;
+  }
   return result;
 }
 function accessToken() {
   return Array.from(crypto.getRandomValues(new Uint8Array(32)), value => value.toString(16).padStart(2, '0')).join('');
 }
+const fields = [
+  {name:'name',label:'Nome do comprador',autoComplete:'name',type:'text',maxLength:140},
+  {name:'email',label:'E-mail',autoComplete:'email',type:'email',maxLength:254},
+  {name:'phone',label:'Telefone com DDD',autoComplete:'tel',type:'tel',placeholder:'(11) 91234-5678',maxLength:32},
+];
+
+function CheckoutSummary({group,config,total}) {
+  const [all,setAll] = useState(false);
+  const visible = all ? group.items : group.items.slice(0,2);
+  return <aside className="ck-summary">
+    <div className="ck-summary-title"><ShoppingBag size={20}/><h2>Seu pedido</h2><a href="#/sacola">Editar</a></div>
+    <ul>{visible.map(p=><li key={p.id}><img src={p.image} alt="" width="60" height="60"/>
+      <div><strong>{p.name}</strong><small>{p.quantity} {p.quantity===1?'unidade':'unidades'}</small></div>
+      <b>{money(p.price*p.quantity)}</b></li>)}</ul>
+    {group.items.length>2 && <button type="button" className="text-link" onClick={()=>setAll(!all)}>{all?'Ver menos':'Ver todos os '+group.items.length+' itens'}</button>}
+    <dl><div><dt>Subtotal</dt><dd>{money(group.total)}</dd></div>
+      <div><dt>{config?.deliveryMode==='pickup'?'Retirada':'Entrega'}</dt><dd>{config?.enabled ? config.deliveryMode==='pickup'?'Grátis':money(config.shippingCents/100) : 'A confirmar'}</dd></div>
+      <div className="ck-total"><dt>Total</dt><dd>{config?.enabled ? money(total) : 'A confirmar'}</dd></div></dl>
+  </aside>;
+}
+
 export function InfinitePayCheckout({ cart, products, user, pickup }) {
-  const [config, setConfig] = useState(null);
-  const [error, setError] = useState('');
-  const [busy, setBusy] = useState(false);
-  const [token, setToken] = useState(() => {
+  const [config,setConfig] = useState(null);
+  const [fieldErrors,setFieldErrors] = useState({});
+  const [error,setError] = useState(null);
+  const [busy,setBusy] = useState(false);
+  const lock = useRef(false);
+  const [token,setToken] = useState(()=>{
     try { return sessionStorage.getItem('azulskye-checkout-attempt') || accessToken(); } catch { return accessToken(); }
   });
-  const groups = orderGroups(cart, products);
-  const official = groups.find(g => g.sellerId === 'official');
-  const hasMarketplace = groups.some(g => g.sellerId !== 'official');
-  useEffect(() => { request('config').then(setConfig).catch(() => setConfig({ enabled: false })); }, []);
-  const total = (official?.total || 0) + (config?.shippingCents || 0) / 100;
+  const groups = orderGroups(cart,products);
+  const official = groups.find(g=>g.sellerId==='official');
+  const hasMarketplace = groups.some(g=>g.sellerId!=='official');
+  function loadConfig(){
+    setConfig(null);
+    request('config').then(setConfig).catch(()=>setConfig({enabled:false}));
+  }
+  useEffect(()=>{loadConfig();},[]);
+  const total = (official?.total || 0) + (config?.shippingCents || 0)/100;
   async function submit(event) {
     event.preventDefault();
-    if (!config?.enabled || !official || hasMarketplace || busy) return;
-    setError(''); setBusy(true);
+    if (lock.current || !config?.enabled || !official || hasMarketplace) return;
+    const form = event.currentTarget;
+    const values = Object.fromEntries(new FormData(form));
+    const {customer,errors} = checkoutContact(values);
+    if (!values.deliveryConsent) errors.deliveryConsent = 'Confirme a forma de entrega para continuar.';
+    setError(null);setFieldErrors(errors);
+    const first = Object.keys(errors)[0];
+    if(first){form.elements.namedItem(first)?.focus();return;}
+    lock.current=true;setBusy(true);
     try {
-      const values = Object.fromEntries(new FormData(event.currentTarget));
-      const digits = values.phone.replace(/\D/g, '');
-      const phone = `+55${digits.length <= 11 ? digits : digits.replace(/^55/, '')}`;
-      // Persist access before requesting the provider, so a failed browser write never loses a live checkout.
       sessionStorage.setItem('azulskye-checkout-attempt', token);
-      localStorage.setItem('azulskye-last-payment-attempt', token);
-      const result = await request('checkout', {
-        items: official.items.map(({ id, quantity }) => ({ id, quantity })),
-        expectedAmount: Math.round(total * 100), accessToken: token,
-        customer: { name: values.name, email: values.email, phone }, delivery: config.deliveryMode,
+      localStorage.setItem('azulskye-last-payment-attempt',token);
+      const result = await request('checkout',{
+        items:official.items.map(({id,quantity})=>({id,quantity})),
+        expectedAmount:Math.round(total*100),accessToken:token,customer,delivery:config.deliveryMode
       });
-      localStorage.setItem(`azulskye-payment-${result.id}`, token);
+      localStorage.setItem('azulskye-payment-'+result.id,token);
       sessionStorage.removeItem('azulskye-checkout-attempt');
       window.location.assign(result.url);
-    } catch (error) { setError(error.message); setBusy(false); }
+    } catch(err) {
+      if(fields.some(f=>f.name===err.field)){
+        setFieldErrors({[err.field]:err.message});form.elements.namedItem(err.field)?.focus();
+      } else setError(err);
+      lock.current=false;setBusy(false);
+    }
   }
-  return <section className="panel infinitepay-checkout" aria-labelledby="infinitepay-title">
-    <div className="infinitepay-heading"><CreditCard size={24} /><div><h2 id="infinitepay-title">Pix e cartão · InfinitePay</h2><p>Pagamento da loja oficial AzulSkye.</p></div></div>
-    {!config ? <p role="status">Verificando disponibilidade do pagamento…</p> : !config.enabled ?
-      <p className="settings-notice" role="status">O pagamento online está em configuração. Nenhuma cobrança será criada.</p> : <>
-      <p>Você pagará na página segura da InfinitePay e poderá voltar para consultar a confirmação. Entre na sua conta antes de pagar para acompanhar o pedido pelo painel.</p>
-      {hasMarketplace ? <p className="form-error" role="alert">Para pagar a loja oficial, retire da sacola os anúncios de outros vendedores. O marketplace ainda não aceita pagamento online.</p> : !official ? <p>Adicione um produto da loja oficial para pagar com Pix ou cartão.</p> :
-      <form className="form-stack" onSubmit={submit}>
-        {!user && <a className="text-link" href="#/entrar?voltar=%2Fsacola">Entrar para acompanhar esta compra</a>}
-        {pickup && <p>{pickup}</p>}
-        <label>Seu nome<input name="name" defaultValue={user?.name} autoComplete="name" required minLength={3} maxLength={140} /></label>
-        <label>E-mail para o pedido<input name="email" defaultValue={user?.email} type="email" autoComplete="email" required maxLength={254} /></label>
-        <label>Celular com DDD<input name="phone" type="tel" autoComplete="tel" required placeholder="(11) 99999-9999" maxLength={20} /></label>
-        <div className="checkout-seller"><span>Produtos</span><strong>{money(official.total)}</strong></div>
-        <div className="checkout-seller"><span>{config.deliveryMode === 'pickup' ? 'Retirada combinada (sem envio)' : 'Frete fixo'}</span><strong>{money(config.shippingCents / 100)}</strong></div>
-        <label className="infinitepay-consent"><input type="checkbox" required />{config.deliveryMode === 'pickup' ? 'Entendo que esta compra é para retirada combinada com a AzulSkye e não inclui envio.' : 'Concordo com o valor do frete. Informarei meu endereço na InfinitePay.'}</label>
-        <div className="checkout-seller"><span>Total antes de taxas de parcelamento</span><strong>{money(total)}</strong></div>
-        <p className="muted">Parcelamento e eventuais taxas são apresentados pela InfinitePay antes de você confirmar o pagamento.</p>
-        {error && <><p className="form-error" role="alert">{error}</p><button type="button" className="text-link" onClick={() => { sessionStorage.removeItem('azulskye-checkout-attempt'); setToken(accessToken()); setError(''); }}>Iniciar outra tentativa</button></>}
-        <button className="btn btn-primary full" type="submit" disabled={busy}>{busy ? 'Preparando pagamento…' : 'Pagar com Pix ou cartão'}</button>
-        <p className="infinitepay-secure"><ShieldCheck size={16} /> Dados do cartão são informados somente na InfinitePay.</p>
-      </form>}
-    </>}
+  const pickupMode=config?.deliveryMode==='pickup';
+  return <section className="ck-page wrap">
+    <a className="ck-back" href="#/sacola"><ArrowLeft size={16}/>Voltar à sacola</a>
+    <header className="ck-head"><h1>Finalizar compra</h1><span><LockKeyhole size={15}/> Checkout seguro</span></header>
+    {!official || hasMarketplace ? <div className="ck-card"><h2>{hasMarketplace?'Revise sua sacola':'Sua sacola está vazia'}</h2><p>{hasMarketplace?'Combine a compra de anúncios do marketplace diretamente com o vendedor.':'Escolha um produto da loja oficial para continuar.'}</p><a className="btn btn-primary" href={hasMarketplace?'#/sacola':'#/catalogo'}>{hasMarketplace?'Revisar sacola':'Explorar produtos'}</a></div>:
+    <div className="ck-layout">
+      <CheckoutSummary group={official} config={config} total={total}/>
+      <form className="ck-form" noValidate onSubmit={submit} onChange={e=>{
+        const field=e.target.name;
+        if(fieldErrors[field]) setFieldErrors(prev=>({...prev,[field]:undefined}));
+      }}>
+        <section className="ck-card"><div className="ck-title"><UserRound size={20}/><h2>Dados de contato</h2></div>
+          {!user && <p>Compre como visitante ou <a href="#/entrar?voltar=%2Fcheckout">entre na sua conta</a>.</p>}
+          <div className="ck-fields">{fields.map(({label,...props})=><label key={props.name}>{label}
+          <input {...props} defaultValue={user?.[props.name] || ''} required aria-invalid={!!fieldErrors[props.name]} aria-describedby={fieldErrors[props.name]?'ck-error-'+props.name:undefined}/>
+          {fieldErrors[props.name]&&<small id={'ck-error-'+props.name} role="alert">{fieldErrors[props.name]}</small>}
+          </label>)}</div></section>
+        {!config ? <p className="ck-card" role="status">Consultando formas de pagamento…</p> : !config.enabled ? <section className="ck-card"><p>O pagamento está indisponível no momento.</p><button type="button" className="text-link" onClick={loadConfig}>Tentar novamente</button></section>:
+        <><section className="ck-card"><div className="ck-title"><MapPin size={20}/><h2>{pickupMode?'Retirada combinada':'Entrega'}</h2></div>
+          <p>{pickupMode?pickup || 'A AzulSkye combinará os detalhes da retirada com você.':'Informe seu endereço na etapa de pagamento.'}</p>
+          <label className="ck-consent"><input type="checkbox" name="deliveryConsent" required aria-invalid={!!fieldErrors.deliveryConsent} aria-describedby={fieldErrors.deliveryConsent?'ck-consent-error':undefined}/><span>{pickupMode?'Estou de acordo com a retirada, sem envio.':'Concordo com o frete informado.'}</span></label>
+          {fieldErrors.deliveryConsent && <small className="ck-warning" id="ck-consent-error" role="alert">{fieldErrors.deliveryConsent}</small>}
+        </section>
+        <section className="ck-pay"><div className="ck-title"><CreditCard size={22}/><h2>Pagamento</h2></div>
+          <p>Escolha Pix ou cartão na InfinitePay. As condições de parcelamento aparecem antes da confirmação.</p>
+          {error && <div className="form-error" role="alert">{error.message}
+          {error.newAttempt && <button type="button" className="text-link" onClick={()=>{sessionStorage.removeItem('azulskye-checkout-attempt');setToken(accessToken());setError(null);}}>Iniciar outro pedido</button>}</div>}
+          <button className="btn btn-primary ck-submit" disabled={busy}>{busy?'Abrindo a InfinitePay…':'Ir para pagamento'} <ArrowRight size={18}/></button>
+        </section></>}
+      </form>
+    </div>}
   </section>;
 }
 export function InfinitePayReturn({ onPaid }) {

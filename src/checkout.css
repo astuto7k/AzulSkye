@@ -1,0 +1,43 @@
+.ck-page { max-width:1080px; padding-block:clamp(20px,4vw,48px) 64px; }
+.ck-page .ck-back,.ck-head span,.ck-title,.ck-summary-title,.ck-consent,.ck-submit {display:flex;align-items:center;gap:10px}
+.ck-page .ck-back {width:fit-content;color:var(--text-secondary);font-size:.9rem}
+.ck-head {display:flex;align-items:center;flex-wrap:wrap;gap:8px 18px;margin:16px 0 24px}
+.ck-head h1 {font-size:clamp(2rem,4vw,3rem);line-height:1.12;letter-spacing:-.045em}
+.ck-head span {color:var(--text-secondary);font-size:.85rem}
+.ck-layout,.ck-form,.ck-fields {display:grid;gap:16px;align-content:start;min-width:0}
+.ck-summary,.ck-card,.ck-pay {border:1px solid var(--border-default);border-radius:14px;background:white;padding:clamp(17px,2.3vw,26px);min-width:0}
+.ck-page h2 {font-size:1.22rem;letter-spacing:-.025em}
+.ck-title,.ck-summary-title {color:var(--brand-navy)}
+.ck-title svg,.ck-summary-title svg {color:var(--brand-primary-hover)}
+.ck-card p,.ck-pay p {color:var(--text-secondary);font-size:.94rem;line-height:1.5;margin-block:8px 16px}
+.ck-card p a,.ck-summary-title a {color:var(--brand-primary-hover);text-decoration:underline;text-underline-offset:3px}
+.ck-summary {background:var(--background-secondary)}
+.ck-summary-title a {margin-left:auto;font-size:.9rem}
+.ck-summary ul,.ck-summary dl,.ck-summary dd {margin:0;padding:0}
+.ck-summary ul {list-style:none;margin-block:14px}
+.ck-summary li {display:grid;grid-template-columns:52px minmax(0,1fr) auto;align-items:center;gap:12px;padding-block:8px;font-size:.88rem}
+.ck-summary img {width:52px;height:52px;object-fit:contain;background:white;border-radius:8px}
+.ck-summary li strong,.ck-summary li small {display:block;overflow-wrap:anywhere}
+.ck-summary li small,.ck-summary dt {color:var(--text-secondary)}
+.ck-summary dl > div {display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-top:8px;font-size:.9rem}
+.ck-summary .ck-total {border-top:1px solid var(--border-default);padding-top:12px;margin-top:12px}
+.ck-total dt,.ck-total dd {color:var(--brand-navy);font-weight:750}
+.ck-total dd {font-size:1.45rem;letter-spacing:-.04em}
+.ck-fields {margin-top:16px;gap:14px}
+.ck-fields label {display:grid;gap:6px;font-weight:650;font-size:.9rem}
+.ck-fields input {width:100%;min-width:0;height:46px;padding:0 12px;border:1px solid #aab8c9;border-radius:7px;background:white;color:var(--text-primary);font:inherit;font-size:1rem;font-weight:450}
+.ck-fields input:focus-visible,.ck-consent input:focus-visible {outline:2px solid var(--brand-primary);outline-offset:2px}
+.ck-fields input[aria-invalid=true] {border-color:var(--status-error)}
+.ck-fields small,.ck-warning {font-size:.85rem;color:#ad2222;font-weight:500}
+.ck-consent {align-items:flex-start;font-size:.94rem;cursor:pointer}
+.ck-consent input {width:18px;height:18px;flex:none;accent-color:var(--brand-primary);margin:2px 0 0}
+.ck-warning {display:block;margin-top:8px}
+.ck-pay {background:var(--brand-primary-soft);border-color:#cbdcf5}
+.ck-submit {width:100%;justify-content:center;min-height:48px}
+@media(min-width:800px){
+ .ck-layout {grid-template-columns:minmax(0,1.45fr) minmax(300px,1fr);gap:24px;align-items:start}
+ .ck-summary {grid-column:2;grid-row:1;position:sticky;top:20px}
+ .ck-form {grid-column:1;grid-row:1}
+ .ck-fields {grid-template-columns:repeat(2,minmax(0,1fr))}
+ .ck-fields label:first-child {grid-column:1/-1}
+}

@@ -116,3 +116,11 @@ test('readiness checks storage and merchant credentials without creating a payme
  const failing=makeService({env:{...env,SUPABASE_URL:'https://missing-db.example.test'},fetchImpl:async()=>({ok:false})});
  assert.equal(await failing.availability(),false);
 });
+test('checkout normalizes Brazilian contact formats consistently, including DDD 55',()=>{
+ for(const phone of ['(55) 91234-5678','+55 (55) 91234-5678','0055 55 91234-5678','055 91234-5678','5555912345678']){
+   assert.deepEqual(customerData({name:'  Li ',email:' TESTE@example.com ',phone}),{name:'Li',email:'teste@example.com',phone_number:'+5555912345678'});
+ }
+ for(const [field,value] of [['name',' '],['email','incompleto'],['phone','9999-1234'],['phone','+1 212 555 0100']]){
+   assert.throws(()=>customerData({...customer,[field]:value}),error=>error.field===field);
+ }
+});

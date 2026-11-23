@@ -1,3 +1,4 @@
+import { checkoutContact } from '../src/checkout-contact.js';
 import { readFileSync } from 'node:fs';
 import { randomBytes, randomUUID, createHash, timingSafeEqual } from 'node:crypto';
 
@@ -5,7 +6,7 @@ const catalog = ['products.json', 'he-products.json'].flatMap(name => JSON.parse
 let readinessCache;
 const sha = value => createHash('sha256').update(value).digest('hex');
 export class CheckoutError extends Error {
-  constructor(message, status = 400) { super(message); this.status = status; }
+  constructor(message, status = 400, newAttempt = false) { super(message); this.status = status; this.newAttempt = newAttempt; }
 }
 export function settings(env = process.env) {
   const origin = env.APP_URL?.replace(/\/$/, '');
@@ -32,11 +33,14 @@ export function quoteCart(lines, products = catalog) {
   return { items, amount };
 }
 export function customerData(input) {
-  if (!input || typeof input.name !== 'string' || input.name.trim().length < 3 || input.name.length > 140 ||
-    typeof input.email !== 'string' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.email) || input.email.length > 254 ||
-    typeof input.phone !== 'string' || !/^\+55\d{10,11}$/.test(input.phone))
-    throw new CheckoutError('Preencha nome, e-mail e telefone brasileiro válidos.');
-  return { name: input.name.trim(), email: input.email.trim().toLowerCase(), phone_number: input.phone };
+  const { customer, errors } = checkoutContact(input);
+  const field = Object.keys(errors)[0];
+  if (field) {
+    const error = new CheckoutError(errors[field]);
+    error.field = field;
+    throw error;
+  }
+  return { name: customer.name, email: customer.email, phone_number: customer.phone };
 }
 export function safeCheckoutUrl(value) {
   try { const u = new URL(value); if (u.protocol === 'https:' && u.hostname === 'checkout.infinitepay.io') return u.href;
@@ -96,9 +100,9 @@ export function makeService({ env = process.env, fetchImpl = fetch, now = () => 
     if (existing.length) {
       const row = existing[0];
       if (row.amount !== body.expectedAmount || row.items.length !== quote.items.length || quote.items.some(item=>!row.items.some(p=>p.id===item.id && p.quantity===item.quantity && p.price===item.price)) || (row.buyer_id || null) !== buyerId || row.customer.email !== customer.email)
-        throw new CheckoutError('Sua sacola mudou. Reabra o checkout para criar outro pedido.', 409);
+        throw new CheckoutError('Sua sacola mudou. Reabra o checkout para criar outro pedido.', 409, true);
       if (row.checkout_url && row.status === 'pending' && new Date(row.expires_at) > now()) return { id: row.id, url: row.checkout_url };
-      throw new CheckoutError('Este pedido já foi iniciado. Consulte o pagamento ou reabra o checkout.', 409);
+      throw new CheckoutError('Este pedido já foi iniciado. Consulte o pagamento ou reabra o checkout.', 409, true);
     }
     // The database function applies the rate limit and creates one unique order atomically.
     const id = `AZ-${randomUUID()}`;

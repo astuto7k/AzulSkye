@@ -23,7 +23,7 @@ export default async function handler(req, res) {
     else throw new CheckoutError('Rota não encontrada.', 404);
     return res.status(200).json(result);
   } catch (error) {
-    if (error instanceof CheckoutError) return res.status(error.status).json({ error: error.message });
+    if (error instanceof CheckoutError) return res.status(error.status).json({ error: error.message, ...(error.field ? { field: error.field } : {}), ...(error.newAttempt ? { newAttempt: true } : {}) });
     // Never log request bodies or provider errors: they may contain customer details or credentials.
     return res.status(503).json({ error: 'Não foi possível concluir a operação. Tente novamente.' });
   }
