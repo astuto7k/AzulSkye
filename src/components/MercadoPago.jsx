@@ -41,6 +41,22 @@ const makeToken = () =>
   Array.from(crypto.getRandomValues(new Uint8Array(32)), (v) =>
     v.toString(16).padStart(2, "0"),
   ).join("");
+let latestResponse;
+async function attemptFor(order) {
+  const encoded = new TextEncoder().encode(
+    JSON.stringify([order.customer.email, order.expectedAmount, order.items]),
+  );
+  const hash = Array.from(
+    new Uint8Array(await crypto.subtle.digest("SHA-256", encoded)),
+    (v) => v.toString(16).padStart(2, "0"),
+  ).join("");
+  const key = "azul-mp-cart-" + hash;
+  const token = sessionStorage.getItem(key) || makeToken();
+  sessionStorage.setItem(key, token);
+  sessionStorage.setItem("azul-mp-cart-for-" + token, key);
+  sessionStorage.setItem(attemptKey, token);
+  return token;
+}
 const fields = [
   ["name", "Nome completo", "name", "text"],
   ["email", "E-mail", "email", "email"],
@@ -93,7 +109,7 @@ function Methods({ config, order, edit }) {
         setError(
           "O formulário de cartão demorou para carregar. Tente abrir novamente.",
         ),
-      16000,
+      30000,
     );
     return () => clearTimeout(timer);
   }, [method, ready, retry]);
@@ -104,9 +120,9 @@ function Methods({ config, order, edit }) {
       setBusy(true);
       setError("");
       try {
-        const token = sessionStorage.getItem(attemptKey) || makeToken();
-        sessionStorage.setItem(attemptKey, token);
+        const token = await attemptFor(order);
         const result = await request("pay", { ...order, form }, token);
+        latestResponse = result;
         localStorage.setItem("azul-mp-" + result.id, token);
         // Only the order reference goes in the URL. QR and card tokens are never persisted.
         location.hash = "/pagamento-mp?order=" + encodeURIComponent(result.id);
@@ -390,17 +406,22 @@ const titles = {
 };
 export function MercadoReceipt({ onPaid }) {
   const [config] = useConfig();
-  const [data, setData] = useState(null);
+  const id = new URLSearchParams(location.hash.split("?")[1]).get("order");
+  const [data, setData] = useState(() =>
+    id && latestResponse?.id === id ? latestResponse : null,
+  );
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
   const [busy, setBusy] = useState(false);
   const paidCallback = useRef(onPaid);
   paidCallback.current = onPaid;
   const lock = useRef(false);
-  const id = new URLSearchParams(location.hash.split("?")[1]).get("order");
-  const token =
-    (id && localStorage.getItem("azul-mp-" + id)) ||
-    sessionStorage.getItem(attemptKey);
+  const token = useMemo(
+    () =>
+      (id && localStorage.getItem("azul-mp-" + id)) ||
+      sessionStorage.getItem(attemptKey),
+    [id],
+  );
   const check = useCallback(async () => {
     if (lock.current) return;
     lock.current = true;
@@ -429,10 +450,16 @@ export function MercadoReceipt({ onPaid }) {
           "refunded",
           "partial_refund",
           "disputed",
-        ].includes(row.status) &&
-        sessionStorage.getItem(attemptKey) === token
-      )
-        sessionStorage.removeItem(attemptKey);
+        ].includes(row.status)
+      ) {
+        const key = sessionStorage.getItem("azul-mp-cart-for-" + token);
+        if (key && sessionStorage.getItem(key) === token)
+          sessionStorage.removeItem(key);
+        sessionStorage.removeItem("azul-mp-cart-for-" + token);
+        if (sessionStorage.getItem(attemptKey) === token)
+          sessionStorage.removeItem(attemptKey);
+        latestResponse = null;
+      }
     } catch (e) {
       setError(e.message);
     } finally {

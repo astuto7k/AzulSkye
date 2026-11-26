@@ -141,9 +141,10 @@ export function paymentDetails(row, p) {
 }
 async function apply(row, p) {
   const method = paymentDetails(row, p);
-  if (!cached?.collector) await config();
+  const collector =
+    cached?.collector || String((await gateway("/users/me")).id);
   requireValue(
-    cached?.collector === String(p.collector_id),
+    collector === String(p.collector_id),
     "Recebedor incompatível.",
     409,
   );
@@ -236,9 +237,27 @@ export async function status(token) {
   const row = await find(token);
   return row ? refresh(row) : { status: "missing" };
 }
+function resume(row, body, buyer) {
+  const lines = body.items;
+  requireValue(
+    row.amount === body.expectedAmount &&
+      row.buyer_id === buyer &&
+      row.customer.email === customerData(body.customer).email &&
+      Array.isArray(lines) &&
+      lines.length === row.items.length &&
+      row.items.every((item) =>
+        lines.some(
+          (line) => line?.id === item.id && line.quantity === item.quantity,
+        ),
+      ),
+    "Esta tentativa pertence a outra sacola. Consulte o pedido anterior.",
+    409,
+  );
+  return refresh(row);
+}
 export async function pay(body, token, ip, buyer) {
   const existing = await find(token);
-  if (existing) return refresh(existing);
+  if (existing) return resume(existing, body, buyer);
   const settings = await config();
   requireValue(
     settings.enabled && body.delivery === "pickup",
@@ -296,7 +315,7 @@ export async function pay(body, token, ip, buyer) {
     );
   } catch (err) {
     const duplicate = await find(token);
-    if (duplicate) return refresh(duplicate);
+    if (duplicate) return resume(duplicate, body, buyer);
     throw err;
   }
   const payment = {
@@ -320,7 +339,7 @@ export async function pay(body, token, ip, buyer) {
       })),
     },
     ...(form.payment_method_id === "pix"
-      ? { date_of_expiration: expires }
+      ? { date_of_expiration: expires.replace("Z", "+00:00") }
       : {}),
   };
   let result;

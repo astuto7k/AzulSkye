@@ -80,7 +80,10 @@ test("Pix retorna QR, reaproveita tentativa após recarga e confirma pelo proved
     const body = init.body && JSON.parse(init.body);
     if (path === "/users/me") return json({ site_id: "MLB", id: 99 });
     if (path === "/v1/payment_methods")
-      return json([{ id: "pix", status: "active" }]);
+      return json([
+        { id: "pix", status: "active" },
+        { id: "visa", status: "active", payment_type_id: "credit_card" },
+      ]);
     if (path.endsWith("/store_products"))
       return json([
         {
@@ -129,6 +132,10 @@ test("Pix retorna QR, reaproveita tentativa após recarga e confirma pelo proved
   const result = await pay(body, token, "ip", null);
   assert.equal(result.pix.code, "copia-e-cola");
   assert.equal((await pay(body, token, "ip", null)).id, result.id);
+  await assert.rejects(
+    pay({ ...body, expectedAmount: 999 }, token, "ip", null),
+    /outra sacola/,
+  );
   assert.equal(creates, 1);
   assert.equal((await status(token)).pix.image, "qr");
   const query = Object.fromEntries(
@@ -143,4 +150,35 @@ test("Pix retorna QR, reaproveita tentativa após recarga e confirma pelo proved
   await notify(query, { data: { id: 123 } });
   assert.equal(order.status, "paid");
   assert.equal(notices, 1);
+  await t.test(
+    "cartão parcelado com desafio do emissor e confirmação",
+    async () => {
+      order = undefined;
+      Object.assign(payment, {
+        payment_method_id: "visa",
+        payment_type_id: "credit_card",
+        status: "pending",
+        status_detail: "pending_challenge",
+        three_ds_info: {
+          creq: "challenge",
+          external_resource_url: "https://issuer.test/verify",
+        },
+      });
+      const card = {
+        ...body,
+        form: {
+          payment_method_id: "visa",
+          installments: 2,
+          token: "sample-card-token",
+        },
+      };
+      const result = await pay(card, "b".repeat(64), "ip", null);
+      assert.equal(result.challenge.creq, "challenge");
+      assert.equal(result.pix, undefined);
+      assert.equal(providerBody.installments, 2);
+      assert.equal(providerBody.transaction_amount, 1.99);
+      payment.status = "approved";
+      assert.equal((await status("b".repeat(64))).status, "paid");
+    },
+  );
 });
