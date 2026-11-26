@@ -53,6 +53,10 @@ export async function db(path, { method = "GET", body, prefer, headers } = {}) {
     signal: AbortSignal.timeout(12000),
   });
   if (!res.ok) {
+    if(path==="rpc/create_checkout_order"){
+      const reason=(await res.json().catch(()=>({}))).message;
+      if(["stock_unavailable","catalog_changed"].includes(reason))throw new StoreError("Preço ou estoque mudou. Confira a sacola antes de pagar.",409);
+    }
     if (res.status === 409)
       throw new StoreError(
         "Este cadastro já existe ou foi alterado. Atualize a página.",

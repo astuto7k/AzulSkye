@@ -3,7 +3,7 @@ import { Bell, LogOut, Plus, ArrowUpRight } from "lucide-react";
 import { api, destination } from "../store.js";
 import { money } from "../model.js";
 import { SPECIALTIES, SERVICE_STATUSES } from "../workshops.js";
-import { InfinitePayStatus } from "./InfinitePay.jsx";
+import { MercadoStatus } from "./MercadoPago.jsx";
 import ProductForm from "./ProductForm.jsx";
 const go = (path) => {
   location.hash = path;
@@ -16,13 +16,14 @@ const captions = {
   paid: "Pago",
   creating: "Em criação",
   review: "Verificar pagamento",
+  declined: "Pagamento recusado", cancelled: "Cancelado", refunded: "Estornado", partial_refund: "Estorno parcial", disputed: "Em contestação",
 };
 const paidLabel = (o) =>
   o.status === "paid"
     ? "Pago"
     : o.status === "pending"
       ? new Date(o.expires_at) < new Date()
-        ? "Link expirado"
+        ? "Prazo de pagamento encerrado"
         : "Aguardando pagamento"
       : captions[o.status];
 const date = (v) =>
@@ -911,7 +912,7 @@ export function Portal({ page, role, store, route, openInstall }) {
   const orders = account.orders,
     paid = orders.filter(
       (o) =>
-        o.status === "paid" &&
+        ["paid","partial_refund"].includes(o.status) &&
         (!days ||
           new Date(o.paid_at).getTime() >= Date.now() - days * 86400000),
     );
@@ -997,7 +998,7 @@ export function Portal({ page, role, store, route, openInstall }) {
                 <div className="live-metrics">
                   <Metric
                     title="Vendas confirmadas"
-                    value={money(paid.reduce((s, o) => s + o.amount, 0) / 100)}
+                    value={money(paid.reduce((s, o) => s + (o.status === "partial_refund" ? o.paid_amount : o.amount), 0) / 100)}
                   />
                   <Metric title="Pedidos pagos" value={paid.length} />
                   <Metric
@@ -1113,12 +1114,12 @@ export function Portal({ page, role, store, route, openInstall }) {
                     value={money(
                       paid
                         .filter((o) => o.capture_method === k)
-                        .reduce((s, o) => s + o.amount, 0) / 100,
+                        .reduce((s, o) => s + (o.status === "partial_refund" ? o.paid_amount : o.amount), 0) / 100,
                     )}
                   />
                 ))}
               </div>
-              <InfinitePayStatus />
+              <MercadoStatus />
             </>
           ) : (
             seller && (

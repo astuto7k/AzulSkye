@@ -51,3 +51,11 @@
 .ck-link .btn + .btn {margin-top:10px}
 .ck-link input {width:100%;padding:10px}
 @media(min-width:800px){.ck-link {grid-column:1;grid-row:1}}
+.mp-methods{display:flex;gap:10px;flex-wrap:wrap}
+.mp-methods button{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:13px 8px;border:1px solid var(--border-default);border-radius:8px;background:white;font-weight:650}
+.mp-methods button[aria-pressed=true]{border-color:var(--brand-primary);background:var(--brand-primary-soft);color:var(--brand-navy)}
+.ck-summary-title button{margin-left:auto}
+.mp-pix-form{grid-template-columns:1fr}
+.mp-receipt{max-width:670px}.mp-receipt h1{font-size:clamp(1.5rem,5vw,2.2rem)}
+.mp-qr{display:block;width:min(100%,260px);height:auto;margin:15px auto}
+.mp-code{display:grid;gap:6px;margin:12px 0;font-weight:600}.mp-code input{width:100%;min-width:0;padding:10px;font-size:16px}

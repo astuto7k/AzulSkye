@@ -36,6 +36,10 @@
     "api/infinitepay.js": {
       "includeFiles": "src/data/*.json",
       "maxDuration": 60
+    },
+    "api/mercadopago.js": {
+      "includeFiles": "src/data/*.json",
+      "maxDuration": 60
     }
   }
 }

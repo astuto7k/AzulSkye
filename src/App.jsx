@@ -1,4 +1,5 @@
-import { InfinitePayCheckout, InfinitePayReturn } from "./components/InfinitePay.jsx";
+import {MercadoCheckout,MercadoReceipt} from './components/MercadoPago.jsx';
+import { InfinitePayReturn } from "./components/InfinitePay.jsx";
 import React, { useEffect, useRef, useState } from "react";
 import {
   ArrowUpRight,
@@ -1016,6 +1017,7 @@ export default function App() {
       </div>
     );
   }
+  const Receipt = page === "/pagamento-mp" ? MercadoReceipt : InfinitePayReturn;
   function renderCart() {
     const groups = orderGroups(data.cart, products);
     const total = groups.reduce((s, g) => s + g.total, 0);
@@ -1356,9 +1358,9 @@ export default function App() {
         ) : page === "/sacola" ? (
           renderCart()
         ) : page === "/checkout" ? (
-          <InfinitePayCheckout cart={data.cart} products={products} user={user} pickup={store.catalog?.settings.pickup}/>
-        ) : page === "/pagamento" ? (
-          <InfinitePayReturn onPaid={(items) => update((d) => ({ ...d, cart: d.cart.flatMap((line) => {
+          <MercadoCheckout cart={data.cart} products={products} user={user} pickup={store.catalog?.settings.pickup}/>
+        ) : ["/pagamento","/pagamento-mp"].includes(page) ? (
+          <Receipt onPaid={(items) => update((d) => ({ ...d, cart: d.cart.flatMap((line) => {
             const paid = items.find((item) => item.id === line.id)?.quantity || 0;
             return line.quantity > paid ? [{ ...line, quantity: line.quantity - paid }] : [];
           }) }))} />

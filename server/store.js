@@ -22,7 +22,7 @@ import { validateSubscription, publicPushKey } from "./store-push.js";
 import { validateProduct, GROUPS, groupOf } from "../src/model.js";
 import { SPECIALTIES, SERVICE_STATUSES } from "../src/workshops.js";
 const orderFields =
-  "id,buyer_id,created_at,amount,items,customer,delivery,status,paid_at,capture_method,fulfillment,expires_at";
+  "id,buyer_id,created_at,amount,items,customer,delivery,status,paid_at,paid_amount,capture_method,fulfillment,expires_at";
 const e = encodeURIComponent;
 const homeSettings = {
   pickup:

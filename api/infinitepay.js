@@ -17,6 +17,7 @@ export default async function handler(req, res) {
     if (!body || JSON.stringify(body).length > 12000) throw new CheckoutError('Solicitação inválida.');
     if (action !== 'webhook' && req.headers.origin !== service.config.origin) throw new CheckoutError('Origem não permitida.', 403);
     let result;
+    if (action === 'checkout' && process.env.MERCADOPAGO_ACCESS_TOKEN) throw new CheckoutError('Atualize a página para pagar por Pix ou cartão no site.', 409);
     if (action === 'checkout') result = await service.create(body, String(req.headers['x-vercel-forwarded-for'] || req.headers['x-forwarded-for'] || req.socket?.remoteAddress || '').split(',')[0], (await session(req))?.id || null);
     else if (action === 'status') result = await service.status(body, String(req.headers.authorization || '').replace(/^Bearer /, ''));
     else if (action === 'webhook') result = await service.webhook(body);
